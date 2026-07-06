@@ -8,6 +8,7 @@ readingTime: "10 min read"
 import ConceptCard from '../components/ConceptCard.astro';
 import TakeawayCard from '../components/TakeawayCard.astro';
 import MemoryFragmentationSimulator from '../components/MemoryFragmentationSimulator.jsx';
+import VirtualMemoryQuiz from '../components/VirtualMemoryQuiz.jsx';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
 import '../styles/exhibit-theme.css';
@@ -187,6 +188,23 @@ import '../styles/exhibit-theme.css';
       accent="#22d3ee"
     />
   </div>
+</section>
+
+<hr class="ml-divider" />
+
+<hr class="ml-divider" />
+
+{/* 5.5 QUIZ SECTION */}
+<section class="ml-section ml-section--narrow" id="quiz">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Try It Yourself</span>
+    <h2 class="ml-section-title">Which Replacement Algorithm Fits You?</h2>
+    <p class="ml-section-subtitle">
+      A short quiz to connect what you just learned to real page-replacement strategies.
+    </p>
+  </div>
+
+  <VirtualMemoryQuiz client:load />
 </section>
 
 <hr class="ml-divider" />
