@@ -1,0 +1,104 @@
+---
+/*
+ * ConceptCard.astro — Glassmorphism card with icon, title, and description.
+ * Used for the four concept cards (Fragmentation, Paging, Page Table, Virtual Memory).
+ */
+
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  accent?: string;
+}
+
+const { icon, title, description, accent = "var(--ml-accent)" } = Astro.props;
+---
+
+<div class="concept-card" style={`--card-accent: ${accent};`}>
+  <div class="concept-card__icon-ring">
+    <span class="concept-card__icon">{icon}</span>
+  </div>
+  <h3 class="concept-card__title">{title}</h3>
+  <p class="concept-card__desc">{description}</p>
+  <div class="concept-card__glow" aria-hidden="true"></div>
+</div>
+
+<style>
+  .concept-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2rem 1.5rem 1.75rem;
+    text-align: center;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: default;
+  }
+
+  .concept-card:hover {
+    border-color: var(--card-accent);
+    transform: translateY(-6px);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(56, 189, 248, 0.1);
+  }
+
+  .concept-card__glow {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--card-accent);
+    opacity: 0;
+    filter: blur(50px);
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .concept-card:hover .concept-card__glow {
+    opacity: 0.15;
+  }
+
+  .concept-card__icon-ring {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.18);
+    margin-bottom: 1.15rem;
+    transition: transform 0.35s ease;
+  }
+
+  .concept-card:hover .concept-card__icon-ring {
+    transform: scale(1.1);
+  }
+
+  .concept-card__icon {
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+
+  .concept-card__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin: 0 0 0.6rem;
+    letter-spacing: 0.2px;
+  }
+
+  .concept-card__desc {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin: 0;
+  }
+</style>

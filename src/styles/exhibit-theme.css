@@ -1,0 +1,416 @@
+/* ============================================================
+   exhibit-theme.css — "Memory Lab" dark futuristic theme
+   This is a separate file; global.css is NOT modified.
+   ============================================================ */
+
+/* ── Design Tokens ──────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --ml-bg-deep:    #0a0e1a;
+  --ml-bg-surface: #111827;
+  --ml-bg-card:    rgba(255, 255, 255, 0.04);
+  --ml-bg-glass:   rgba(255, 255, 255, 0.06);
+
+  /* Text */
+  --ml-text:       #e2e8f0;
+  --ml-text-muted: #94a3b8;
+  --ml-text-dim:   #64748b;
+  --ml-heading:    #f1f5f9;
+
+  /* Accents */
+  --ml-accent:     #38bdf8;
+  --ml-accent-dim: rgba(56, 189, 248, 0.15);
+  --ml-neon-cyan:  #22d3ee;
+  --ml-neon-blue:  #818cf8;
+  --ml-neon-purple:#a78bfa;
+
+  /* Borders */
+  --ml-border:     rgba(255, 255, 255, 0.08);
+  --ml-border-glow:rgba(56, 189, 248, 0.25);
+
+  /* Radii */
+  --ml-radius-sm:  8px;
+  --ml-radius-md:  14px;
+  --ml-radius-lg:  20px;
+  --ml-radius-xl:  28px;
+
+  /* Shadows */
+  --ml-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.35);
+  --ml-shadow-glow: 0 0 30px rgba(56, 189, 248, 0.08);
+
+  /* Transitions */
+  --ml-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Base Reset (scoped to .ml-page) ────────────────────────── */
+.ml-page {
+  background: linear-gradient(170deg, #0a0e1a 0%, #111827 40%, #0f172a 100%);
+  color: var(--ml-text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ml-page *,
+.ml-page *::before,
+.ml-page *::after {
+  box-sizing: border-box;
+}
+
+/* ── Animated dot grid background ───────────────────────────── */
+.ml-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(56, 189, 248, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+  animation: ml-grid-drift 60s linear infinite;
+}
+
+@keyframes ml-grid-drift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 32px 32px; }
+}
+
+/* ── Top Navigation ─────────────────────────────────────────── */
+.ml-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 2rem;
+  background: rgba(10, 14, 26, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--ml-border);
+  transition: background var(--ml-transition);
+}
+
+.ml-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ml-accent);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.ml-nav__brand-icon {
+  font-size: 1.3rem;
+}
+
+.ml-nav__links {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ml-nav__link {
+  color: var(--ml-text-muted);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  transition: all var(--ml-transition);
+  letter-spacing: 0.2px;
+}
+
+.ml-nav__link:hover {
+  color: var(--ml-accent);
+  background: var(--ml-accent-dim);
+}
+
+/* Hide nav links on mobile, show brand only */
+@media (max-width: 640px) {
+  .ml-nav__links { display: none; }
+  .ml-nav { padding: 0.75rem 1.25rem; }
+}
+
+/* ── Section Wrapper ────────────────────────────────────────── */
+.ml-section {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.ml-section--wide {
+  max-width: 1200px;
+}
+
+.ml-section--narrow {
+  max-width: 800px;
+}
+
+/* ── Section Headers ────────────────────────────────────────── */
+.ml-section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.ml-section-label {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--ml-accent);
+  background: var(--ml-accent-dim);
+  padding: 0.3rem 1rem;
+  border-radius: 100px;
+  margin-bottom: 1rem;
+}
+
+.ml-section-title {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 800;
+  color: var(--ml-heading);
+  margin: 0 0 0.75rem;
+  line-height: 1.25;
+}
+
+.ml-section-subtitle {
+  font-size: 1rem;
+  color: var(--ml-text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── Hero ───────────────────────────────────────────────────── */
+.ml-hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 8rem 1.5rem 4rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.ml-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ml-neon-cyan);
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  padding: 0.4rem 1.2rem;
+  border-radius: 100px;
+  margin-bottom: 1.75rem;
+}
+
+.ml-hero__title {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 0 0 1.25rem;
+  background: linear-gradient(135deg, #f1f5f9 0%, #38bdf8 50%, #818cf8 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.ml-hero__subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--ml-text-muted);
+  margin: 0 0 2rem;
+  line-height: 1.65;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ml-hero__intro {
+  font-size: 0.95rem;
+  color: var(--ml-text-dim);
+  line-height: 1.7;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  background: var(--ml-bg-glass);
+  border: 1px solid var(--ml-border);
+  border-radius: var(--ml-radius-md);
+}
+
+/* Decorative glowing orbs behind hero */
+.ml-hero::before,
+.ml-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -1;
+}
+.ml-hero::before {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.3), transparent 70%);
+  top: -100px;
+  left: -100px;
+}
+.ml-hero::after {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.25), transparent 70%);
+  bottom: -50px;
+  right: -80px;
+}
+
+/* ── Glass Card ─────────────────────────────────────────────── */
+.ml-glass {
+  background: var(--ml-bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--ml-border);
+  border-radius: var(--ml-radius-md);
+  box-shadow: var(--ml-shadow-card);
+  transition: all var(--ml-transition);
+}
+
+.ml-glass:hover {
+  border-color: var(--ml-border-glow);
+  box-shadow: var(--ml-shadow-card), var(--ml-shadow-glow);
+  transform: translateY(-2px);
+}
+
+/* ── Grid Layouts ───────────────────────────────────────────── */
+.ml-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.ml-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .ml-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .ml-grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .ml-grid-4 { grid-template-columns: 1fr; }
+  .ml-grid-3 { grid-template-columns: 1fr; }
+}
+
+/* ── Explanation Prose ──────────────────────────────────────── */
+.ml-prose {
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+.ml-prose h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ml-heading);
+  margin: 2.5rem 0 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--ml-border);
+}
+
+.ml-prose p {
+  color: var(--ml-text);
+  margin: 0 0 1.25rem;
+  line-height: 1.75;
+}
+
+.ml-prose strong {
+  color: var(--ml-accent);
+  font-weight: 600;
+}
+
+.ml-prose .ml-analogy {
+  background: var(--ml-bg-glass);
+  border-left: 3px solid var(--ml-accent);
+  border-radius: 0 var(--ml-radius-sm) var(--ml-radius-sm) 0;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: var(--ml-text-muted);
+}
+
+.ml-prose .ml-analogy strong {
+  color: var(--ml-neon-cyan);
+  font-style: normal;
+}
+
+/* ── Divider ────────────────────────────────────────────────── */
+.ml-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--ml-border-glow) 50%,
+    transparent 100%
+  );
+  margin: 0;
+}
+
+/* ── References ─────────────────────────────────────────────── */
+.ml-references {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ml-references li {
+  color: var(--ml-text-muted);
+  font-size: 0.88rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--ml-border);
+  line-height: 1.55;
+}
+
+.ml-references li:last-child {
+  border-bottom: none;
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.ml-footer {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  font-size: 0.8rem;
+  color: var(--ml-text-dim);
+  border-top: 1px solid var(--ml-border);
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Utility: sr-only ───────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

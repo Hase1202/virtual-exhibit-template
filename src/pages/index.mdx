@@ -1,6 +1,214 @@
 ---
-layout: '../layouts/HomepageLayout.astro'
-title: "Computer Architecture is Forever"
+layout: '../layouts/MemoryLabLayout.astro'
+title: "Virtual Memory: How It Works"
+author: "Computer Architecture Lab"
+readingTime: "10 min read"
 ---
 
-[Linux](linux)
+import ConceptCard from '../components/ConceptCard.astro';
+import TakeawayCard from '../components/TakeawayCard.astro';
+import MemoryFragmentationSimulator from '../components/MemoryFragmentationSimulator.jsx';
+
+{/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
+import '../styles/exhibit-theme.css';
+
+{/* 1. HERO SECTION */}
+<section class="ml-hero" id="top">
+  <div class="ml-hero__badge">&#x1F5A5;&#xFE0F; CSARCH2 Virtual Exhibit</div>
+  <h1 class="ml-hero__title">Virtual Memory:<br/>How It Works</h1>
+  <p class="ml-hero__subtitle">
+    Why your computer can keep running even when physical memory is limited, scattered, or fragmented.
+  </p>
+  <p class="ml-hero__intro">
+    This exhibit begins with a common problem: <strong>external fragmentation</strong> &mdash; when programs open and close, they leave behind scattered holes in RAM.
+    Even if the total free memory is enough, a large program can fail to load because no single hole is big enough.
+    Step through the interactive simulator to see the problem happen, then discover how <strong>virtual memory</strong> solves it by mapping scattered physical pages into one continuous virtual address space.
+  </p>
+</section>
+
+<hr class="ml-divider" />
+
+{/* 2. CONCEPT CARDS */}
+<section class="ml-section" id="concepts">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Key Concepts</span>
+    <h2 class="ml-section-title">Before You Explore</h2>
+    <p class="ml-section-subtitle">
+      Understand these four building blocks before interacting with the simulator.
+    </p>
+  </div>
+
+  <div class="ml-grid-4">
+    <ConceptCard
+      icon="&#x1F9E9;"
+      title="Memory Fragmentation"
+      description="When programs open and close, they leave behind scattered free holes in RAM. Even if total free memory is enough, the gaps may be too small individually."
+      accent="#f87171"
+    />
+    <ConceptCard
+      icon="&#x1F4C4;"
+      title="Paging"
+      description="The OS divides memory into fixed-size blocks called pages (virtual) and frames (physical). This avoids needing one large contiguous block."
+      accent="#38bdf8"
+    />
+    <ConceptCard
+      icon="&#x1F5C2;&#xFE0F;"
+      title="Page Table"
+      description="A lookup table maintained by the OS that maps each virtual page to a physical frame. It lets the CPU translate virtual addresses to real ones."
+      accent="#a78bfa"
+    />
+    <ConceptCard
+      icon="&#x1F310;"
+      title="Virtual Memory"
+      description="An abstraction that gives every program the illusion of a large, continuous memory space &mdash; even if the actual physical RAM is scattered underneath."
+      accent="#22d3ee"
+    />
+  </div>
+</section>
+
+<hr class="ml-divider" />
+
+{/* 3. INTERACTIVE SIMULATOR */}
+<section class="ml-section ml-section--wide" id="simulator">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Interactive Lab</span>
+    <h2 class="ml-section-title">Memory Fragmentation Simulator</h2>
+    <p class="ml-section-subtitle">
+      Click <strong>Next</strong> to watch programs load and close. See fragmentation happen live, then discover the virtual memory solution.
+    </p>
+  </div>
+
+  <MemoryFragmentationSimulator client:load />
+</section>
+
+<hr class="ml-divider" />
+
+{/* 4. EXPLANATION / DEEP DIVE */}
+<section class="ml-section ml-section--narrow" id="deep-dive">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Deep Dive</span>
+    <h2 class="ml-section-title">How It All Works</h2>
+    <p class="ml-section-subtitle">
+      A student-friendly breakdown of the key ideas behind virtual memory.
+    </p>
+  </div>
+
+  <div class="ml-prose">
+    <h3>What Is External Fragmentation?</h3>
+    <p>
+      When programs start and stop at different times, they leave behind <strong>gaps</strong> (free holes) in physical memory.
+      Over time, these gaps become scattered throughout RAM. Even though the <strong>total</strong> free memory might be enough for a new program,
+      no <strong>single</strong> gap is large enough to fit it. This is called <strong>external fragmentation</strong>.
+    </p>
+    <div class="ml-analogy">
+      <strong>Analogy:</strong> Think of a parking lot. Several cars leave at different times, creating empty spots scattered around.
+      You arrive with a long tour bus &mdash; there are enough total empty spots, but they are all in different rows.
+      Your bus needs one long row of empty spots, and none exists.
+    </div>
+
+    <h3>Why Not Just Compact Memory?</h3>
+    <p>
+      One idea is to <strong>compact</strong> memory &mdash; slide all running programs together to create one big free block at the end.
+      But this is extremely expensive: the OS would need to stop every running program, copy gigabytes of data,
+      update every memory reference, then restart everything. In practice, this is too slow for modern systems.
+    </p>
+
+    <h3>How Virtual Memory Separates the Views</h3>
+    <p>
+      Virtual memory introduces a layer of abstraction. Each program gets its own <strong>virtual address space</strong> &mdash; a clean,
+      continuous range of addresses starting from 0. The program never knows (or cares) where its data actually lives in physical RAM.
+    </p>
+    <p>
+      Behind the scenes, the OS divides both virtual memory and physical RAM into fixed-size chunks:
+      <strong>pages</strong> (in virtual space) and <strong>frames</strong> (in physical RAM), typically 4 KB each.
+      A program that needs 4 GB sees pages 0, 1, 2, ... but the OS can put those pages in any available physical frames &mdash;
+      even if the frames are scattered across RAM.
+    </p>
+
+    <h3>What the Page Table Does</h3>
+    <p>
+      The <strong>page table</strong> is a data structure (one per process) that stores the mapping: virtual page N to physical frame M.
+      Every time the CPU accesses a memory address, the hardware uses the page table to translate the virtual address into a physical one.
+      This translation happens automatically on every memory access.
+    </p>
+
+    <h3>The Translation Lookaside Buffer (TLB)</h3>
+    <p>
+      Looking up the page table for every memory access would be slow, so the CPU includes a small, fast cache called the
+      <strong>TLB</strong> (Translation Lookaside Buffer). It stores recently used page-to-frame mappings.
+      If the mapping is in the TLB (a <strong>TLB hit</strong>), translation is almost instant.
+      If not (a <strong>TLB miss</strong>), the CPU has to walk through the page table in memory, which takes longer.
+    </p>
+
+    <h3>Demand Paging and Page Faults</h3>
+    <p>
+      With <strong>demand paging</strong>, the OS does not load the entire program into RAM at once.
+      Instead, it only loads pages when they are actually needed. If a program accesses a page that is not in RAM yet,
+      a <strong>page fault</strong> occurs &mdash; the OS pauses the program, loads the page from disk into a free frame,
+      updates the page table, and resumes the program. This makes efficient use of limited RAM.
+    </p>
+    <div class="ml-analogy">
+      <strong>Analogy:</strong> Imagine a library with limited desk space. Instead of carrying every book to your desk,
+      you only grab a book when you need it. If the book is not on your desk (page fault), you walk to the shelf (disk),
+      grab it, and bring it back. If your desk is full, you return one book to make room.
+    </div>
+  </div>
+</section>
+
+<hr class="ml-divider" />
+
+{/* 5. TAKEAWAYS */}
+<section class="ml-section" id="takeaways">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Summary</span>
+    <h2 class="ml-section-title">What You Should Remember</h2>
+    <p class="ml-section-subtitle">
+      Three key ideas from this exhibit.
+    </p>
+  </div>
+
+  <div class="ml-grid-3">
+    <TakeawayCard
+      number={1}
+      headline="Programs See Memory as Continuous"
+      description="Every program believes it has a clean, unbroken block of memory. This illusion is created by virtual memory and the page table."
+      accent="#38bdf8"
+    />
+    <TakeawayCard
+      number={2}
+      headline="Physical RAM Can Be Scattered"
+      description="As programs start and stop, physical memory becomes fragmented with holes. This is external fragmentation, a natural consequence of dynamic allocation."
+      accent="#a78bfa"
+    />
+    <TakeawayCard
+      number={3}
+      headline="The OS Maps Virtual Pages to Physical Frames"
+      description="The operating system uses a page table to connect virtual pages to physical frames. Scattered physical memory is stitched together into a continuous virtual view."
+      accent="#22d3ee"
+    />
+  </div>
+</section>
+
+<hr class="ml-divider" />
+
+{/* 6. REFERENCES */}
+<section class="ml-section ml-section--narrow" id="references">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Sources</span>
+    <h2 class="ml-section-title">References</h2>
+  </div>
+
+  <div class="references-card">
+    <ul class="ml-references">
+      <li>
+        Patterson, D. A., &amp; Hennessy, J. L. (2020). <em>Computer Organization and Design MIPS Edition: The Hardware/Software Interface</em> (6th ed.). Morgan Kaufmann.
+      </li>
+      <li>
+        Silberschatz, A., Galvin, P. B., &amp; Gagne, G. (2018). <em>Operating System Concepts</em> (10th ed.). Wiley.
+      </li>
+      <li>
+        Tanenbaum, A. S., &amp; Bos, H. (2014). <em>Modern Operating Systems</em> (4th ed.). Pearson.
+      </li>
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,74 @@
+---
+/*
+ * TakeawayCard.astro — Large summary card for key takeaways.
+ * Shows a number badge, headline statement, and supporting explanation.
+ */
+
+interface Props {
+  number: number;
+  headline: string;
+  description: string;
+  accent?: string;
+}
+
+const { number, headline, description, accent = "#38bdf8" } = Astro.props;
+---
+
+<div class="takeaway" style={`--ta-accent: ${accent};`}>
+  <div class="takeaway__badge">{number}</div>
+  <h3 class="takeaway__headline">{headline}</h3>
+  <p class="takeaway__desc">{description}</p>
+</div>
+
+<style>
+  .takeaway {
+    position: relative;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 2.5rem 1.75rem 2rem;
+    text-align: center;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .takeaway:hover {
+    border-color: var(--ta-accent);
+    transform: translateY(-4px);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 50px rgba(56, 189, 248, 0.08);
+  }
+
+  .takeaway__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ta-accent), #818cf8);
+    color: #0a0e1a;
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 4px 16px rgba(56, 189, 248, 0.2);
+  }
+
+  .takeaway__headline {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #f1f5f9;
+    margin: 0 0 0.75rem;
+    line-height: 1.3;
+  }
+
+  .takeaway__desc {
+    font-size: 0.88rem;
+    color: #94a3b8;
+    line-height: 1.65;
+    margin: 0;
+  }
+</style>
