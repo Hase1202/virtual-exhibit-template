@@ -20,7 +20,7 @@ import '../styles/exhibit-theme.css';
     Why your computer can keep running even when physical memory is limited, scattered, or fragmented.
   </p>
   <p class="ml-hero__intro">
-    This exhibit begins with a common problem: <strong>external fragmentation</strong> &mdash; when programs open and close, they leave behind scattered holes in RAM.
+    This exhibit begins with a common problem: <strong>external fragmentation</strong> when programs open and close, they leave behind scattered holes in RAM.
     Even if the total free memory is enough, a large program can fail to load because no single hole is big enough.
     Step through the interactive simulator to see the problem happen, then discover how <strong>virtual memory</strong> solves it by mapping scattered physical pages into one continuous virtual address space.
   </p>
@@ -60,7 +60,7 @@ import '../styles/exhibit-theme.css';
     <ConceptCard
       icon="&#x1F310;"
       title="Virtual Memory"
-      description="An abstraction that gives every program the illusion of a large, continuous memory space &mdash; even if the actual physical RAM is scattered underneath."
+      description="An abstraction that gives every program the illusion of a large, continuous memory space, even if the actual physical RAM is scattered underneath."
       accent="#22d3ee"
     />
   </div>
@@ -102,26 +102,26 @@ import '../styles/exhibit-theme.css';
     </p>
     <div class="ml-analogy">
       <strong>Analogy:</strong> Think of a parking lot. Several cars leave at different times, creating empty spots scattered around.
-      You arrive with a long tour bus &mdash; there are enough total empty spots, but they are all in different rows.
+      You arrive with a long tour bus, and there are enough total empty spots, but they are all in different rows.
       Your bus needs one long row of empty spots, and none exists.
     </div>
 
     <h3>Why Not Just Compact Memory?</h3>
     <p>
-      One idea is to <strong>compact</strong> memory &mdash; slide all running programs together to create one big free block at the end.
+      One idea is to <strong>compact</strong> memory slide all running programs together to create one big free block at the end.
       But this is extremely expensive: the OS would need to stop every running program, copy gigabytes of data,
       update every memory reference, then restart everything. In practice, this is too slow for modern systems.
     </p>
 
     <h3>How Virtual Memory Separates the Views</h3>
     <p>
-      Virtual memory introduces a layer of abstraction. Each program gets its own <strong>virtual address space</strong> &mdash; a clean,
+      Virtual memory introduces a layer of abstraction. Each program gets its own <strong>virtual address space</strong> a clean,
       continuous range of addresses starting from 0. The program never knows (or cares) where its data actually lives in physical RAM.
     </p>
     <p>
       Behind the scenes, the OS divides both virtual memory and physical RAM into fixed-size chunks:
       <strong>pages</strong> (in virtual space) and <strong>frames</strong> (in physical RAM), typically 4 KB each.
-      A program that needs 4 GB sees pages 0, 1, 2, ... but the OS can put those pages in any available physical frames &mdash;
+      A program that needs 4 GB sees pages 0, 1, 2, ... but the OS can put those pages in any available physical frames
       even if the frames are scattered across RAM.
     </p>
 
@@ -144,7 +144,7 @@ import '../styles/exhibit-theme.css';
     <p>
       With <strong>demand paging</strong>, the OS does not load the entire program into RAM at once.
       Instead, it only loads pages when they are actually needed. If a program accesses a page that is not in RAM yet,
-      a <strong>page fault</strong> occurs &mdash; the OS pauses the program, loads the page from disk into a free frame,
+      a <strong>page fault</strong> occurs, the OS pauses the program, loads the page from disk into a free frame,
       updates the page table, and resumes the program. This makes efficient use of limited RAM.
     </p>
     <div class="ml-analogy">
