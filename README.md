@@ -10,6 +10,21 @@
 
 ### **DEPLOYED SITE:** https://hase1202.github.io/virtual-exhibit-template/?fbclid=IwY2xjawS51_NleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAEwAAEeRWW4ZKnuZ9oDu7o43sgbREaTRyrwppVkuey8OBcZkgQL1vK6sB4W7cmFr1E_aem_7PKhIVTHdtHrlPpERcP_jA
 
+```text
+src/
+├── components/
+│   ├── MemoryFragmentationSimulator.jsx        <- Canvas-based allocator (Paging vs. Seg.)
+│   ├── MemoryFragmentationSimulator.module.css  <- Scoped styling for simulator grid
+│   ├── TlbSimulator.jsx                        <- Step-by-step Page Table + TLB lookup flow
+│   ├── VirtualMemoryQuiz.jsx                   <- Interactive feedback quiz component
+│   ├── ConceptCard.astro                       <- Card template for key terms/hardware specs
+│   └── TakeawayCard.astro                      <- Structured key findings template
+├── pages/
+│   └── virtual-memory.mdx                      <- Root MDX page assembling the full exhibit
+└── styles/
+    └── exhibit-theme.css                       <- "Memory Lab" dark futuristic theme stylesheet
+```
+
 ### **Development**
 
 We decided our aesthetic should be a space theme with tones of blue and purple, as these colors commonly signify technology. Although this was only a mid-milestone project, we were able to implement the foundational requirements of our site. It was quite a challenge trying to work around the provided templates and adhering to the strict guidelines, such as not modifying files inside the layouts folder or changing global.css.
@@ -21,6 +36,14 @@ We followed our proposed layout by starting with the "Virtual Memory" title and 
 Aside from the challenges we faced integrating the exhibit format, we also struggled with learning React and Astro on the fly. We learned that React has the capability to store data (state) and is ideal for creating engaging UIs, whereas Astro does not store data in the same way, but acts more like "HTML+" with greater flexibility for building static designs.
 
 We quickly learned that organization is critical, employing a "divide and conquer" folder structure. The styles folder assists the pages folder (which contains our main MDX/HTML files). Because the layouts folder cannot be modified, and the assets folder is strictly for images, we utilized the components folder for our "sections." This is where we safely modified our React and Astro components, as it is much safer to scope the layout and styling to a single section rather than cramming everything into a global CSS file. It was quite confusing to relearn JavaScript for React and Astro, but because we were already familiar with HTML from CCAPDEV, we have a good head start. It will just take some time to fully grasp these new capabilities since we have only just started.
+
+### Aha Moments
+**Global stylesheet isolation with CSS `:has()`**
+We ran into an issue where importing the customized dark-mode futuristic theme (`exhibit-theme.css`) inside the `virtual-memory.mdx` page was leaking styles globally—nuking the home page's light cube background pattern and breaking the layout structure when navigating back. Because we weren't allowed to edit the locked `ExhibitLayout.astro` or `HomepageLayout.astro` files directly, the "aha" moment was wrapping all our global overrides in a `:has()` selector (e.g., `body:has(.ml-hero)`). This cleanly scopes all dark backgrounds, custom starfields, and header restyling to the virtual memory page only, leaving the home page intact.
+
+### Creative Development
+**Interactive Visual Allocation instead of static diagrams**
+Rather than just writing about paging and segmentation, the `MemoryFragmentationSimulator` uses an interactive grid that dynamically animates memory requests. Users can choose between contiguous memory, pure paging, or segmentation, and manually trigger allocation calls to watch external/internal fragmentation develop in real-time.
 
 ### **Future Plans**
 
