@@ -95,8 +95,8 @@
   flex-direction: column;
   gap: 1px;
   transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              background 0.4s ease,
-              opacity 0.3s ease;
+    background 0.4s ease,
+    opacity 0.3s ease;
   overflow: hidden;
   position: relative;
   min-width: 0;
@@ -123,36 +123,73 @@
 }
 
 /* Segment color classes */
-.segChrome    { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-.segDiscord   { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
-.segValorant  { background: linear-gradient(135deg, #22c55e, #16a34a); }
-.segSpotify   { background: linear-gradient(135deg, #14b8a6, #0d9488); }
-.segEditor    { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.segEditorVM  { background: linear-gradient(135deg, #22d3ee, #06b6d4); }
-.segFree      { background: rgba(55, 65, 81, 0.5); border: 1px dashed rgba(255,255,255,0.1); }
+.segChrome {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
 
-.segFree .segmentLabel { color: rgba(255,255,255,0.35); font-weight: 500; }
-.segFree .segmentSize  { color: rgba(255,255,255,0.25); }
+.segDiscord {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+}
+
+.segValorant {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.segSpotify {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+}
+
+.segEditor {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.segEditorVM {
+  background: linear-gradient(135deg, #22d3ee, #06b6d4);
+}
+
+.segFree {
+  background: rgba(55, 65, 81, 0.5);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.segFree .segmentLabel {
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 500;
+}
+
+.segFree .segmentSize {
+  color: rgba(255, 255, 255, 0.25);
+}
 
 /* Failed state pulsing */
 .segFailed {
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(239, 68, 68, 0.15),
-    rgba(239, 68, 68, 0.15) 8px,
-    rgba(239, 68, 68, 0.08) 8px,
-    rgba(239, 68, 68, 0.08) 16px
-  );
+  background: repeating-linear-gradient(45deg,
+      rgba(239, 68, 68, 0.15),
+      rgba(239, 68, 68, 0.15) 8px,
+      rgba(239, 68, 68, 0.08) 8px,
+      rgba(239, 68, 68, 0.08) 16px);
   border: 2px solid rgba(239, 68, 68, 0.5);
   animation: failPulse 1.5s ease-in-out infinite;
 }
 
-.segFailed .segmentLabel { color: #fca5a5; }
-.segFailed .segmentSize  { color: #f87171; }
+.segFailed .segmentLabel {
+  color: #fca5a5;
+}
+
+.segFailed .segmentSize {
+  color: #f87171;
+}
 
 @keyframes failPulse {
-  0%, 100% { border-color: rgba(239, 68, 68, 0.5); }
-  50%      { border-color: rgba(239, 68, 68, 0.9); }
+
+  0%,
+  100% {
+    border-color: rgba(239, 68, 68, 0.5);
+  }
+
+  50% {
+    border-color: rgba(239, 68, 68, 0.9);
+  }
 }
 
 /* Virtual memory bar accent */
@@ -267,12 +304,18 @@
 .captionFail {
   border-left-color: #ef4444;
 }
-.captionFail .captionTitle { color: #f87171; }
+
+.captionFail .captionTitle {
+  color: #f87171;
+}
 
 .captionSuccess {
   border-left-color: #22d3ee;
 }
-.captionSuccess .captionTitle { color: #22d3ee; }
+
+.captionSuccess .captionTitle {
+  color: #22d3ee;
+}
 
 /* ── Program Cards ──────────────────────────────────────────── */
 .programsSection {
@@ -337,8 +380,15 @@
 }
 
 @keyframes dotPulse {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.4; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .pillClosed {
@@ -368,12 +418,35 @@
   margin-left: 0.25rem;
 }
 
-.badgeRunning  { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
-.badgeClosed   { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
-.badgeFailed   { background: rgba(239, 68, 68, 0.15); color: #f87171; }
-.badgeMapped   { background: rgba(34, 211, 238, 0.15); color: #22d3ee; }
-.badgeWaiting  { background: rgba(148, 163, 184, 0.1); color: #64748b; }
-.badgeNext     { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+.badgeRunning {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+}
+
+.badgeClosed {
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+}
+
+.badgeFailed {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.badgeMapped {
+  background: rgba(34, 211, 238, 0.15);
+  color: #22d3ee;
+}
+
+.badgeWaiting {
+  background: rgba(148, 163, 184, 0.1);
+  color: #64748b;
+}
+
+.badgeNext {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+}
 
 /* ── Buttons ────────────────────────────────────────────────── */
 .controls {
@@ -551,4 +624,13 @@
   .segmentSize {
     display: none;
   }
+}
+
+/* Hover highlights to link Virtual and Physical blocks */
+.segmentHovered {
+  filter: brightness(1.25) drop-shadow(0 0 12px rgba(196, 164, 255, 0.5)) !important;
+  transform: scaleY(1.05) scaleX(1.005) !important;
+  z-index: 15 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2) !important;
 }

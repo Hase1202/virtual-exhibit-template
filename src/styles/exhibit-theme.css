@@ -6,27 +6,34 @@
 /* ── Design Tokens ──────────────────────────────────────────── */
 :root {
   /* Backgrounds */
-  --ml-bg-deep:    #0a0e1a;
-  --ml-bg-surface: #111827;
-  --ml-bg-card:    rgba(255, 255, 255, 0.04);
-  --ml-bg-glass:   rgba(255, 255, 255, 0.06);
+  --ml-bg-deep:    #0a0620;
+  --ml-bg-surface: #150f33;
+  --ml-bg-card:    rgba(196, 164, 255, 0.06);
+  --ml-bg-glass:   rgba(196, 164, 255, 0.08);
 
   /* Text */
-  --ml-text:       #e2e8f0;
-  --ml-text-muted: #94a3b8;
-  --ml-text-dim:   #64748b;
-  --ml-heading:    #f1f5f9;
+  --ml-text:       #ece8ff;
+  --ml-text-muted: #b0a6d9;
+  --ml-text-dim:   #8478b8;
+  --ml-heading:    #faf8ff;
 
   /* Accents */
-  --ml-accent:     #38bdf8;
-  --ml-accent-dim: rgba(56, 189, 248, 0.15);
+  --ml-accent:     #c084fc;
+  --ml-accent-dim: rgba(192, 132, 252, 0.16);
   --ml-neon-cyan:  #22d3ee;
   --ml-neon-blue:  #818cf8;
   --ml-neon-purple:#a78bfa;
+  --ml-neon-pink:  #f472b6;
+
+  --ml-gem-rose:   #ff8fc7;
+  --ml-gem-amethyst:#b774ff;
+  --ml-gem-aqua:   #5fe8d1;
+  --ml-gem-peach:  #ffb997;
+  --ml-gem-lemon:  #fde68a;
 
   /* Borders */
-  --ml-border:     rgba(255, 255, 255, 0.08);
-  --ml-border-glow:rgba(56, 189, 248, 0.25);
+  --ml-border:     rgba(196, 164, 255, 0.10);
+  --ml-border-glow:rgba(192, 132, 252, 0.30);
 
   /* Radii */
   --ml-radius-sm:  8px;
@@ -35,8 +42,8 @@
   --ml-radius-xl:  28px;
 
   /* Shadows */
-  --ml-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.35);
-  --ml-shadow-glow: 0 0 30px rgba(56, 189, 248, 0.08);
+  --ml-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.45);
+  --ml-shadow-glow: 0 0 30px rgba(192, 132, 252, 0.10);
 
   /* Transitions */
   --ml-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -44,7 +51,13 @@
 
 /* ── Base Reset (scoped to .ml-page) ────────────────────────── */
 .ml-page {
-  background: linear-gradient(170deg, #0a0e1a 0%, #111827 40%, #0f172a 100%);
+
+  background:
+    radial-gradient(ellipse 900px 500px at 10% -5%, rgba(255, 143, 199, 0.20), transparent 60%),
+    radial-gradient(ellipse 800px 600px at 95% 20%, rgba(95, 232, 209, 0.14), transparent 60%),
+    radial-gradient(ellipse 700px 550px at 15% 95%, rgba(183, 116, 255, 0.20), transparent 60%),
+    radial-gradient(ellipse 600px 500px at 85% 90%, rgba(255, 185, 151, 0.12), transparent 60%),
+    linear-gradient(170deg, #0a0620 0%, #150f33 45%, #0c0824 100%);
   color: var(--ml-text);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.7;
@@ -59,23 +72,105 @@
   box-sizing: border-box;
 }
 
-/* ── Animated dot grid background ───────────────────────────── */
+ 
+/* ── Starfield background (two star layers, twinkling) ──────── */
 .ml-page::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    radial-gradient(circle, rgba(56, 189, 248, 0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
+    radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 60% 15%, rgba(255, 143, 199, 0.85), transparent),
+    radial-gradient(1.5px 1.5px at 85% 55%, rgba(95, 232, 209, 0.85), transparent),
+    radial-gradient(1px 1px at 35% 70%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 70% 85%, rgba(183, 116, 255, 0.85), transparent),
+    radial-gradient(1px 1px at 10% 90%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 95% 10%, rgba(253, 230, 138, 0.8), transparent);
+  background-size: 400px 400px;
+  background-repeat: repeat;
   pointer-events: none;
   z-index: 0;
-  animation: ml-grid-drift 60s linear infinite;
+  animation: ml-twinkle 4s ease-in-out infinite alternate, ml-star-drift 240s linear infinite;
+}
+ 
+/* A second, sparser+larger star layer drifting at a different speed for parallax */
+.ml-page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 25% 45%, rgba(196, 164, 255, 0.9), transparent),
+    radial-gradient(2px 2px at 75% 20%, rgba(244, 114, 182, 0.85), transparent),
+    radial-gradient(2px 2px at 50% 80%, rgba(95, 232, 209, 0.85), transparent),
+    radial-gradient(2px 2px at 15% 65%, rgba(253, 230, 138, 0.75), transparent),
+    radial-gradient(1.5px 1.5px at 90% 65%, rgba(255, 255, 255, 0.8), transparent);
+  background-size: 600px 600px;
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.8;
+  animation: ml-star-drift-reverse 300s linear infinite;
+}
+ 
+@keyframes ml-twinkle {
+  0%   { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+ 
+@keyframes ml-star-drift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 400px 400px; }
+}
+ 
+@keyframes ml-star-drift-reverse {
+  0%   { background-position: 0 0; }
+  100% { background-position: -600px 300px; }
 }
 
-@keyframes ml-grid-drift {
-  0%   { background-position: 0 0; }
-  100% { background-position: 32px 32px; }
+.ml-comet {
+  position: fixed;
+  top: 12%;
+  left: -10%;
+  width: 140px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #fff, var(--ml-gem-aqua) 60%, transparent);
+  border-radius: 999px;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  animation: ml-comet-fly 14s ease-in 2s infinite;
 }
+
+@keyframes ml-comet-fly {
+  0%   { transform: translate(0, 0) rotate(20deg); opacity: 0; }
+  4%   { opacity: 1; }
+  20%  { transform: translate(140vw, 60vh) rotate(20deg); opacity: 0; }
+  100% { transform: translate(140vw, 60vh) rotate(20deg); opacity: 0; }
+}
+
+.ml-gem-shape {
+  position: fixed;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  transform: rotate(45deg);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  filter: blur(0.5px) drop-shadow(0 0 10px currentColor);
+  animation: ml-gem-bob 8s ease-in-out infinite;
+}
+.ml-gem-shape--1 { top: 18%; left: 6%;  background: var(--ml-gem-rose);     color: var(--ml-gem-rose);     animation-delay: 0s; }
+.ml-gem-shape--2 { top: 65%; left: 88%; background: var(--ml-gem-aqua);     color: var(--ml-gem-aqua);     animation-delay: 1.5s; }
+.ml-gem-shape--3 { top: 80%; left: 12%; background: var(--ml-gem-amethyst);color: var(--ml-gem-amethyst);animation-delay: 3s; }
+.ml-gem-shape--4 { top: 8%;  left: 80%; background: var(--ml-gem-lemon);   color: var(--ml-gem-lemon);   animation-delay: 4.5s; }
+ 
+@keyframes ml-gem-bob {
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50%      { transform: rotate(45deg) translateY(-16px); }
+}
+ 
 
 /* ── Top Navigation ─────────────────────────────────────────── */
 .ml-nav {
@@ -88,7 +183,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 2rem;
-  background: rgba(10, 14, 26, 0.75);
+  background: rgba(5, 3, 15, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--ml-border);
@@ -197,7 +292,7 @@
   position: relative;
   z-index: 1;
   text-align: center;
-  padding: 8rem 1.5rem 4rem;
+  padding: 3.5rem 1.5rem 3rem;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -266,18 +361,17 @@
 .ml-hero::before {
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.3), transparent 70%);
+  background: radial-gradient(circle, rgba(255, 143, 199, 0.35), transparent 70%);
   top: -100px;
   left: -100px;
 }
 .ml-hero::after {
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, rgba(129, 140, 248, 0.25), transparent 70%);
+  background: radial-gradient(circle, rgba(95, 232, 209, 0.28), transparent 70%);
   bottom: -50px;
   right: -80px;
 }
-
 /* ── Glass Card ─────────────────────────────────────────────── */
 .ml-glass {
   background: var(--ml-bg-glass);
@@ -413,4 +507,293 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+
+.ml-character {
+  position: absolute;
+  width: 140px;
+  height: auto;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45))
+          drop-shadow(0 0 24px rgba(192, 132, 252, 0.25));
+}
+ 
+/* Position modifiers — relative to the nearest positioned ancestor.
+   Wrap your <section> in position: relative (ml-section already is)
+   or add a wrapper div with position: relative if placing in the hero. */
+.ml-character--corner-tl { top: -1rem;  left: -2rem; }
+.ml-character--corner-tr { top: -1rem;  right: -2rem; }
+.ml-character--corner-bl { bottom: -1rem; left: -2rem; }
+.ml-character--corner-br { bottom: -1rem; right: -2rem; }
+ 
+/* Inline placement — sits in normal document flow instead of floating
+   in a corner. Use when you want a character next to a paragraph. */
+.ml-character--inline {
+  position: relative;
+  width: 100px;
+  margin: 0 auto;
+  display: block;
+}
+ 
+/* Smaller variant for "peeking" from behind a card edge */
+.ml-character--peek {
+  width: 90px;
+  opacity: 0.95;
+}
+ 
+/* Gentle floating bob, same easing as the gem shapes above */
+.ml-character--float {
+  animation: ml-char-float 5s ease-in-out infinite;
+}
+ 
+@keyframes ml-char-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+ 
+/* Smaller screens: shrink and nudge characters so they don't overlap text */
+@media (max-width: 768px) {
+  .ml-character { width: 90px; }
+  .ml-character--corner-tl,
+  .ml-character--corner-tr { top: -0.5rem; }
+  .ml-character--corner-bl,
+  .ml-character--corner-br { bottom: -0.5rem; }
+}
+ 
+@media (max-width: 560px) {
+  /* Hide corner characters entirely on very small screens to avoid
+     covering content — inline characters still show. */
+  .ml-character--corner-tl,
+  .ml-character--corner-tr,
+  .ml-character--corner-bl,
+  .ml-character--corner-br {
+    display: none;
+  }
+}
+/* ============================================================
+   ExhibitLayout compatibility overrides
+   ExhibitLayout.astro can't be modified, so instead of removing its
+   header/content wrapper markup, this section neutralizes the
+   wrapper's own styling and moves the full-bleed theme onto <body>
+   directly (since we can no longer add a class like .ml-page to
+   <body> — ExhibitLayout owns that tag). ExhibitLayout's <header>
+   markup itself is untouched by any of this.
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+  background: none !important;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 900px 500px at 10% -5%, rgba(255, 143, 199, 0.20), transparent 60%),
+    radial-gradient(ellipse 800px 600px at 95% 20%, rgba(95, 232, 209, 0.14), transparent 60%),
+    radial-gradient(ellipse 700px 550px at 15% 95%, rgba(183, 116, 255, 0.20), transparent 60%),
+    radial-gradient(ellipse 600px 500px at 85% 90%, rgba(255, 185, 151, 0.12), transparent 60%),
+    linear-gradient(170deg, #0a0620 0%, #150f33 45%, #0c0824 100%) !important;
+  color: var(--ml-text) !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 60% 15%, rgba(255, 143, 199, 0.85), transparent),
+    radial-gradient(1.5px 1.5px at 85% 55%, rgba(95, 232, 209, 0.85), transparent),
+    radial-gradient(1px 1px at 35% 70%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 70% 85%, rgba(183, 116, 255, 0.85), transparent),
+    radial-gradient(1px 1px at 10% 90%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 95% 10%, rgba(253, 230, 138, 0.8), transparent);
+  background-size: 400px 400px;
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 0;
+  animation: ml-twinkle 4s ease-in-out infinite alternate, ml-star-drift 240s linear infinite;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 25% 45%, rgba(196, 164, 255, 0.9), transparent),
+    radial-gradient(2px 2px at 75% 20%, rgba(244, 114, 182, 0.85), transparent),
+    radial-gradient(2px 2px at 50% 80%, rgba(95, 232, 209, 0.85), transparent),
+    radial-gradient(2px 2px at 15% 65%, rgba(253, 230, 138, 0.75), transparent),
+    radial-gradient(1.5px 1.5px at 90% 65%, rgba(255, 255, 255, 0.8), transparent);
+  background-size: 600px 600px;
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.8;
+  animation: ml-star-drift-reverse 300s linear infinite;
+}
+
+.ml-hero__title {
+  display: block !important;
+}
+
+/* Undo ExhibitLayout's boxed article/TOC wrapper so the dark theme
+   shows through underneath its header. Header markup is untouched. */
+.content {
+  display: block !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.content__block {
+  flex: none !important;
+}
+
+.content__titlemeta {
+  display: none !important; /* our .ml-hero renders the title instead */
+}
+
+.article {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  position: relative;
+  z-index: 1;
+}
+
+.toc {
+  display: none !important;
+}
+
+/* Quick section nav sits in normal flow right under ExhibitLayout's
+   real header, instead of a fixed bar that duplicates it. */
+.ml-nav--quick {
+  position: sticky !important;
+  top: 1rem !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 50;
+  display: flex !important;
+  justify-content: center !important;
+  max-width: fit-content !important;
+  margin: 1.5rem auto 3rem auto !important;
+  padding: 0.35rem 0.5rem !important;
+  background: rgba(10, 6, 32, 0.8) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--ml-border) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 1px rgba(196, 164, 255, 0.2) !important;
+}
+
+.ml-nav--quick .ml-nav__links {
+  display: flex !important;
+  gap: 0.25rem !important;
+}
+
+.ml-nav--quick .ml-nav__link {
+  color: var(--ml-text-muted) !important;
+  text-decoration: none !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  padding: 0.45rem 1rem !important;
+  border-radius: 999px !important;
+  transition: all var(--ml-transition) !important;
+}
+
+.ml-nav--quick .ml-nav__link:hover {
+  color: #ffffff !important;
+  background: var(--ml-accent) !important;
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.4) !important;
+}
+
+@media (max-width: 640px) {
+  .ml-nav--quick {
+    margin: 1rem 1rem 2rem 1rem !important;
+    max-width: calc(100% - 2rem) !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    border-radius: 12px !important;
+    padding: 0.5rem !important;
+  }
+  
+  .ml-nav--quick .ml-nav__links {
+    flex-direction: row !important;
+    gap: 0.5rem !important;
+  }
+  
+  .ml-nav--quick .ml-nav__link {
+    font-size: 0.78rem !important;
+    padding: 0.4rem 0.75rem !important;
+    border-radius: 8px !important;
+  }
+}
+
+/* Typography Overrides: Ensure consistent futuristic sans-serif headers */
+.article h1,
+.article h2,
+.article h3,
+.article h4,
+.article h5,
+.article h6 {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+/* Style Layout's Main Header Bar to Blend Seamlessly with the Dark Theme */
+.header {
+  padding: 1.5rem 1.5rem 0.5rem !important;
+  background: transparent !important;
+}
+
+.header__titleblock {
+  background: var(--ml-bg-glass) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--ml-border) !important;
+  border-radius: var(--ml-radius-md) !important;
+  box-shadow: var(--ml-shadow-card) !important;
+  color: var(--ml-text) !important;
+  padding: 0.75rem 1.25rem !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+.header__titleblock strong {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--ml-heading) !important;
+}
+
+.header__subtitle {
+  color: var(--ml-text-dim) !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+.header .button {
+  background: var(--ml-bg-glass) !important;
+  border: 1px solid var(--ml-border) !important;
+  color: var(--ml-text-muted) !important;
+  border-radius: 50% !important;
+  width: 38px !important;
+  height: 38px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  transition: all var(--ml-transition) !important;
+  box-shadow: none !important;
+}
+
+.header .button:hover {
+  color: var(--ml-accent) !important;
+  border-color: var(--ml-accent) !important;
+  background: var(--ml-accent-dim) !important;
+  transform: translateY(-1px) !important;
 }
