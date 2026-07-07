@@ -582,12 +582,12 @@
    markup itself is untouched by any of this.
    ============================================================ */
 
-html {
+html:has(.ml-hero) {
   scroll-behavior: smooth;
   background: none !important;
 }
 
-body {
+body:has(.ml-hero) {
   background:
     radial-gradient(ellipse 900px 500px at 10% -5%, rgba(255, 143, 199, 0.20), transparent 60%),
     radial-gradient(ellipse 800px 600px at 95% 20%, rgba(95, 232, 209, 0.14), transparent 60%),
@@ -600,7 +600,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-body::before {
+body:has(.ml-hero)::before {
   content: '';
   position: fixed;
   inset: 0;
@@ -619,7 +619,7 @@ body::before {
   animation: ml-twinkle 4s ease-in-out infinite alternate, ml-star-drift 240s linear infinite;
 }
 
-body::after {
+body:has(.ml-hero)::after {
   content: '';
   position: fixed;
   inset: 0;
@@ -642,23 +642,27 @@ body::after {
 }
 
 /* Undo ExhibitLayout's boxed article/TOC wrapper so the dark theme
-   shows through underneath its header. Header markup is untouched. */
-.content {
+   shows through underneath its header. Header markup is untouched.
+   Every selector below is scoped with :has(.ml-hero) so it can only
+   ever match this exhibit page's own <body> — never the homepage,
+   even though Astro.glob() forces this stylesheet's import to run
+   while HomepageLayout builds its exhibit list. */
+body:has(.ml-hero) .content {
   display: block !important;
   max-width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-.content__block {
+body:has(.ml-hero) .content__block {
   flex: none !important;
 }
 
-.content__titlemeta {
+body:has(.ml-hero) .content__titlemeta {
   display: none !important; /* our .ml-hero renders the title instead */
 }
 
-.article {
+body:has(.ml-hero) .article {
   background: none !important;
   border: none !important;
   box-shadow: none !important;
@@ -668,7 +672,7 @@ body::after {
   z-index: 1;
 }
 
-.toc {
+body:has(.ml-hero) .toc {
   display: none !important;
 }
 
@@ -738,22 +742,22 @@ body::after {
 }
 
 /* Typography Overrides: Ensure consistent futuristic sans-serif headers */
-.article h1,
-.article h2,
-.article h3,
-.article h4,
-.article h5,
-.article h6 {
+body:has(.ml-hero) .article h1,
+body:has(.ml-hero) .article h2,
+body:has(.ml-hero) .article h3,
+body:has(.ml-hero) .article h4,
+body:has(.ml-hero) .article h5,
+body:has(.ml-hero) .article h6 {
   font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
 }
 
 /* Style Layout's Main Header Bar to Blend Seamlessly with the Dark Theme */
-.header {
+body:has(.ml-hero) .header {
   padding: 1.5rem 1.5rem 0.5rem !important;
   background: transparent !important;
 }
 
-.header__titleblock {
+body:has(.ml-hero) .header__titleblock {
   background: var(--ml-bg-glass) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
@@ -765,18 +769,18 @@ body::after {
   font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
 }
 
-.header__titleblock strong {
+body:has(.ml-hero) .header__titleblock strong {
   font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
   font-weight: 700 !important;
   color: var(--ml-heading) !important;
 }
 
-.header__subtitle {
+body:has(.ml-hero) .header__subtitle {
   color: var(--ml-text-dim) !important;
   font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
 }
 
-.header .button {
+body:has(.ml-hero) .header .button {
   background: var(--ml-bg-glass) !important;
   border: 1px solid var(--ml-border) !important;
   color: var(--ml-text-muted) !important;
@@ -791,7 +795,7 @@ body::after {
   box-shadow: none !important;
 }
 
-.header .button:hover {
+body:has(.ml-hero) .header .button:hover {
   color: var(--ml-accent) !important;
   border-color: var(--ml-accent) !important;
   background: var(--ml-accent-dim) !important;
