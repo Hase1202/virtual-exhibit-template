@@ -637,6 +637,10 @@ body::after {
   animation: ml-star-drift-reverse 300s linear infinite;
 }
 
+.ml-hero__title {
+  display: block !important;
+}
+
 /* Undo ExhibitLayout's boxed article/TOC wrapper so the dark theme
    shows through underneath its header. Header markup is untouched. */
 .content {
