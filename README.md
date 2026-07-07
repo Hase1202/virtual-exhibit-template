@@ -1,4 +1,4 @@
-### **CSARCH2 VIRTUAL EXHIBIT**
+### **CSARCH2 VIRTUAL EXHIBIT MID MILESTONE**
 
 **Submitted By:**
 
@@ -104,14 +104,3 @@ The component is built entirely in React. State management is handled via useSta
 * Program queue cards use `auto-fit` grid columns, collapsing to 2 columns on mobile  
 * Navigation buttons are full-touch-target height (minimum 44px) on small screens  
 * Caption text reflows naturally — no horizontal scrolling at any viewport
-
-### **CSARCH2 VIRTUAL EXHIBIT MID MILESTONE**
-### **Development**
-Starting to bring the proposal’s vision to life, the group was able to begin with the foundational requirements of the exhibit.  We followed our proposed layout by starting with the "Virtual Memory" title and an abstract, followed by key concepts to quickly introduce interesting facts. We intentionally introduced the interactive lab early on, as it is much more entertaining for users to play around with a visual simulation, which entices them to learn more about virtual RAM. The subsequent section provides detailed descriptions for users who want to dive deeper. Next, we feature another virtual simulation that demonstrates how a virtual address page lookup is traced through the TLB cache and page tables, utilizing cool loading animations to visualize the process. Lastly, we included a summary and a quiz to help the user determine which page 
-
-### **Challenges and Learnings**
-Some of us struggled to learn React and Astro on the fly. We learned that React has the capability to store data (state) and is ideal for creating engaging UIs, whereas Astro does not store data in the same way, but acts more like "HTML+" with greater flexibility for building static designs.
-We quickly learned that organization is critical, employing a "divide and conquer" folder structure. The styles folder assists the pages folder (which contains our main MDX/HTML files). Because the layouts folder cannot be modified, and the assets folder is strictly for images, we utilized the components folder for our "sections". This is where we safely modified our React and Astro components, as it is much safer to scope the layout and styling to a single section rather than cramming everything into a global CSS file. It was quite confusing to relearn JavaScript for React and Astro, but because we were already familiar with HTML from CCAPDEV, we have a good head start. It will just take some time to fully grasp these new capabilities since we have only just started.
-
-### **Future Plans**
-Although we weren’t able to fully implement everything in our proposal, such as creating a separate page for a full-blown, step-by-step tutorial, we have built a great foundation. We believe that if we have more time to learn React and Astro, we can create a gamified tutorial. However, even if that isn't possible due to time constraints, we can still improve our current mid-milestone submission by adding a few more visual interactions related to virtual memory, such as its relationship to the GPU.
