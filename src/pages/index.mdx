@@ -1,7 +1,7 @@
 ---
 layout: '../layouts/ExhibitLayout.astro'
 title: "Virtual Memory: How It Works"
-author: "Computer Architecture Lab"
+author: "Matthew Drew Fabregas, Hannah Lee, Justin Lance Te Lim, Alec Marx Gabriel Belen Nono, Mariel Mendoza Yasumuro"
 readingTime: "10 min read"
 ---
 
@@ -9,6 +9,7 @@ import ConceptCard from '../components/ConceptCard.astro';
 import TakeawayCard from '../components/TakeawayCard.astro';
 import MemoryFragmentationSimulator from '../components/MemoryFragmentationSimulator.jsx';
 import VirtualMemoryQuiz from '../components/VirtualMemoryQuiz.jsx';
+import TlbSimulator from '../components/TlbSimulator.jsx';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
 import '../styles/exhibit-theme.css';
@@ -38,7 +39,10 @@ import '../styles/exhibit-theme.css';
 
 {/* 1. HERO SECTION */}
 <section class="ml-hero" id="top">
-  <div class="ml-hero__badge">&#x1F5A5;&#xFE0F; CSARCH2 Virtual Exhibit</div>
+  <div class="ml-hero__badge">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; display: inline-block; vertical-align: -2px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    CSARCH2 Virtual Exhibit
+  </div>
   <h1 class="ml-hero__title">Virtual Memory:<br/>How It Works</h1>
   <p class="ml-hero__subtitle">
     Why your computer can keep running even when physical memory is limited, scattered, or fragmented.
@@ -64,25 +68,25 @@ import '../styles/exhibit-theme.css';
 
   <div class="ml-grid-4">
     <ConceptCard
-      icon="&#x1F9E9;"
+      icon="fragmentation"
       title="Memory Fragmentation"
       description="When programs open and close, they leave behind scattered free holes in RAM. Even if total free memory is enough, the gaps may be too small individually."
       accent="#f87171"
     />
     <ConceptCard
-      icon="&#x1F4C4;"
+      icon="paging"
       title="Paging"
       description="The OS divides memory into fixed-size blocks called pages (virtual) and frames (physical). This avoids needing one large contiguous block."
       accent="#38bdf8"
     />
     <ConceptCard
-      icon="&#x1F5C2;&#xFE0F;"
+      icon="page-table"
       title="Page Table"
       description="A lookup table maintained by the OS that maps each virtual page to a physical frame. It lets the CPU translate virtual addresses to real ones."
       accent="#a78bfa"
     />
     <ConceptCard
-      icon="&#x1F310;"
+      icon="virtual-memory"
       title="Virtual Memory"
       description="An abstraction that gives every program the illusion of a large, continuous memory space, even if the actual physical RAM is scattered underneath."
       accent="#22d3ee"
@@ -163,6 +167,8 @@ import '../styles/exhibit-theme.css';
       If the mapping is in the TLB (a <strong>TLB hit</strong>), translation is almost instant.
       If not (a <strong>TLB miss</strong>), the CPU has to walk through the page table in memory, which takes longer.
     </p>
+
+    <TlbSimulator client:load />
 
     <h3>Demand Paging and Page Faults</h3>
     <p>

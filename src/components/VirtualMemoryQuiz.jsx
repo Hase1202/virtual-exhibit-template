@@ -231,46 +231,54 @@ const styles = {
     position: "relative",
     cursor: "pointer",
     textAlign: "left",
-    padding: "12px 14px",
+    padding: "16px",
     width: "100%",
     display: "block",
-    borderRadius: 10,
+    borderRadius: 12,
     border: active
       ? `2px solid ${theme.accent}`
       : `1px solid ${theme.cardBorderStrong}`,
     background: active ? theme.accentBg : theme.cardBg,
     boxShadow: active ? `0 0 0 3px ${theme.accentBg}` : "none",
     transform: active ? "translateY(-1px)" : "none",
-    transition: "border-color 0.12s, background 0.12s, box-shadow 0.12s, transform 0.12s",
+    transition: "border-color 0.15s, background 0.15s, box-shadow 0.15s, transform 0.15s",
     fontFamily: theme.fontSans,
   }),
   checkmark: {
     position: "absolute",
-    top: 10,
+    top: 12,
     right: 12,
-    fontSize: 13,
-    fontWeight: 600,
-    lineHeight: 1,
-    color: theme.accent,
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 18,
+    height: 18,
+    borderRadius: "50%",
+    background: theme.accent,
+    color: "#0a0e1a",
   },
   nextBtn: (enabled) => ({
     cursor: enabled ? "pointer" : "not-allowed",
     fontSize: 14,
-    padding: "8px 18px",
-    borderRadius: 10,
+    padding: "10px 22px",
+    borderRadius: 999,
     border: `1px solid ${theme.cardBorderStrong}`,
     background: enabled ? theme.accentBg : "transparent",
     color: enabled ? theme.accent : theme.textSecondary,
     opacity: enabled ? 1 : 0.5,
     fontFamily: theme.fontSans,
     fontWeight: 600,
+    transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 6,
   }),
   tag: {
-    fontSize: 12,
-    padding: "3px 10px",
-    background: theme.cardBg,
+    fontSize: 11,
+    padding: "3px 9px",
+    background: "rgba(255, 255, 255, 0.04)",
     border: `1px solid ${theme.cardBorderStrong}`,
-    borderRadius: 8,
+    borderRadius: 6,
     color: theme.textSecondary,
   },
 };
@@ -301,17 +309,126 @@ export default function VirtualMemoryQuiz() {
   const result = isResult ? getResult(answers) : null;
 
   return (
-    <div style={{ padding: "1.5rem 0", fontFamily: theme.fontSans, color: theme.textPrimary }}>
+    <div style={{ padding: "0.5rem 0", fontFamily: theme.fontSans, color: theme.textPrimary }}>
 
-      {/* -- Intro -- */}
+      {/* -- Intro / Redesigned -- */}
       {isIntro && (
-        <div>
-          <p style={{ color: theme.textSecondary, marginBottom: "1.25rem", fontSize: 15, lineHeight: 1.6 }}>
-            Answer 5 quick questions to find the page replacement algorithm that fits your workload.
-          </p>
-          <button style={styles.nextBtn(true)} onClick={() => setStep(1)}>
-            Start the quiz →
-          </button>
+        <div style={{
+          background: "rgba(255, 255, 255, 0.02)",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          borderRadius: 18,
+          padding: "2.5rem 2rem",
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+        }}>
+          {/* Subtle background glow */}
+          <div style={{
+            position: "absolute",
+            top: "-50%",
+            left: "-50%",
+            width: "200%",
+            height: "200%",
+            background: "radial-gradient(circle at center, rgba(56, 189, 248, 0.06) 0%, transparent 60%)",
+            pointerEvents: "none",
+            zIndex: 0
+          }} />
+          
+          <div style={{ position: "relative", zIndex: 1 }}>
+            {/* Pulsing visual header */}
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.5rem" }}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="url(#quiz-header-grad)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(0 0 10px rgba(56, 189, 248, 0.3))" }}>
+                <defs>
+                  <linearGradient id="quiz-header-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#38bdf8" />
+                    <stop offset="100%" stopColor="#818cf8" />
+                  </linearGradient>
+                </defs>
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                <path d="M12 6v6l4 2" />
+                <circle cx="12" cy="12" r="7" strokeDasharray="3 3" />
+              </svg>
+            </div>
+
+            <h3 style={{ margin: "0 0 0.5rem 0", fontSize: "1.4rem", fontWeight: 800, background: "linear-gradient(135deg, #f1f5f9 0%, #38bdf8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Page Replacement Matcher
+            </h3>
+            
+            <p style={{ color: theme.textSecondary, marginBottom: "1.75rem", fontSize: "0.9rem", lineHeight: 1.6, maxWidth: "460px", marginLeft: "auto", marginRight: "auto" }}>
+              Answer 5 quick questions about constraints and environments to find which OS page replacement strategy matches your workload profile.
+            </p>
+
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+              gap: "0.75rem",
+              maxWidth: "400px",
+              margin: "0 auto 2rem auto",
+              textAlign: "left",
+            }}>
+              <div style={{
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.05)",
+                padding: "0.75rem 1rem",
+                borderRadius: 10,
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem"
+              }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <div>
+                  <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#f1f5f9" }}>5 Questions</div>
+                  <div style={{ fontSize: "0.65rem", color: "#64748b" }}>Take matching diagnostic</div>
+                </div>
+              </div>
+              
+              <div style={{
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.05)",
+                padding: "0.75rem 1rem",
+                borderRadius: 10,
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem"
+              }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#818cf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <div>
+                  <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#f1f5f9" }}>Instant Profile</div>
+                  <div style={{ fontSize: "0.65rem", color: "#64748b" }}>See algorithm breakdown</div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              style={{
+                cursor: "pointer",
+                fontSize: "0.95rem",
+                padding: "0.8rem 2rem",
+                borderRadius: "999px",
+                border: "none",
+                background: "linear-gradient(135deg, #38bdf8, #818cf8)",
+                color: "#0a0e1a",
+                fontWeight: 700,
+                boxShadow: "0 4px 14px rgba(56, 189, 248, 0.25)",
+                transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.5rem"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-1px)";
+                e.currentTarget.style.boxShadow = "0 6px 20px rgba(56, 189, 248, 0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 14px rgba(56, 189, 248, 0.25)";
+              }}
+              onClick={() => setStep(1)}
+            >
+              Analyze Workload Profile
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
         </div>
       )}
 
@@ -324,18 +441,18 @@ export default function VirtualMemoryQuiz() {
             ))}
           </div>
 
-          <p style={{ fontSize: 13, color: theme.textSecondary, margin: "0 0 0.4rem" }}>
+          <p style={{ fontSize: 12, color: theme.textSecondary, margin: "0 0 0.4rem" }}>
             Question {step} of {totalQ}
           </p>
-          <h3 style={{ margin: "0 0 1.25rem", fontSize: 18, fontWeight: 600, color: theme.textPrimary }}>
+          <h3 style={{ margin: "0 0 1.25rem", fontSize: 17, fontWeight: 700, color: theme.textPrimary }}>
             {currentQ.text}
           </h3>
 
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 10,
-            marginBottom: "1.25rem",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: 12,
+            marginBottom: "1.5rem",
           }}>
             {currentQ.options.map((opt) => {
               const isSelected = selected === opt.id;
@@ -345,18 +462,34 @@ export default function VirtualMemoryQuiz() {
                   style={styles.optionBtn(isSelected)}
                   onClick={() => setSelected(opt.id)}
                   aria-pressed={isSelected}
+                  onMouseEnter={(e) => {
+                    if (!isSelected) {
+                      e.currentTarget.style.borderColor = "rgba(196, 164, 255, 0.35)";
+                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.06)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isSelected) {
+                      e.currentTarget.style.borderColor = theme.cardBorderStrong;
+                      e.currentTarget.style.background = theme.cardBg;
+                    }
+                  }}
                 >
-                  {isSelected && <span style={styles.checkmark}>✓</span>}
+                  {isSelected && (
+                    <span style={styles.checkmark}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                  )}
                   <div style={{
-                    fontWeight: isSelected ? 600 : 500,
-                    fontSize: 14,
+                    fontWeight: isSelected ? 700 : 600,
+                    fontSize: 13.5,
                     color: isSelected ? theme.accent : theme.textPrimary,
-                    marginBottom: 3,
-                    paddingRight: 16,
+                    marginBottom: 4,
+                    paddingRight: 20,
                   }}>
                     {opt.label}
                   </div>
-                  <div style={{ fontSize: 12, color: theme.textSecondary }}>
+                  <div style={{ fontSize: 11.5, color: theme.textSecondary, lineHeight: 1.4 }}>
                     {opt.desc}
                   </div>
                 </button>
@@ -364,8 +497,27 @@ export default function VirtualMemoryQuiz() {
             })}
           </div>
 
-          <button style={styles.nextBtn(!!selected)} disabled={!selected} onClick={handleNext}>
-            {step === totalQ ? "See my result ->" : "Next ->"}
+          <button
+            style={styles.nextBtn(!!selected)}
+            disabled={!selected}
+            onClick={handleNext}
+            onMouseEnter={(e) => {
+              if (selected) {
+                e.currentTarget.style.borderColor = theme.accent;
+                e.currentTarget.style.background = "rgba(56, 189, 248, 0.18)";
+                e.currentTarget.style.transform = "translateY(-1px)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (selected) {
+                e.currentTarget.style.borderColor = theme.cardBorderStrong;
+                e.currentTarget.style.background = theme.accentBg;
+                e.currentTarget.style.transform = "none";
+              }
+            }}
+          >
+            {step === totalQ ? "See my result" : "Next"}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </div>
       )}
@@ -373,57 +525,88 @@ export default function VirtualMemoryQuiz() {
       {/* -- Result -- */}
       {isResult && result && (
         <div>
-          <p style={{ fontSize: 13, color: theme.textSecondary, margin: "0 0 0.5rem" }}>
+          <p style={{ fontSize: 12, color: theme.textSecondary, margin: "0 0 0.5rem" }}>
             Your recommended algorithm
           </p>
           <div style={{
-            background: theme.cardBg,
+            background: "rgba(255, 255, 255, 0.02)",
             border: `2px solid ${theme.accent}`,
             borderRadius: 16,
-            padding: "1.25rem",
-            marginBottom: "1rem",
+            padding: "1.5rem",
+            marginBottom: "1.25rem",
+            position: "relative",
+            overflow: "hidden",
           }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-              <div style={{ width: 14, height: 14, borderRadius: "50%", background: result.color, flexShrink: 0 }} />
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 22, fontWeight: 700, color: theme.textPrimary }}>
-                  {result.name}
+            <div style={{
+              position: "absolute",
+              top: "-50%",
+              left: "-50%",
+              width: "200%",
+              height: "200%",
+              background: `radial-gradient(circle at center, ${result.color}08 0%, transparent 60%)`,
+              pointerEvents: "none",
+              zIndex: 0
+            }} />
+
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
+                <div style={{ width: 12, height: 12, borderRadius: "50%", background: result.color, flexShrink: 0, boxShadow: `0 0 8px ${result.color}` }} />
+                <div style={{ flex: 1, minWidth: 150 }}>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: theme.textPrimary, letterSpacing: "0.2px" }}>
+                    {result.name}
+                  </div>
+                  <div style={{ fontSize: 12.5, color: theme.textSecondary, fontStyle: "italic", marginTop: 2 }}>
+                    {result.tagline}
+                  </div>
                 </div>
-                <div style={{ fontSize: 13, color: theme.textSecondary, fontStyle: "italic" }}>
-                  {result.tagline}
-                </div>
+                <span style={{
+                  fontSize: 11, padding: "3px 10px",
+                  background: theme.accentBg, color: theme.accent,
+                  borderRadius: 6, whiteSpace: "nowrap", fontWeight: 700,
+                  border: "1px solid rgba(56, 189, 248, 0.15)"
+                }}>
+                  Since {result.year}
+                </span>
               </div>
-              <span style={{
-                fontSize: 12, padding: "3px 10px",
-                background: theme.accentBg, color: theme.accent,
-                borderRadius: 8, whiteSpace: "nowrap", fontWeight: 600,
-              }}>
-                Since {result.year}
-              </span>
+
+              <p style={{ margin: "0 0 1.25rem 0", fontSize: 13.5, lineHeight: 1.6, color: theme.textPrimary }}>
+                {result.desc}
+              </p>
+
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: "1.25rem" }}>
+                {result.tags.map((t) => (
+                  <span key={t} style={styles.tag}>{t}</span>
+                ))}
+              </div>
+
+              <a
+                href={result.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontSize: 13, color: theme.accent, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center" }}
+              >
+                Learn more
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 4 }}><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
             </div>
-
-            <p style={{ margin: "0 0 1rem", fontSize: 14, lineHeight: 1.65, color: theme.textPrimary }}>
-              {result.desc}
-            </p>
-
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: "1rem" }}>
-              {result.tags.map((t) => (
-                <span key={t} style={styles.tag}>{t}</span>
-              ))}
-            </div>
-
-            <a
-              href={result.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontSize: 13, color: theme.accent, fontWeight: 600 }}
-            >
-              Learn more ↗
-            </a>
           </div>
 
-          <button style={styles.nextBtn(true)} onClick={handleRestart}>
-            ↺ Retake quiz
+          <button
+            style={styles.nextBtn(true)}
+            onClick={handleRestart}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = theme.accent;
+              e.currentTarget.style.background = "rgba(56, 189, 248, 0.18)";
+              e.currentTarget.style.transform = "translateY(-1px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = theme.cardBorderStrong;
+              e.currentTarget.style.background = theme.accentBg;
+              e.currentTarget.style.transform = "none";
+            }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Retake Matcher
           </button>
         </div>
       )}

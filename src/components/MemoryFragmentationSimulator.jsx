@@ -28,7 +28,7 @@ const STEPS = [
     segments: [{ id: 'f0', label: 'Free', size: 8, type: 'free' }],
     virtual: null,
     statuses: { chrome: 'next', discord: 'waiting', valorant: 'waiting', spotify: 'waiting', editor: 'waiting' },
-    caption: 'RAM is completely empty — 8 GB of clean, contiguous memory. Click Next to start loading programs.',
+    caption: 'RAM is completely empty, with 8 GB of clean, contiguous memory. Click Next to start loading programs.',
     captionType: 'normal',
   },
   // Step 1 — Load Chrome
@@ -51,7 +51,7 @@ const STEPS = [
     ],
     virtual: null,
     statuses: { chrome: 'running', discord: 'running', valorant: 'next', spotify: 'waiting', editor: 'waiting' },
-    caption: 'Discord takes the next 1 GB. Programs are loaded one after another in contiguous blocks — this is how simple memory allocation works.',
+    caption: 'Discord takes the next 1 GB. Programs are loaded one after another in contiguous blocks, which is how simple memory allocation works.',
     captionType: 'normal',
   },
   // Step 3 — Load Valorant
@@ -64,7 +64,7 @@ const STEPS = [
     ],
     virtual: null,
     statuses: { chrome: 'running', discord: 'running', valorant: 'running', spotify: 'next', editor: 'waiting' },
-    caption: 'Valorant occupies the next 3 GB. Only 2 GB of free space remains. Notice how memory fills up quickly.',
+    caption: 'Valorant loads next, taking 3 GB of RAM. Free memory is now down to 2 GB.',
     captionType: 'normal',
   },
   // Step 4 — Load Spotify
@@ -106,21 +106,21 @@ const STEPS = [
     ],
     virtual: null,
     statuses: { chrome: 'closed', discord: 'running', valorant: 'closed', spotify: 'running', editor: 'next' },
-    caption: 'Valorant is closed — a 3 GB hole appears in the middle. Total free memory is now 6 GB, but it is scattered across three separate holes (2 + 3 + 1). Discord and Spotify physically separate the holes, preventing them from merging.',
+    caption: 'Valorant is closed, and a 3 GB hole appears in the middle. Total free memory is now 6 GB, but it is scattered across three separate holes (2 + 3 + 1). Discord and Spotify physically separate the holes, preventing them from merging.',
     captionType: 'normal',
   },
   // Step 7 — Video Editor FAILS
   {
     segments: [
-      { id: 'f7a', label: '⚠ Free', size: 2, type: 'failed' },
+      { id: 'f7a', label: 'Free (Too Small)', size: 2, type: 'failed' },
       { id: 'discord', label: 'Discord', size: 1, type: 'discord' },
-      { id: 'f7b', label: '⚠ Free', size: 3, type: 'failed' },
+      { id: 'f7b', label: 'Free (Too Small)', size: 3, type: 'failed' },
       { id: 'spotify', label: 'Spotify', size: 1, type: 'spotify' },
-      { id: 'f7c', label: '⚠ Free', size: 1, type: 'failed' },
+      { id: 'f7c', label: 'Free (Too Small)', size: 1, type: 'failed' },
     ],
     virtual: null,
     statuses: { chrome: 'closed', discord: 'running', valorant: 'closed', spotify: 'running', editor: 'failed' },
-    caption: '❌ The Video Editor needs 4 GB of contiguous memory, but the largest single free block is only 3 GB! Total free = 6 GB, but no single hole is big enough. This is the fragmentation trap — external fragmentation in action.',
+    caption: 'The Video Editor needs 4 GB of contiguous memory, but the largest single free block is only 3 GB! Total free = 6 GB, but no single hole is big enough. This is the fragmentation trap, representing external fragmentation in action.',
     captionType: 'fail',
   },
   // Step 8 — Introduce Virtual Memory concept
@@ -137,7 +137,7 @@ const STEPS = [
       { id: 'vm-free', label: 'Available', size: 4, type: 'free' },
     ],
     statuses: { chrome: 'closed', discord: 'running', valorant: 'closed', spotify: 'running', editor: 'mapped' },
-    caption: '💡 Virtual memory to the rescue! The OS creates a page table that maps scattered physical pages into one continuous virtual address space. The Video Editor thinks it has 4 GB in a row, but physically the memory is split across different holes.',
+    caption: 'Virtual memory to the rescue! The OS creates a page table that maps scattered physical pages into one continuous virtual address space. The Video Editor thinks it has 4 GB in a row, but physically the memory is split across different holes.',
     captionType: 'success',
   },
   // Step 9 — Video Editor loaded via virtual memory
@@ -150,11 +150,11 @@ const STEPS = [
       { id: 'f9', label: 'Free', size: 2, type: 'free' },
     ],
     virtual: [
-      { id: 'vm-editor2', label: 'Video Editor — 4 GB continuous', size: 4, type: 'editorVM' },
+      { id: 'vm-editor2', label: 'Video Editor (4 GB continuous)', size: 4, type: 'editorVM' },
       { id: 'vm-free2', label: 'Available', size: 4, type: 'free' },
     ],
     statuses: { chrome: 'closed', discord: 'running', valorant: 'closed', spotify: 'running', editor: 'mapped' },
-    caption: '✅ The Video Editor is successfully loaded! Physical RAM shows the program split across two non-adjacent blocks, but the virtual memory view shows one clean 4 GB space. The page table handles the mapping transparently.',
+    caption: 'The Video Editor is successfully loaded! Physical RAM shows the program split across two non-adjacent blocks, but the virtual memory view shows one clean 4 GB space. The page table handles the mapping transparently.',
     captionType: 'success',
   },
 ];
@@ -190,7 +190,7 @@ function segClass(type) {
 }
 
 // Program pill component
-function ProgramPill({ progKey, status }) {
+function ProgramPill({ progKey, status, onHover }) {
   const prog = PROGRAMS[progKey];
   if (!prog) return null;
 
@@ -222,7 +222,11 @@ function ProgramPill({ progKey, status }) {
   };
 
   return (
-    <div className={`${s.programPill} ${statusClasses[status] || ''}`}>
+    <div
+      className={`${s.programPill} ${statusClasses[status] || ''}`}
+      onMouseEnter={() => status !== 'waiting' && onHover(progKey)}
+      onMouseLeave={() => onHover(null)}
+    >
       <span className={s.pillDot} style={{ backgroundColor: prog.dot }} />
       <span>{prog.name}</span>
       <span className={s.pillSize}>{prog.size} GB</span>
@@ -236,6 +240,7 @@ function ProgramPill({ progKey, status }) {
 // Main simulator
 export default function MemoryFragmentationSimulator() {
   const [step, setStep] = useState(0);
+  const [hoveredType, setHoveredType] = useState(null);
 
   const current = STEPS[step];
   const stats = computeStats(current.segments);
@@ -243,6 +248,30 @@ export default function MemoryFragmentationSimulator() {
 
   const isFailStep = step === 7;
   const isVMStep = step >= 8;
+
+  // Determine if a segment should highlight
+  const isSegmentHighlighted = (seg, isVirtual) => {
+    if (!hoveredType) return false;
+
+    // Direct match by type (e.g. 'chrome', 'discord', etc.)
+    if (seg.type === hoveredType) return true;
+
+    // Cross-link between status card hovered key ('editor') and active memory identifier ('editorVM')
+    if (hoveredType === 'editor' && seg.type === 'editorVM') return true;
+    if (hoveredType === 'editorVM' && seg.type === 'editor') return true;
+
+    // Step 8 mapping: virtual editor maps to physical free slots f8a and f8b where pages will go
+    if (step === 8 && hoveredType === 'editorVM' && !isVirtual) {
+      return seg.id === 'f8a' || seg.id === 'f8b';
+    }
+
+    // Step 7 mapping: hover over Editor highlights the failed slots in physical RAM
+    if (step === 7 && hoveredType === 'editor' && !isVirtual) {
+      return seg.type === 'failed';
+    }
+
+    return false;
+  };
 
   return (
     <div className={s.simulator}>
@@ -261,22 +290,29 @@ export default function MemoryFragmentationSimulator() {
       {/* Physical RAM Bar */}
       <div className={s.memorySection}>
         <div className={s.memoryBarLabel}>
-          <span className={s.memoryBarLabelIcon}>💾</span>
-          Physical RAM — {TOTAL_RAM} GB
+          <span className={s.memoryBarLabelIcon} style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 6 }}><rect x="2" y="6" width="20" height="12" rx="2" ry="2" /><path d="M6 12h.01M10 12h.01M14 12h.01M18 12h.01M2 10h20M2 14h20" /></svg>
+          </span>
+          Physical RAM ({TOTAL_RAM} GB)
         </div>
         <div className={s.memoryBarContainer}>
           <div className={s.memoryBar}>
-            {current.segments.map((seg) => (
-              <div
-                key={seg.id}
-                className={`${s.segment} ${segClass(seg.type)}`}
-                style={{ flex: seg.size }}
-                title={`${seg.label} — ${seg.size} GB`}
-              >
-                <span className={s.segmentLabel}>{seg.label}</span>
-                <span className={s.segmentSize}>{seg.size} GB</span>
-              </div>
-            ))}
+            {current.segments.map((seg) => {
+              const activeHighlight = isSegmentHighlighted(seg, false);
+              return (
+                <div
+                  key={seg.id}
+                  className={`${s.segment} ${segClass(seg.type)} ${activeHighlight ? s.segmentHovered : ''}`}
+                  style={{ flex: seg.size }}
+                  title={`${seg.label} (${seg.size} GB)`}
+                  onMouseEnter={() => seg.type !== 'free' && setHoveredType(seg.type)}
+                  onMouseLeave={() => setHoveredType(null)}
+                >
+                  <span className={s.segmentLabel}>{seg.label}</span>
+                  <span className={s.segmentSize}>{seg.size} GB</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -286,25 +322,33 @@ export default function MemoryFragmentationSimulator() {
         <div className={`${s.memorySection} ${s.memoryBarVirtual}`}>
           <div className={s.mappingArrows}>↕ ↕ ↕</div>
           <div className={s.mappingHint}>
-            🔗 Page Table maps physical → virtual
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 4 }}><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
+            Page Table maps physical → virtual
           </div>
           <div className={s.memoryBarLabel}>
-            <span className={s.memoryBarLabelIcon}>🌐</span>
-            Virtual Memory View — What the Video Editor sees
+            <span className={s.memoryBarLabelIcon} style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 6 }}><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" /></svg>
+            </span>
+            Virtual Memory View: What the Video Editor sees
           </div>
           <div className={s.memoryBarContainer}>
             <div className={s.memoryBar}>
-              {current.virtual.map((seg) => (
-                <div
-                  key={seg.id}
-                  className={`${s.segment} ${segClass(seg.type)}`}
-                  style={{ flex: seg.size }}
-                  title={`${seg.label} — ${seg.size} GB`}
-                >
-                  <span className={s.segmentLabel}>{seg.label}</span>
-                  <span className={s.segmentSize}>{seg.size} GB</span>
-                </div>
-              ))}
+              {current.virtual.map((seg) => {
+                const activeHighlight = isSegmentHighlighted(seg, true);
+                return (
+                  <div
+                    key={seg.id}
+                    className={`${s.segment} ${segClass(seg.type)}  ${activeHighlight ? s.segmentHovered : ''}`}
+                    style={{ flex: seg.size }}
+                    title={`${seg.label} (${seg.size} GB)`}
+                    onMouseEnter={() => seg.type !== 'free' && setHoveredType(seg.type)}
+                    onMouseLeave={() => setHoveredType(null)}
+                  >
+                    <span className={s.segmentLabel}>{seg.label}</span>
+                    <span className={s.segmentSize}>{seg.size} GB</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -331,20 +375,30 @@ export default function MemoryFragmentationSimulator() {
 
       {/* Caption */}
       <div
-        className={`${s.captionBox} ${
-          current.captionType === 'fail'
+        className={`${s.captionBox} ${current.captionType === 'fail'
             ? s.captionFail
             : current.captionType === 'success'
-            ? s.captionSuccess
-            : ''
-        }`}
+              ? s.captionSuccess
+              : ''
+          }`}
       >
-        <div className={s.captionTitle}>
-          {current.captionType === 'fail'
-            ? '⛔ Fragmentation Trap'
-            : current.captionType === 'success'
-            ? '✨ Virtual Memory Solution'
-            : '📋 System Log'}
+        <div className={s.captionTitle} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          {current.captionType === 'fail' ? (
+            <>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><circle cx="12" cy="12" r="10" /><line x1="4.93" y1="4.93" x2="19.07" y2="19.07" /></svg>
+              <span>Fragmentation Trap</span>
+            </>
+          ) : current.captionType === 'success' ? (
+            <>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+              <span>Virtual Memory Solution</span>
+            </>
+          ) : (
+            <>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
+              <span>System Log</span>
+            </>
+          )}
         </div>
         <p className={s.captionText}>{current.caption}</p>
       </div>
@@ -354,7 +408,7 @@ export default function MemoryFragmentationSimulator() {
         <div className={s.programsLabel}>Program Status</div>
         <div className={s.programGrid}>
           {Object.entries(current.statuses).map(([key, status]) => (
-            <ProgramPill key={key} progKey={key} status={status} />
+            <ProgramPill key={key} progKey={key} status={status} onHover={setHoveredType} />
           ))}
         </div>
       </div>
@@ -387,19 +441,27 @@ export default function MemoryFragmentationSimulator() {
       {/* Micro-explanations */}
       <div className={s.microExplanations}>
         <div className={s.microTip}>
-          <span>💡</span>
+          <span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+          </span>
           <span>Total free memory = all unused RAM added together.</span>
         </div>
         <div className={s.microTip}>
-          <span>💡</span>
+          <span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+          </span>
           <span>Largest block = the biggest single empty space.</span>
         </div>
         <div className={s.microTip}>
-          <span>💡</span>
+          <span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+          </span>
           <span>Without virtual memory, a program needs one continuous block.</span>
         </div>
         <div className={s.microTip}>
-          <span>💡</span>
+          <span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+          </span>
           <span>Virtual memory lets the program see scattered memory as one clean space.</span>
         </div>
       </div>
