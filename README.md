@@ -1,9 +1,5 @@
 ### **CSARCH2 VIRTUAL EXHIBIT**
 
-### **Proposal Write Up Link:** https://docs.google.com/document/d/1ZMVh7Pd56G49Xbd0d0VN0TmAYVSYSMWPeGFJR1NeJHk/edit?tab=t.nmczb89685uj
-
-### **Style Guide Snapshot Link:** https://www.figma.com/design/9UvQtgoi524cgPsaxZOKkg/CSARCH2---Style-guide-snapshot?node-id=1-1043&t=Wy7L57AGLdzWEqIN-1
-
 **Submitted By:**
 
 * Fabregas Matthew Drew  
@@ -11,6 +7,39 @@
 * Lim Justin Lance Te  
 * Nono Alec Marx Gabriel Belen  
 * Yasumuro Mariel Mendoza
+
+### **DEPLOYED SITE: ** https://hase1202.github.io/virtual-exhibit-template/?fbclid=IwY2xjawS51_NleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAEwAAEeRWW4ZKnuZ9oDu7o43sgbREaTRyrwppVkuey8OBcZkgQL1vK6sB4W7cmFr1E_aem_7PKhIVTHdtHrlPpERcP_jA
+
+### **Development**
+
+We decided our aesthetic should be a space theme with tones of blue and purple, as these colors commonly signify technology. Although this was only a mid-milestone project, we were able to implement the foundational requirements of our site. It was quite a challenge trying to work around the provided templates and adhering to the strict guidelines, such as not modifying files inside the layouts folder or changing global.css.
+
+We followed our proposed layout by starting with the "Virtual Memory" title and an abstract, followed by key concepts to quickly introduce interesting facts. We intentionally introduce the interactive lab early on, as it is much more entertaining for users to play around with a visual simulation, which entices them to learn more about virtual RAM. The subsequent section provides detailed descriptions for users who want to dive deeper. Next, we feature another virtual simulation that demonstrates how a virtual address page lookup is traced through the TLB cache and page tables, utilizing cool loading animations to visualize the process. Lastly, we included a summary and a quiz to help the user determine which page replacement algorithm suits them best.
+
+### **Challenges**
+
+Aside from the challenges we faced integrating the exhibit format, we also struggled with learning React and Astro on the fly. We learned that React has the capability to store data (state) and is ideal for creating engaging UIs, whereas Astro does not store data in the same way, but acts more like "HTML+" with greater flexibility for building static designs.
+
+We quickly learned that organization is critical, employing a "divide and conquer" folder structure. The styles folder assists the pages folder (which contains our main MDX/HTML files). Because the layouts folder cannot be modified, and the assets folder is strictly for images, we utilized the components folder for our "sections." This is where we safely modified our React and Astro components, as it is much safer to scope the layout and styling to a single section rather than cramming everything into a global CSS file. It was quite confusing to relearn JavaScript for React and Astro, but because we were already familiar with HTML from CCAPDEV, we have a good head start. It will just take some time to fully grasp these new capabilities since we have only just started.
+
+### **Future Plans**
+
+Although we weren’t able to fully implement everything in our proposal—such as creating a separate page for a full-blown, step-by-step tutorial—we have built a great foundation. We believe that if we have more time to learn React and Astro, we can create a gamified tutorial. However, even if that isn't possible due to time constraints, we can still improve our current mid-milestone submission by adding a few more visual interactions related to virtual memory, such as its relationship to the GPU.
+
+### **AI Disclaimer**
+
+Generative AI tools (including Claude Code) were used throughout this project to accelerate work that would otherwise have taken significantly longer to complete manually, including:
+
+* Scaffolding and writing frontend code for the RedDev OS Memory Simulator, such as React state logic, CSS Modules styling, and responsive layout handling  
+* Assisting with UI/UX design decisions, including layout structure, visual styling, and component composition  
+* Drafting and refining written content, such as exhibit copy and this README
+
+All AI-assisted output was reviewed, tested, and edited by the team before inclusion in the final exhibit. The team remains responsible for the accuracy, functionality, and quality of the submitted work.
+
+### **Proposal Write Up Link:** https://docs.google.com/document/d/1ZMVh7Pd56G49Xbd0d0VN0TmAYVSYSMWPeGFJR1NeJHk/edit?tab=t.nmczb89685uj
+
+### **Style Guide Snapshot Link:** https://www.figma.com/design/9UvQtgoi524cgPsaxZOKkg/CSARCH2---Style-guide-snapshot?node-id=1-1043&t=Wy7L57AGLdzWEqIN-1
+
 
 ### **Background of the Proposed Virtual Exhibit**
 
@@ -53,12 +82,4 @@ The component is built entirely in React. State management is handled via useSta
 * Navigation buttons are full-touch-target height (minimum 44px) on small screens  
 * Caption text reflows naturally — no horizontal scrolling at any viewport
 
-### **AI Disclaimer**
 
-Generative AI tools (including Claude Code) were used throughout this project to accelerate work that would otherwise have taken significantly longer to complete manually, including:
-
-* Scaffolding and writing frontend code for the RedDev OS Memory Simulator, such as React state logic, CSS Modules styling, and responsive layout handling  
-* Assisting with UI/UX design decisions, including layout structure, visual styling, and component composition  
-* Drafting and refining written content, such as exhibit copy and this README
-
-All AI-assisted output was reviewed, tested, and edited by the team before inclusion in the final exhibit. The team remains responsible for the accuracy, functionality, and quality of the submitted work.
