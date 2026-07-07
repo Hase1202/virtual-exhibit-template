@@ -52,3 +52,13 @@ The component is built entirely in React. State management is handled via useSta
 * Program queue cards use `auto-fit` grid columns, collapsing to 2 columns on mobile  
 * Navigation buttons are full-touch-target height (minimum 44px) on small screens  
 * Caption text reflows naturally — no horizontal scrolling at any viewport
+
+### **AI Disclaimer**
+
+Generative AI tools (including Claude Code) were used throughout this project to accelerate work that would otherwise have taken significantly longer to complete manually, including:
+
+* Scaffolding and writing frontend code for the RedDev OS Memory Simulator, such as React state logic, CSS Modules styling, and responsive layout handling  
+* Assisting with UI/UX design decisions, including layout structure, visual styling, and component composition  
+* Drafting and refining written content, such as exhibit copy and this README
+
+All AI-assisted output was reviewed, tested, and edited by the team before inclusion in the final exhibit. The team remains responsible for the accuracy, functionality, and quality of the submitted work.
