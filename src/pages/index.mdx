@@ -1,5 +1,5 @@
 ---
-layout: '../layouts/MemoryLabLayout.astro'
+layout: '../layouts/ExhibitLayout.astro'
 title: "Virtual Memory: How It Works"
 author: "Computer Architecture Lab"
 readingTime: "10 min read"
@@ -12,6 +12,29 @@ import VirtualMemoryQuiz from '../components/VirtualMemoryQuiz.jsx';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
 import '../styles/exhibit-theme.css';
+
+{/* Decorative background elements. Fixed positioning means these still
+    cover the full viewport even though they're nested inside
+    ExhibitLayout's article wrapper. */}
+<div class="ml-comet" aria-hidden="true"></div>
+<div class="ml-gem-shape ml-gem-shape--1" aria-hidden="true"></div>
+<div class="ml-gem-shape ml-gem-shape--2" aria-hidden="true"></div>
+<div class="ml-gem-shape ml-gem-shape--3" aria-hidden="true"></div>
+<div class="ml-gem-shape ml-gem-shape--4" aria-hidden="true"></div>
+
+{/* Slim quick-nav for jumping between sections. ExhibitLayout's own
+    header already handles the home link, title, and author, so this
+    only adds section anchors instead of a duplicate brand/header. */}
+<nav class="ml-nav ml-nav--quick" aria-label="Section navigation">
+  <ul class="ml-nav__links">
+    <li><a href="#concepts" class="ml-nav__link">Concepts</a></li>
+    <li><a href="#simulator" class="ml-nav__link">Simulator</a></li>
+    <li><a href="#deep-dive" class="ml-nav__link">Deep Dive</a></li>
+    <li><a href="#takeaways" class="ml-nav__link">Takeaways</a></li>
+    <li><a href="#quiz" class="ml-nav__link">Quiz</a></li>
+    <li><a href="#references" class="ml-nav__link">References</a></li>
+  </ul>
+</nav>
 
 {/* 1. HERO SECTION */}
 <section class="ml-hero" id="top">
