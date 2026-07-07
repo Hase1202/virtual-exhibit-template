@@ -783,11 +783,7 @@ body:has(.ml-hero) .header__subtitle {
   font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
 }
 
-<<<<<<< HEAD
-body:has(.ml-comet) .header .button {
-=======
 body:has(.ml-hero) .header .button {
->>>>>>> 0a772d43e8e7f57b49951f4248ff550fb6c49dac
   background: var(--ml-bg-glass) !important;
   border: 1px solid var(--ml-border) !important;
   color: var(--ml-text-muted) !important;
@@ -802,11 +798,8 @@ body:has(.ml-hero) .header .button {
   box-shadow: none !important;
 }
 
-<<<<<<< HEAD
-body:has(.ml-comet) .header .button:hover {
-=======
+
 body:has(.ml-hero) .header .button:hover {
->>>>>>> 0a772d43e8e7f57b49951f4248ff550fb6c49dac
   color: var(--ml-accent) !important;
   border-color: var(--ml-accent) !important;
   background: var(--ml-accent-dim) !important;
