@@ -64,10 +64,10 @@ const { icon, title, description, accent = "var(--ml-accent)" } = Astro.props;
 <style>
   .concept-card {
     position: relative;
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(13, 17, 32, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     padding: 2rem 1.5rem 1.75rem;
     text-align: center;
@@ -76,12 +76,29 @@ const { icon, title, description, accent = "var(--ml-accent)" } = Astro.props;
     cursor: default;
   }
 
+  .concept-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--card-accent);
+    opacity: 0.7;
+    transition: opacity 0.35s ease, height 0.35s ease;
+  }
+
   .concept-card:hover {
     border-color: var(--card-accent);
     transform: translateY(-6px);
     box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.4),
-      0 0 40px rgba(56, 189, 248, 0.1);
+      0 12px 35px rgba(0, 0, 0, 0.5),
+      0 0 30px var(--card-accent);
+  }
+
+  .concept-card:hover::before {
+    opacity: 1;
+    height: 4px;
   }
 
   .concept-card__glow {
@@ -89,18 +106,18 @@ const { icon, title, description, accent = "var(--ml-accent)" } = Astro.props;
     bottom: -40px;
     left: 50%;
     transform: translateX(-50%);
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     background: var(--card-accent);
     opacity: 0;
-    filter: blur(50px);
+    filter: blur(45px);
     transition: opacity 0.4s ease;
     pointer-events: none;
   }
 
   .concept-card:hover .concept-card__glow {
-    opacity: 0.15;
+    opacity: 0.25;
   }
 
   .concept-card__icon-ring {
@@ -110,19 +127,19 @@ const { icon, title, description, accent = "var(--ml-accent)" } = Astro.props;
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     color: var(--card-accent);
     margin-bottom: 1.15rem;
     transition: all 0.35s ease;
   }
 
   .concept-card:hover .concept-card__icon-ring {
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(5deg);
     background: var(--card-accent);
     border-color: var(--card-accent);
-    color: #0a0620;
-    box-shadow: 0 0 15px var(--card-accent);
+    color: #070913;
+    box-shadow: 0 0 20px var(--card-accent);
   }
 
   .concept-card__icon {
@@ -134,14 +151,14 @@ const { icon, title, description, accent = "var(--ml-accent)" } = Astro.props;
   .concept-card__title {
     font-size: 1.05rem;
     font-weight: 700;
-    color: #f1f5f9;
+    color: #faf8ff;
     margin: 0 0 0.6rem;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.3px;
   }
 
   .concept-card__desc {
     font-size: 0.85rem;
-    color: #94a3b8;
+    color: #b0a6d9;
     line-height: 1.6;
     margin: 0;
   }

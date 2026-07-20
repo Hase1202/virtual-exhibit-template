@@ -13,18 +13,20 @@ import SwapVisualizer from '../components/SwapVisualizer.jsx';
 import SharedLibraryVisualizer from '../components/SharedLibraryVisualizer.jsx';
 import VirtualMemoryQuiz from '../components/VirtualMemoryQuiz.jsx';
 import TlbSimulator from '../components/TlbSimulator.jsx';
+import VirtualMemoryGraphic from '../components/VirtualMemoryGraphic.jsx';
+import Memory3dVisualizer from '../components/Memory3dVisualizer.jsx';
+import HeroParticles from '../components/HeroParticles.jsx';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
 import '../styles/exhibit-theme.css';
 
-{/* Decorative background elements */}
-<div class="ml-gem-shape ml-gem-shape--1" aria-hidden="true"></div>
-<div class="ml-gem-shape ml-gem-shape--2" aria-hidden="true"></div>
-<div class="ml-gem-shape ml-gem-shape--3" aria-hidden="true"></div>
-<div class="ml-gem-shape ml-gem-shape--4" aria-hidden="true"></div>
+{/* Top Scroll Progress Line Bar */}
+<div class="ml-scroll-progress" id="scrollProgress"></div>
 
 <nav class="ml-nav ml-nav--quick animate-fade-in in-view" aria-label="Section navigation">
   <ul class="ml-nav__links">
+    <li><a href="#pipeline" class="ml-nav__link">Live Signal</a></li>
+    <li><a href="#architecture" class="ml-nav__link">3D Memory Matrix</a></li>
     <li><a href="#concepts" class="ml-nav__link">Concepts</a></li>
     <li><a href="#simulator" class="ml-nav__link">OS Game</a></li>
     <li><a href="#deep-dive" class="ml-nav__link">Deep Dive</a></li>
@@ -34,18 +36,55 @@ import '../styles/exhibit-theme.css';
 </nav>
 
 {/* 1. HERO SECTION */}
-<section class="ml-hero animate-fade-up in-view" id="top">
-  <div class="ml-hero__badge">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; display: inline-block; vertical-align: -2px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-    CSARCH2 Virtual Exhibit
+<section class="ml-hero animate-fade-up in-view" id="top" style="position: relative; overflow: hidden; border-radius: 24px; padding: 4rem 1.5rem;">
+  <HeroParticles client:load />
+  <div style="position: relative; z-index: 1;">
+    <div class="ml-hero__badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; display: inline-block; vertical-align: -2px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      CSARCH2 Virtual Exhibit
+    </div>
+    <h1 class="ml-hero__title">Virtual Memory:<br/>The Ultimate Illusion</h1>
+    <p class="ml-hero__subtitle">
+      How your computer fakes having infinite, perfectly organized memory, even when physical RAM is a complete mess.
+    </p>
+    <div class="ml-hero__intro">
+      Have you ever wondered how your computer runs massive games and dozens of browser tabs at the same time without crashing? The secret is <strong>Virtual Memory</strong>. It tricks programs into thinking they have their own private, continuous memory space, while secretly scattering their data into tiny available holes across the physical hardware.
+    </div>
   </div>
-  <h1 class="ml-hero__title">Virtual Memory:<br/>The Ultimate Illusion</h1>
-  <p class="ml-hero__subtitle">
-    How your computer fakes having infinite, perfectly organized memory—even when physical RAM is a complete mess.
-  </p>
-  <div class="ml-hero__intro">
-    Have you ever wondered how your computer runs massive games and dozens of browser tabs at the same time without crashing? The secret is <strong>Virtual Memory</strong>. It tricks programs into thinking they have their own private, continuous memory space, while secretly scattering their data into tiny available holes across the physical hardware.
+</section>
+
+{/* 1.5 INTERACTIVE TRANSLATION GRAPHIC PIPELINE */}
+<section class="ml-section ml-section--wide animate-fade-up" id="pipeline">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Real-Time Translation</span>
+    <h2 class="ml-section-title">Address Signal Pipeline</h2>
+    <p class="ml-section-subtitle">
+      Watch how the CPU Memory Management Unit (MMU) converts virtual addresses into physical RAM frames in nanoseconds.
+    </p>
   </div>
+  <VirtualMemoryGraphic client:load />
+</section>
+
+{/* 1.8 3D HARDWARE ISOMETRIC MATRIX VISUALIZER */}
+<section class="ml-section ml-section--wide animate-fade-up" id="architecture">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Interactive 3D Visualizer</span>
+    <h2 class="ml-section-title">Why 3D Page Frame Allocation?</h2>
+    <p class="ml-section-subtitle">
+      Virtual memory's primary breakthrough is solving <strong>external fragmentation</strong>. Instead of requiring contiguous memory, physical RAM is divided into uniform 4 KB page frames scattered across memory space.
+    </p>
+  </div>
+
+  {/* Context Box Connecting to Project README */}
+  <div style="background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; color: #b0a6d9; font-size: 0.9rem; line-height: 1.6;">
+    <strong style="color: #38bdf8; font-size: 0.95rem; display: block; margin-bottom: 0.4rem;">
+      Computer Architecture Note:
+    </strong>
+    In physical memory systems, processes require big contiguous blocks of RAM. When programs open and close haphazardly, they leave behind isolated "holes" (external fragmentation). 
+    <strong>Virtual Memory</strong> solves this by breaking virtual address space into 4 KB Pages that map to non-contiguous 4 KB Frames anywhere in physical RAM. The 3D matrix below renders this 64-frame physical RAM cube live in code to show how code pages, heap frames, shared libraries, and swapped disk sectors co-exist in non-contiguous hardware blocks.
+  </div>
+
+  <Memory3dVisualizer client:load />
 </section>
 
 <hr class="ml-divider" />

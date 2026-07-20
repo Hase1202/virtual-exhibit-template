@@ -49,15 +49,26 @@
   --ml-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ── Scroll Progress Line Bar ───────────────────────────────── */
+.ml-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #38bdf8, #818cf8, #a78bfa);
+  z-index: 999;
+  width: 0%;
+  transition: width 0.1s ease-out;
+  box-shadow: 0 0 10px #38bdf8;
+}
+
 /* ── Base Reset (scoped to .ml-page) ────────────────────────── */
 .ml-page {
-
   background:
-    radial-gradient(ellipse 900px 500px at 10% -5%, rgba(255, 143, 199, 0.20), transparent 60%),
-    radial-gradient(ellipse 800px 600px at 95% 20%, rgba(95, 232, 209, 0.14), transparent 60%),
-    radial-gradient(ellipse 700px 550px at 15% 95%, rgba(183, 116, 255, 0.20), transparent 60%),
-    radial-gradient(ellipse 600px 500px at 85% 90%, rgba(255, 185, 151, 0.12), transparent 60%),
-    linear-gradient(170deg, #0a0620 0%, #150f33 45%, #0c0824 100%);
+    radial-gradient(ellipse 1000px 600px at 15% -10%, rgba(56, 189, 248, 0.12), transparent 70%),
+    radial-gradient(ellipse 900px 600px at 85% 25%, rgba(167, 139, 250, 0.10), transparent 70%),
+    radial-gradient(ellipse 800px 500px at 20% 90%, rgba(99, 102, 241, 0.12), transparent 70%),
+    linear-gradient(180deg, #070913 0%, #0d1120 40%, #080a15 100%);
   color: var(--ml-text);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.7;
@@ -72,59 +83,70 @@
   box-sizing: border-box;
 }
 
- 
-/* ── Starfield background (two star layers, twinkling) ──────── */
+/* ── Cybernetic Circuit Grid Background (Clean & Futuristic, No Flying Comets) ── */
 .ml-page::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(1.5px 1.5px at 60% 15%, rgba(255, 143, 199, 0.85), transparent),
-    radial-gradient(1.5px 1.5px at 85% 55%, rgba(95, 232, 209, 0.85), transparent),
-    radial-gradient(1px 1px at 35% 70%, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(1.5px 1.5px at 70% 85%, rgba(183, 116, 255, 0.85), transparent),
-    radial-gradient(1px 1px at 10% 90%, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(1px 1px at 95% 10%, rgba(253, 230, 138, 0.8), transparent);
-  background-size: 400px 400px;
-  background-repeat: repeat;
+    linear-gradient(rgba(56, 189, 248, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center center;
   pointer-events: none;
   z-index: 0;
-  animation: ml-twinkle 4s ease-in-out infinite alternate, ml-star-drift 240s linear infinite;
+  mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 95%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 95%);
 }
- 
-/* A second, sparser+larger star layer drifting at a different speed for parallax */
+
+/* Stationary Breathing Glow Overlay for Depth */
 .ml-page::after {
   content: '';
   position: fixed;
   inset: 0;
-  background-image:
-    radial-gradient(2px 2px at 25% 45%, rgba(196, 164, 255, 0.9), transparent),
-    radial-gradient(2px 2px at 75% 20%, rgba(244, 114, 182, 0.85), transparent),
-    radial-gradient(2px 2px at 50% 80%, rgba(95, 232, 209, 0.85), transparent),
-    radial-gradient(2px 2px at 15% 65%, rgba(253, 230, 138, 0.75), transparent),
-    radial-gradient(1.5px 1.5px at 90% 65%, rgba(255, 255, 255, 0.8), transparent);
-  background-size: 600px 600px;
-  background-repeat: repeat;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.05), transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(167, 139, 250, 0.04), transparent 50%);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.8;
-  animation: ml-star-drift-reverse 300s linear infinite;
+  animation: ml-ambient-pulse 8s ease-in-out infinite alternate;
 }
- 
-@keyframes ml-twinkle {
+
+@keyframes ml-ambient-pulse {
   0%   { opacity: 0.6; }
   100% { opacity: 1; }
 }
- 
-@keyframes ml-star-drift {
-  0%   { background-position: 0 0; }
-  100% { background-position: 400px 400px; }
+
+/* ── Border Pulse Keyframe (shared by interactive panels) ─── */
+@keyframes ml-border-pulse {
+  0%, 100% { border-color: rgba(56, 189, 248, 0.25); }
+  50%      { border-color: rgba(56, 189, 248, 0.45); }
 }
- 
-@keyframes ml-star-drift-reverse {
-  0%   { background-position: 0 0; }
-  100% { background-position: -600px 300px; }
+
+.ml-interactive-panel {
+  background: rgba(13, 17, 32, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 20px;
+  padding: 1.75rem;
+  color: #ece8ff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 35px rgba(56, 189, 248, 0.08);
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+  animation: ml-border-pulse 4s ease-in-out infinite;
+}
+
+.ml-interactive-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+  opacity: 0.6;
 }
 
 /* ── Scroll Animations ─────────────────────────────────────── */
@@ -146,30 +168,33 @@
   opacity: 1;
 }
 
+.animate-slide-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.animate-slide-left.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.animate-slide-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.animate-slide-right.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .animate-delay-1 { transition-delay: 0.1s; }
 .animate-delay-2 { transition-delay: 0.2s; }
 .animate-delay-3 { transition-delay: 0.3s; }
 
+/* Hidden diamond shapes to prevent clutter */
 .ml-gem-shape {
-  position: fixed;
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
-  transform: rotate(45deg);
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.5;
-  filter: blur(0.5px) drop-shadow(0 0 10px currentColor);
-  animation: ml-gem-bob 8s ease-in-out infinite;
-}
-.ml-gem-shape--1 { top: 18%; left: 6%;  background: var(--ml-gem-rose);     color: var(--ml-gem-rose);     animation-delay: 0s; }
-.ml-gem-shape--2 { top: 65%; left: 88%; background: var(--ml-gem-aqua);     color: var(--ml-gem-aqua);     animation-delay: 1.5s; }
-.ml-gem-shape--3 { top: 80%; left: 12%; background: var(--ml-gem-amethyst);color: var(--ml-gem-amethyst);animation-delay: 3s; }
-.ml-gem-shape--4 { top: 8%;  left: 80%; background: var(--ml-gem-lemon);   color: var(--ml-gem-lemon);   animation-delay: 4.5s; }
- 
-@keyframes ml-gem-bob {
-  0%, 100% { transform: rotate(45deg) translateY(0); }
-  50%      { transform: rotate(45deg) translateY(-16px); }
+  display: none;
 }
  
 
@@ -260,7 +285,9 @@
 }
 
 .ml-section-label {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 2.5px;
@@ -270,6 +297,22 @@
   padding: 0.3rem 1rem;
   border-radius: 100px;
   margin-bottom: 1rem;
+}
+
+.ml-section-label::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ml-accent);
+  box-shadow: 0 0 8px var(--ml-accent);
+  animation: ml-hud-blink 2s ease-in-out infinite;
+}
+
+@keyframes ml-hud-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
 }
 
 .ml-section-title {
@@ -454,7 +497,7 @@
   font-style: normal;
 }
 
-/* ── Divider ────────────────────────────────────────────────── */
+/* ── Divider (Glowing Pulse) ────────────────────────────────── */
 .ml-divider {
   border: none;
   height: 1px;
@@ -465,6 +508,30 @@
     transparent 100%
   );
   margin: 0;
+  position: relative;
+  overflow: visible;
+}
+
+.ml-divider::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(56, 189, 248, 0.35) 50%,
+    transparent 100%
+  );
+  filter: blur(4px);
+  animation: ml-divider-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes ml-divider-glow {
+  0%   { opacity: 0.3; }
+  100% { opacity: 0.8; }
 }
 
 /* ── References ─────────────────────────────────────────────── */
