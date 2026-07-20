@@ -1,5 +1,5 @@
 ---
-layout: '../layouts/ExhibitLayout.astro'
+layout: '../layouts/S04_Group2_ExhibitLayout.astro'
 title: "Virtual Memory: How It Works"
 author: "Matthew Drew Fabregas, Hannah Lee, Justin Lance Te Lim, Alec Marx Gabriel Belen Nono, Mariel Mendoza Yasumuro"
 readingTime: "10 min read"
@@ -7,88 +7,82 @@ readingTime: "10 min read"
 
 import ConceptCard from '../components/ConceptCard.astro';
 import TakeawayCard from '../components/TakeawayCard.astro';
-import MemoryFragmentationSimulator from '../components/MemoryFragmentationSimulator.jsx';
+import RetroOsSimulator from '../components/RetroOsSimulator.jsx';
+import SecurityVisualizer from '../components/SecurityVisualizer.jsx';
+import SwapVisualizer from '../components/SwapVisualizer.jsx';
+import SharedLibraryVisualizer from '../components/SharedLibraryVisualizer.jsx';
 import VirtualMemoryQuiz from '../components/VirtualMemoryQuiz.jsx';
 import TlbSimulator from '../components/TlbSimulator.jsx';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
 import '../styles/exhibit-theme.css';
 
-{/* Decorative background elements. Fixed positioning means these still
-    cover the full viewport even though they're nested inside
-    ExhibitLayout's article wrapper. */}
-<div class="ml-comet" aria-hidden="true"></div>
+{/* Decorative background elements */}
 <div class="ml-gem-shape ml-gem-shape--1" aria-hidden="true"></div>
 <div class="ml-gem-shape ml-gem-shape--2" aria-hidden="true"></div>
 <div class="ml-gem-shape ml-gem-shape--3" aria-hidden="true"></div>
 <div class="ml-gem-shape ml-gem-shape--4" aria-hidden="true"></div>
 
-{/* Slim quick-nav for jumping between sections. ExhibitLayout's own
-    header already handles the home link, title, and author, so this
-    only adds section anchors instead of a duplicate brand/header. */}
-<nav class="ml-nav ml-nav--quick" aria-label="Section navigation">
+<nav class="ml-nav ml-nav--quick animate-fade-in in-view" aria-label="Section navigation">
   <ul class="ml-nav__links">
     <li><a href="#concepts" class="ml-nav__link">Concepts</a></li>
-    <li><a href="#simulator" class="ml-nav__link">Simulator</a></li>
+    <li><a href="#simulator" class="ml-nav__link">OS Game</a></li>
     <li><a href="#deep-dive" class="ml-nav__link">Deep Dive</a></li>
-    <li><a href="#takeaways" class="ml-nav__link">Takeaways</a></li>
+    <li><a href="#takeaways" class="ml-nav__link">Summary</a></li>
     <li><a href="#quiz" class="ml-nav__link">Quiz</a></li>
-    <li><a href="#references" class="ml-nav__link">References</a></li>
   </ul>
 </nav>
 
 {/* 1. HERO SECTION */}
-<section class="ml-hero" id="top">
+<section class="ml-hero animate-fade-up in-view" id="top">
   <div class="ml-hero__badge">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; display: inline-block; vertical-align: -2px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
     CSARCH2 Virtual Exhibit
   </div>
-  <h1 class="ml-hero__title">Virtual Memory:<br/>How It Works</h1>
+  <h1 class="ml-hero__title">Virtual Memory:<br/>The Ultimate Illusion</h1>
   <p class="ml-hero__subtitle">
-    Why your computer can keep running even when physical memory is limited, scattered, or fragmented.
+    How your computer fakes having infinite, perfectly organized memory—even when physical RAM is a complete mess.
   </p>
   <div class="ml-hero__intro">
-    This exhibit begins with a common problem: <strong>external fragmentation</strong> when programs open and close, they leave behind scattered holes in RAM.
-    Even if the total free memory is enough, a large program can fail to load because no single hole is big enough.
-    Step through the interactive simulator to see the problem happen, then discover how <strong>virtual memory</strong> solves it by mapping scattered physical pages into one continuous virtual address space.
+    Have you ever wondered how your computer runs massive games and dozens of browser tabs at the same time without crashing? The secret is <strong>Virtual Memory</strong>. It tricks programs into thinking they have their own private, continuous memory space, while secretly scattering their data into tiny available holes across the physical hardware.
   </div>
 </section>
 
 <hr class="ml-divider" />
 
 {/* 2. CONCEPT CARDS */}
-<section class="ml-section" id="concepts">
+<section class="ml-section animate-fade-up" id="concepts">
   <div class="ml-section-header">
     <span class="ml-section-label">Key Concepts</span>
-    <h2 class="ml-section-title">Before You Explore</h2>
+    <h2 class="ml-section-title">The Four Pillars</h2>
     <p class="ml-section-subtitle">
-      Understand these four building blocks before interacting with the simulator.
+      Before we play the game, here is the cheat sheet of what you need to know.
     </p>
   </div>
 
   <div class="ml-grid-4">
     <ConceptCard
       icon="fragmentation"
-      title="Memory Fragmentation"
-      description="When programs open and close, they leave behind scattered free holes in RAM. Even if total free memory is enough, the gaps may be too small individually."
+      title="Fragmentation"
+      description="RAM gets messy. When programs open and close, they leave scattered empty 'holes'. If a new program needs a big continuous space, it can't fit."
       accent="#f87171"
     />
     <ConceptCard
       icon="paging"
       title="Paging"
-      description="The OS divides memory into fixed-size blocks called pages (virtual) and frames (physical). This avoids needing one large contiguous block."
+      description="The solution! Instead of keeping programs in one big block, the OS chops them up into tiny chunks called Pages."
       accent="#38bdf8"
     />
     <ConceptCard
       icon="page-table"
       title="Page Table"
-      description="A lookup table maintained by the OS that maps each virtual page to a physical frame. It lets the CPU translate virtual addresses to real ones."
+      description="The directory. It remembers where every tiny chopped-up Page was placed in physical RAM."
       accent="#a78bfa"
     />
     <ConceptCard
       icon="virtual-memory"
       title="Virtual Memory"
-      description="An abstraction that gives every program the illusion of a large, continuous memory space, even if the actual physical RAM is scattered underneath."
+      description="The magic trick. Programs think they are whole, but they are actually scattered everywhere. The OS handles the translation instantly."
       accent="#22d3ee"
     />
   </div>
@@ -97,22 +91,67 @@ import '../styles/exhibit-theme.css';
 <hr class="ml-divider" />
 
 {/* 3. INTERACTIVE SIMULATOR */}
-<section class="ml-section ml-section--wide" id="simulator">
+<section class="ml-section ml-section--wide animate-fade-up" id="simulator">
   <div class="ml-section-header">
-    <span class="ml-section-label">Interactive Lab</span>
-    <h2 class="ml-section-title">Memory Fragmentation Simulator</h2>
+    <span class="ml-section-label">Mini Game</span>
+    <h2 class="ml-section-title">Retro OS Simulator</h2>
     <p class="ml-section-subtitle">
-      Click <strong>Next</strong> to watch programs load and close. See fragmentation happen live, then discover the virtual memory solution.
+      Try opening apps on the old "Windows 95" style OS using Direct Memory Access. Try not to crash your PC! Then, switch to the Modern OS to see how Virtual Memory fixes everything.
     </p>
   </div>
 
-  <MemoryFragmentationSimulator client:load />
+  <RetroOsSimulator client:load />
 </section>
 
 <hr class="ml-divider" />
 
 {/* 4. EXPLANATION / DEEP DIVE */}
-<section class="ml-section ml-section--narrow" id="deep-dive">
+<section class="ml-section animate-fade-up" id="deep-dive">
+  <div class="ml-section-header">
+    <span class="ml-section-label">More Problems</span>
+    <h2 class="ml-section-title">Why Direct Access Failed</h2>
+    <p class="ml-section-subtitle">
+      Early operating systems let programs directly access physical RAM. This caused three massive problems.
+    </p>
+  </div>
+
+  <div class="ml-prose">
+    <h3>Problem 1: The Wild West (Security)</h3>
+    <p>
+      In early operating systems, there was no memory protection. Some programs could accidentally (or maliciously) write data into another program's memory space. This would instantly cause your computer to crash with a Blue Screen of Death. 
+    </p>
+    <p>
+      <strong>The Fix:</strong> Virtual Memory gives each program its own isolated "Virtual Space." It literally has no way to access another program's physical memory because the OS handles the mapping.
+    </p>
+    <SecurityVisualizer client:load />
+    
+    <br/>
+    <h3>Problem 2: Insufficient Memory (Demand Paging & Swap)</h3>
+    <p>
+      Modern computers need a lot of memory. If you only have 8GB of RAM but try to open 10GB worth of programs, an old OS would simply throw an "Out of Memory" error.
+    </p>
+    <p>
+      <strong>The Fix:</strong> The OS uses a <strong>Swap File</strong> on your Hard Disk. When RAM is completely full, the OS takes idle programs and "swaps" them to the disk. When you need them again, it swaps them back into RAM. This is called <em>Demand Paging</em>. It makes your memory feel infinite (though it costs some speed).
+    </p>
+    <SwapVisualizer client:load />
+
+    <br/>
+    <h3>Problem 3: Wasted Memory (Shared Pages)</h3>
+    <p>
+      Imagine you have 4 programs running, and they all need to use the Standard C Library (libc) to do basic math. In an old OS, that library gets loaded into RAM 4 separate times, wasting huge amounts of space.
+    </p>
+    <p>
+      <strong>The Fix:</strong> Because the OS translates Virtual addresses to Physical ones, it can point the virtual memory of all 4 programs to the <em>exact same physical copy</em> of the library in RAM. We call this <strong>Shared Pages</strong>.
+    </p>
+    <SharedLibraryVisualizer client:load />
+
+  </div>
+</section>
+
+<hr class="ml-divider" />
+
+{/* 5. DEEP DIVE: HOW IT WORKS */}
+<section class="ml-section animate-fade-up" id="how-it-works">
   <div class="ml-section-header">
     <span class="ml-section-label">Deep Dive</span>
     <h2 class="ml-section-title">How It All Works</h2>
@@ -122,6 +161,7 @@ import '../styles/exhibit-theme.css';
   </div>
 
   <div class="ml-prose">
+    
     <h3>What Is External Fragmentation?</h3>
     <p>
       When programs start and stop at different times, they leave behind <strong>gaps</strong> (free holes) in physical memory.
@@ -182,38 +222,36 @@ import '../styles/exhibit-theme.css';
       you only grab a book when you need it. If the book is not on your desk (page fault), you walk to the shelf (disk),
       grab it, and bring it back. If your desk is full, you return one book to make room.
     </div>
+
   </div>
 </section>
 
 <hr class="ml-divider" />
 
 {/* 5. TAKEAWAYS */}
-<section class="ml-section" id="takeaways">
+<section class="ml-section animate-fade-up" id="takeaways">
   <div class="ml-section-header">
     <span class="ml-section-label">Summary</span>
-    <h2 class="ml-section-title">What You Should Remember</h2>
-    <p class="ml-section-subtitle">
-      Three key ideas from this exhibit.
-    </p>
+    <h2 class="ml-section-title">The 3 Big Takeaways</h2>
   </div>
 
   <div class="ml-grid-3">
     <TakeawayCard
       number={1}
-      headline="Programs See Memory as Continuous"
-      description="Every program believes it has a clean, unbroken block of memory. This illusion is created by virtual memory and the page table."
+      headline="Security & Isolation"
+      description="Every program gets a private playground. It can't break other apps or crash the whole OS."
       accent="#38bdf8"
     />
     <TakeawayCard
       number={2}
-      headline="Physical RAM Can Be Scattered"
-      description="As programs start and stop, physical memory becomes fragmented with holes. This is external fragmentation, a natural consequence of dynamic allocation."
+      headline="Infinite Memory Illusion"
+      description="By swapping idle pages to the hard disk, the computer fakes having unlimited RAM."
       accent="#a78bfa"
     />
     <TakeawayCard
       number={3}
-      headline="The OS Maps Virtual Pages to Physical Frames"
-      description="The operating system uses a page table to connect virtual pages to physical frames. Scattered physical memory is stitched together into a continuous virtual view."
+      headline="Efficient Sharing"
+      description="Multiple apps can seamlessly share the same physical files (like libraries) without knowing it."
       accent="#22d3ee"
     />
   </div>
@@ -221,15 +259,13 @@ import '../styles/exhibit-theme.css';
 
 <hr class="ml-divider" />
 
-<hr class="ml-divider" />
-
-{/* 5.5 QUIZ SECTION */}
-<section class="ml-section ml-section--narrow" id="quiz">
+{/* 6. QUIZ SECTION */}
+<section class="ml-section ml-section--narrow animate-fade-up" id="quiz">
   <div class="ml-section-header">
-    <span class="ml-section-label">Try It Yourself</span>
-    <h2 class="ml-section-title">Which Replacement Algorithm Fits You?</h2>
+    <span class="ml-section-label">Just for Fun</span>
+    <h2 class="ml-section-title">Which Replacement Algorithm Are You?</h2>
     <p class="ml-section-subtitle">
-      A short quiz to connect what you just learned to real page-replacement strategies.
+      When RAM gets completely full, the OS has to kick someone out (eviction). Take this personality test to see how you would handle it!
     </p>
   </div>
 
@@ -238,8 +274,8 @@ import '../styles/exhibit-theme.css';
 
 <hr class="ml-divider" />
 
-{/* 6. REFERENCES */}
-<section class="ml-section ml-section--narrow" id="references">
+{/* 7. REFERENCES */}
+<section class="ml-section ml-section--narrow animate-fade-up" id="references">
   <div class="ml-section-header">
     <span class="ml-section-label">Sources</span>
     <h2 class="ml-section-title">References</h2>
@@ -247,15 +283,9 @@ import '../styles/exhibit-theme.css';
 
   <div class="references-card">
     <ul class="ml-references">
-      <li>
-        Patterson, D. A., &amp; Hennessy, J. L. (2020). <em>Computer Organization and Design MIPS Edition: The Hardware/Software Interface</em> (6th ed.). Morgan Kaufmann.
-      </li>
-      <li>
-        Silberschatz, A., Galvin, P. B., &amp; Gagne, G. (2018). <em>Operating System Concepts</em> (10th ed.). Wiley.
-      </li>
-      <li>
-        Tanenbaum, A. S., &amp; Bos, H. (2014). <em>Modern Operating Systems</em> (4th ed.). Pearson.
-      </li>
+      <li>Patterson, D. A., &amp; Hennessy, J. L. (2020). <em>Computer Organization and Design MIPS Edition</em>.</li>
+      <li>Silberschatz, A., Galvin, P. B., &amp; Gagne, G. (2018). <em>Operating System Concepts</em>.</li>
+      <li>Tanenbaum, A. S., &amp; Bos, H. (2014). <em>Modern Operating Systems</em>.</li>
     </ul>
   </div>
 </section>
