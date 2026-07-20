@@ -12,6 +12,7 @@ import SecurityVisualizer from '../components/SecurityVisualizer.jsx';
 import SwapVisualizer from '../components/SwapVisualizer.jsx';
 import SharedLibraryVisualizer from '../components/SharedLibraryVisualizer.jsx';
 import VirtualMemoryQuiz from '../components/VirtualMemoryQuiz.jsx';
+import TlbSimulator from '../components/TlbSimulator.jsx';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
 import '../styles/exhibit-theme.css';
@@ -107,7 +108,7 @@ import '../styles/exhibit-theme.css';
 {/* 4. EXPLANATION / DEEP DIVE */}
 <section class="ml-section animate-fade-up" id="deep-dive">
   <div class="ml-section-header">
-    <span class="ml-section-label">Deep Dive</span>
+    <span class="ml-section-label">More Problems</span>
     <h2 class="ml-section-title">Why Direct Access Failed</h2>
     <p class="ml-section-subtitle">
       Early operating systems let programs directly access physical RAM. This caused three massive problems.
@@ -143,6 +144,72 @@ import '../styles/exhibit-theme.css';
       <strong>The Fix:</strong> Because the OS translates Virtual addresses to Physical ones, it can point the virtual memory of all 4 programs to the <em>exact same physical copy</em> of the library in RAM. We call this <strong>Shared Pages</strong>.
     </p>
     <SharedLibraryVisualizer client:load />
+
+    <hr class="ml-divider" style={{ margin: '4rem 0', borderColor: 'rgba(255,255,255,0.1)' }} />
+
+    <h2>Deep Dive: How It All Works</h2>
+    <p>A student-friendly breakdown of the key ideas behind virtual memory.</p>
+    
+    <h3>What Is External Fragmentation?</h3>
+    <p>
+      When programs start and stop at different times, they leave behind <strong>gaps</strong> (free holes) in physical memory.
+      Over time, these gaps become scattered throughout RAM. Even though the <strong>total</strong> free memory might be enough for a new program,
+      no <strong>single</strong> gap is large enough to fit it. This is called <strong>external fragmentation</strong>.
+    </p>
+    <div class="ml-analogy">
+      <strong>Analogy:</strong> Think of a parking lot. Several cars leave at different times, creating empty spots scattered around.
+      You arrive with a long tour bus, and there are enough total empty spots, but they are all in different rows.
+      Your bus needs one long row of empty spots, and none exists.
+    </div>
+
+    <h3>Why Not Just Compact Memory?</h3>
+    <p>
+      One idea is to <strong>compact</strong> memory slide all running programs together to create one big free block at the end.
+      But this is extremely expensive: the OS would need to stop every running program, copy gigabytes of data,
+      update every memory reference, then restart everything. In practice, this is too slow for modern systems.
+    </p>
+
+    <h3>How Virtual Memory Separates the Views</h3>
+    <p>
+      Virtual memory introduces a layer of abstraction. Each program gets its own <strong>virtual address space</strong> a clean,
+      continuous range of addresses starting from 0. The program never knows (or cares) where its data actually lives in physical RAM.
+    </p>
+    <p>
+      Behind the scenes, the OS divides both virtual memory and physical RAM into fixed-size chunks:
+      <strong>pages</strong> (in virtual space) and <strong>frames</strong> (in physical RAM), typically 4 KB each.
+      A program that needs 4 GB sees pages 0, 1, 2, ... but the OS can put those pages in any available physical frames
+      even if the frames are scattered across RAM.
+    </p>
+
+    <h3>What the Page Table Does</h3>
+    <p>
+      The <strong>page table</strong> is a data structure (one per process) that stores the mapping: virtual page N to physical frame M.
+      Every time the CPU accesses a memory address, the hardware uses the page table to translate the virtual address into a physical one.
+      This translation happens automatically on every memory access.
+    </p>
+
+    <h3>The Translation Lookaside Buffer (TLB)</h3>
+    <p>
+      Looking up the page table for every memory access would be slow, so the CPU includes a small, fast cache called the
+      <strong>TLB</strong> (Translation Lookaside Buffer). It stores recently used page-to-frame mappings.
+      If the mapping is in the TLB (a <strong>TLB hit</strong>), translation is almost instant.
+      If not (a <strong>TLB miss</strong>), the CPU has to walk through the page table in memory, which takes longer.
+    </p>
+
+    <TlbSimulator client:load />
+
+    <h3>Demand Paging and Page Faults</h3>
+    <p>
+      With <strong>demand paging</strong>, the OS does not load the entire program into RAM at once.
+      Instead, it only loads pages when they are actually needed. If a program accesses a page that is not in RAM yet,
+      a <strong>page fault</strong> occurs, the OS pauses the program, loads the page from disk into a free frame,
+      updates the page table, and resumes the program. This makes efficient use of limited RAM.
+    </p>
+    <div class="ml-analogy">
+      <strong>Analogy:</strong> Imagine a library with limited desk space. Instead of carrying every book to your desk,
+      you only grab a book when you need it. If the book is not on your desk (page fault), you walk to the shelf (disk),
+      grab it, and bring it back. If your desk is full, you return one book to make room.
+    </div>
 
   </div>
 </section>
