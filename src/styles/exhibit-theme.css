@@ -127,27 +127,28 @@
   100% { background-position: -600px 300px; }
 }
 
-.ml-comet {
-  position: fixed;
-  top: 12%;
-  left: -10%;
-  width: 140px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #fff, var(--ml-gem-aqua) 60%, transparent);
-  border-radius: 999px;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
-  pointer-events: none;
-  z-index: 0;
+/* ── Scroll Animations ─────────────────────────────────────── */
+.animate-fade-up {
   opacity: 0;
-  animation: ml-comet-fly 14s ease-in 2s infinite;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.animate-fade-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-@keyframes ml-comet-fly {
-  0%   { transform: translate(0, 0) rotate(20deg); opacity: 0; }
-  4%   { opacity: 1; }
-  20%  { transform: translate(140vw, 60vh) rotate(20deg); opacity: 0; }
-  100% { transform: translate(140vw, 60vh) rotate(20deg); opacity: 0; }
+.animate-fade-in {
+  opacity: 0;
+  transition: opacity 1s ease-out;
 }
+.animate-fade-in.in-view {
+  opacity: 1;
+}
+
+.animate-delay-1 { transition-delay: 0.1s; }
+.animate-delay-2 { transition-delay: 0.2s; }
+.animate-delay-3 { transition-delay: 0.3s; }
 
 .ml-gem-shape {
   position: fixed;
@@ -572,230 +573,69 @@
     display: none;
   }
 }
-/* ============================================================
-   ExhibitLayout compatibility overrides
-   ExhibitLayout.astro can't be modified, so instead of removing its
-   header/content wrapper markup, this section neutralizes the
-   wrapper's own styling and moves the full-bleed theme onto <body>
-   directly (since we can no longer add a class like .ml-page to
-   <body> — ExhibitLayout owns that tag). ExhibitLayout's <header>
-   markup itself is untouched by any of this.
-   ============================================================ */
-
-/* Scope html/body overrides to pages that have the .ml-hero element
-   (injected only by virtual-memory.mdx) so they don't bleed onto other
-   pages such as the home page when navigating back. */
-html:has(.ml-hero) {
-  scroll-behavior: smooth;
-  background: none !important;
-}
-
-body:has(.ml-hero) {
-  background:
-    radial-gradient(ellipse 900px 500px at 10% -5%, rgba(255, 143, 199, 0.20), transparent 60%),
-    radial-gradient(ellipse 800px 600px at 95% 20%, rgba(95, 232, 209, 0.14), transparent 60%),
-    radial-gradient(ellipse 700px 550px at 15% 95%, rgba(183, 116, 255, 0.20), transparent 60%),
-    radial-gradient(ellipse 600px 500px at 85% 90%, rgba(255, 185, 151, 0.12), transparent 60%),
-    linear-gradient(170deg, #0a0620 0%, #150f33 45%, #0c0824 100%) !important;
-  color: var(--ml-text) !important;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-body:has(.ml-hero)::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(1.5px 1.5px at 60% 15%, rgba(255, 143, 199, 0.85), transparent),
-    radial-gradient(1.5px 1.5px at 85% 55%, rgba(95, 232, 209, 0.85), transparent),
-    radial-gradient(1px 1px at 35% 70%, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(1.5px 1.5px at 70% 85%, rgba(183, 116, 255, 0.85), transparent),
-    radial-gradient(1px 1px at 10% 90%, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(1px 1px at 95% 10%, rgba(253, 230, 138, 0.8), transparent);
-  background-size: 400px 400px;
-  background-repeat: repeat;
-  pointer-events: none;
-  z-index: 0;
-  animation: ml-twinkle 4s ease-in-out infinite alternate, ml-star-drift 240s linear infinite;
-}
-
-body:has(.ml-hero)::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(2px 2px at 25% 45%, rgba(196, 164, 255, 0.9), transparent),
-    radial-gradient(2px 2px at 75% 20%, rgba(244, 114, 182, 0.85), transparent),
-    radial-gradient(2px 2px at 50% 80%, rgba(95, 232, 209, 0.85), transparent),
-    radial-gradient(2px 2px at 15% 65%, rgba(253, 230, 138, 0.75), transparent),
-    radial-gradient(1.5px 1.5px at 90% 65%, rgba(255, 255, 255, 0.8), transparent);
-  background-size: 600px 600px;
-  background-repeat: repeat;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.8;
-  animation: ml-star-drift-reverse 300s linear infinite;
-}
-
-body:has(.ml-hero) .ml-hero__title {
-  display: block !important;
-}
-
-/* Undo ExhibitLayout's boxed article/TOC wrapper so the dark theme
-   shows through underneath its header. Header markup is untouched.
-   Every selector below is scoped with :has(.ml-hero) so it can only
-   ever match this exhibit page's own <body> — never the homepage,
-   even though Astro.glob() forces this stylesheet's import to run
-   while HomepageLayout builds its exhibit list. */
-body:has(.ml-hero) .content {
-  display: block !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-body:has(.ml-hero) .content__block {
-  flex: none !important;
-}
-
-body:has(.ml-hero) .content__titlemeta {
-  display: none !important; /* our .ml-hero renders the title instead */
-}
-
-body:has(.ml-hero) .article {
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  position: relative;
-  z-index: 1;
-}
-
-body:has(.ml-hero) .toc {
-  display: none !important;
-}
-
 /* Quick section nav sits in normal flow right under ExhibitLayout's
    real header, instead of a fixed bar that duplicates it. */
 .ml-nav--quick {
-  position: sticky !important;
-  top: 1rem !important;
-  left: auto !important;
-  right: auto !important;
+  position: sticky;
+  top: 1rem;
+  left: auto;
+  right: auto;
   z-index: 50;
-  display: flex !important;
-  justify-content: center !important;
-  max-width: fit-content !important;
-  margin: 1.5rem auto 3rem auto !important;
-  padding: 0.35rem 0.5rem !important;
-  background: rgba(10, 6, 32, 0.8) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid var(--ml-border) !important;
-  border-radius: 999px !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 1px rgba(196, 164, 255, 0.2) !important;
+  display: flex;
+  justify-content: center;
+  max-width: fit-content;
+  margin: 1.5rem auto 3rem auto;
+  padding: 0.35rem 0.5rem;
+  background: rgba(10, 6, 32, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--ml-border);
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 1px rgba(196, 164, 255, 0.2);
 }
 
 .ml-nav--quick .ml-nav__links {
-  display: flex !important;
-  gap: 0.25rem !important;
+  display: flex;
+  gap: 0.25rem;
 }
 
 .ml-nav--quick .ml-nav__link {
-  color: var(--ml-text-muted) !important;
-  text-decoration: none !important;
-  font-size: 0.8rem !important;
-  font-weight: 600 !important;
-  padding: 0.45rem 1rem !important;
-  border-radius: 999px !important;
-  transition: all var(--ml-transition) !important;
+  color: var(--ml-text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  transition: all var(--ml-transition);
 }
 
 .ml-nav--quick .ml-nav__link:hover {
-  color: #ffffff !important;
-  background: var(--ml-accent) !important;
-  box-shadow: 0 0 12px rgba(192, 132, 252, 0.4) !important;
+  color: #ffffff;
+  background: var(--ml-accent);
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
 }
 
 @media (max-width: 640px) {
   .ml-nav--quick {
-    margin: 1rem 1rem 2rem 1rem !important;
-    max-width: calc(100% - 2rem) !important;
-    justify-content: flex-start !important;
-    overflow-x: auto !important;
-    white-space: nowrap !important;
-    border-radius: 12px !important;
-    padding: 0.5rem !important;
+    margin: 1rem 1rem 2rem 1rem;
+    max-width: calc(100% - 2rem);
+    justify-content: flex-start;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-radius: 12px;
+    padding: 0.5rem;
   }
   
   .ml-nav--quick .ml-nav__links {
-    flex-direction: row !important;
-    gap: 0.5rem !important;
+    flex-direction: row;
+    gap: 0.5rem;
   }
   
   .ml-nav--quick .ml-nav__link {
-    font-size: 0.78rem !important;
-    padding: 0.4rem 0.75rem !important;
-    border-radius: 8px !important;
+    font-size: 0.78rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
   }
-}
-
-/* Typography Overrides: Ensure consistent futuristic sans-serif headers */
-body:has(.ml-hero) .article h1,
-body:has(.ml-hero) .article h2,
-body:has(.ml-hero) .article h3,
-body:has(.ml-hero) .article h4,
-body:has(.ml-hero) .article h5,
-body:has(.ml-hero) .article h6 {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-}
-
-/* Style Layout's Main Header Bar to Blend Seamlessly with the Dark Theme */
-body:has(.ml-hero) .header {
-  padding: 1.5rem 1.5rem 0.5rem !important;
-  background: transparent !important;
-}
-
-body:has(.ml-hero) .header__titleblock {
-  background: var(--ml-bg-glass) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid var(--ml-border) !important;
-  border-radius: var(--ml-radius-md) !important;
-  box-shadow: var(--ml-shadow-card) !important;
-  color: var(--ml-text) !important;
-  padding: 0.75rem 1.25rem !important;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-}
-
-body:has(.ml-hero) .header__titleblock strong {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-  font-weight: 700 !important;
-  color: var(--ml-heading) !important;
-}
-
-body:has(.ml-hero) .header__subtitle {
-  color: var(--ml-text-dim) !important;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-}
-
-body:has(.ml-hero) .header .button {
-  background: var(--ml-bg-glass) !important;
-  border: 1px solid var(--ml-border) !important;
-  color: var(--ml-text-muted) !important;
-  border-radius: 50% !important;
-  width: 38px !important;
-  height: 38px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 0 !important;
-  transition: all var(--ml-transition) !important;
-  box-shadow: none !important;
 }
 
 
