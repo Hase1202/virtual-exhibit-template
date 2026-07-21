@@ -20,7 +20,7 @@
   - [3.4 Final Exhibit Technical Challenges & Solutions](#34-final-exhibit-technical-challenges--solutions)
   - [3.5 Final Exhibit Technical "Aha" Moments](#35-final-exhibit-technical-aha-moments)
   - [3.6 Visual & Interactive Development](#36-visual--interactive-development)
-  - [3.7 Updated AI Disclaimer](#37-updated-ai-disclaimer)
+  - [3.7 AI Disclaimer](#37-ai-disclaimer)
 - [PART 2: MID-MILESTONE FOUNDATION & EARLY PROTOTYPE](#-part-2-mid-milestone-foundation--early-prototype)
   - [2.1 Mid-Milestone Development Scope](#21-mid-milestone-development-scope)
   - [2.2 Mid-Milestone Challenges and Learnings](#22-mid-milestone-challenges-and-learnings)
@@ -130,16 +130,15 @@ Rather than just writing about paging and segmentation, the `MemoryFragmentation
 
 ---
 
-### **3.7 Updated AI Disclaimer**
+### **3.7 AI Disclaimer**
 
-Generative AI assistance tools (including **Antigravity (Gemini)**, **Claude Code**, and **ChatGPT**) were utilized throughout this project to accelerate complex frontend implementation, debugging, and documentation workflows. AI assistance was specifically applied to:
+Generative AI assistance tools (including Antigravity, Claude Code, and ChatGPT) were utilized throughout this project to accelerate implementation, UI styling, and documentation workflows, including:
 
-* **React Component & Visualizer Scaffolding:** Generating initial JSX code logic and state management for interactive components (`RetroOsSimulator`, `SecurityVisualizer`, `SwapVisualizer`, `SharedLibraryVisualizer`, `PageTableVisualizer`, `AddressSignalPipeline`, `PageFrame3DVisualizer`, `ContextSwitchVisualizer`, `PageTableEntryVisualizer`, `TlbSimulator`, `VMKnowledgeQuiz`, `VirtualMemoryQuiz`).
-* **UI/UX Design, CSS Modules & Layout Alignment:** Scoping glassmorphic dark-mode stylesheets using CSS `:has()` in `exhibit-theme.css`, resolving 3D isometric RAM matrix depth-layering, creating responsive side-by-side 3-column grid layouts, and normalizing SVG vector icon alignment.
-* **Git Branching, Merge Resolutions & Incremental Documentation:** Resolving merge conflicts across testing branches (`Matt_Testing_V3`, `fix/virtual-memory-ui-improvements`, and `main`), structuring incremental commit history, and drafting comprehensive milestone changelogs.
-* **Exhibit Content & Quiz Explanations:** Refining technical copy, hardware memory definitions, and interactive quiz explanations.
+* Scaffolding and writing frontend code for interactive React components, hardware MMU pipelines, and OS memory visualizers  
+* Assisting with UI/UX design decisions, glassmorphic styling, responsive layout handling, and vector icon alignment  
+* Drafting and refining written exhibit copy, quiz explanations, and milestone documentation
 
-All AI-assisted code and content were thoroughly reviewed, manually tested, debugged, and integrated by the team. The team takes full responsibility for the accuracy, quality, and functionality of all submitted work.
+All AI-assisted output was thoroughly reviewed, tested, debugged, and integrated by the team before inclusion in the final exhibit. The team remains fully responsible for the accuracy, functionality, and quality of the submitted work.
 
 ---
 
