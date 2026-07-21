@@ -1,4 +1,4 @@
-### **CSARCH2 VIRTUAL EXHIBIT MID MILESTONE**
+### **CSARCH2 VIRTUAL EXHIBIT - INCREMENTAL MILESTONE LOG**
 
 **Submitted By:**
 
@@ -10,13 +10,34 @@
 
 ### **DEPLOYED SITE:** https://hase1202.github.io/virtual-exhibit-template/?fbclid=IwY2xjawS51_NleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAEwAAEeRWW4ZKnuZ9oDu7o43sgbREaTRyrwppVkuey8OBcZkgQL1vK6sB4W7cmFr1E_aem_7PKhIVTHdtHrlPpERcP_jA
 
+---
+
+## 📈 **Incremental Development Log**
+
+> [!NOTE]
+> This project is documented incrementally to showcase the progression from initial prototype to final polished exhibit submission.
+
+| Milestone | Key Focus & Deliverables | Status |
+| :--- | :--- | :--- |
+| **Part 1: Mid-Milestone Foundation** | Core exhibit layout, theme isolation (`exhibit-theme.css`), concept cards, early fragmentation simulator, initial TLB simulator. | Completed |
+| **Part 2: Interactive Hardware Overhaul** | Advanced interactive visualizers (`PageTableVisualizer`, `AddressSignalPipeline`, `PageFrame3DVisualizer`), 8-question knowledge checkpoint (`VMKnowledgeQuiz`), glassmorphic design overhaul, side-by-side 3-column architecture views, and responsive layout polish. | Completed |
+
+---
+
+### **Project Directory Structure**
+
 ```text
 src/
 ├── components/
+│   ├── PageTableVisualizer.jsx                 <- Interactive PTBR & side-by-side 3-column Page Table simulator
+│   ├── AddressSignalPipeline.jsx               <- Hardware MMU translation & TLB hit/miss pipeline stepper
+│   ├── PageFrame3DVisualizer.jsx               <- 3D CSS isometric physical RAM matrix (4x4x4 cube)
+│   ├── VMKnowledgeQuiz.jsx                     <- Centered 8-question knowledge checkpoint & review cards
+│   ├── ContextSwitchVisualizer.jsx             <- Process context switch & PTBR pointer animation
+│   ├── PageTableEntryVisualizer.jsx            <- Status & protection bits inspector
 │   ├── MemoryFragmentationSimulator.jsx        <- Canvas-based allocator (Paging vs. Seg.)
-│   ├── MemoryFragmentationSimulator.module.css  <- Scoped styling for simulator grid
 │   ├── TlbSimulator.jsx                        <- Step-by-step Page Table + TLB lookup flow
-│   ├── VirtualMemoryQuiz.jsx                   <- Interactive feedback quiz component
+│   ├── VirtualMemoryQuiz.jsx                   <- Replacement algorithm personality quiz
 │   ├── ConceptCard.astro                       <- Card template for key terms/hardware specs
 │   └── TakeawayCard.astro                      <- Structured key findings template
 ├── pages/
@@ -27,35 +48,48 @@ src/
 
 ### **Development**
 
-We decided our aesthetic should be a space theme with tones of blue and purple, as these colors commonly signify technology. Although this was only a mid-milestone project, we were able to implement the foundational requirements of our site. It was quite a challenge trying to work around the provided templates and adhering to the strict guidelines, such as not modifying files inside the layouts folder or changing global.css.
+We decided our aesthetic should be a space theme with tones of blue and purple, as these colors commonly signify technology. Although this was originally started as a mid-milestone project, we were able to implement both the foundational requirements and advanced interactive visualizers for our site. It was quite a challenge trying to work around the provided templates and adhering to the strict guidelines, such as not modifying files inside the layouts folder or changing global.css.
 
-We followed our proposed layout by starting with the "Virtual Memory" title and an abstract, followed by key concepts to quickly introduce interesting facts. We intentionally introduce the interactive lab early on, as it is much more entertaining for users to play around with a visual simulation, which entices them to learn more about virtual RAM. The subsequent section provides detailed descriptions for users who want to dive deeper. Next, we feature another virtual simulation that demonstrates how a virtual address page lookup is traced through the TLB cache and page tables, utilizing cool loading animations to visualize the process. Lastly, we included a summary and a quiz to help the user determine which page replacement algorithm suits them best.
+We followed our proposed layout by starting with the "Virtual Memory" title and an abstract, followed by key concepts to quickly introduce interesting facts. We intentionally introduce the interactive lab early on, as it is much more entertaining for users to play around with a visual simulation, which entices them to learn more about virtual RAM. The subsequent section provides detailed descriptions for users who want to dive deeper. Next, we feature interactive hardware simulations demonstrating how a virtual address page lookup is traced through the MMU pipeline, TLB cache, and page tables, utilizing cool loading animations and 3D isometric cubes to visualize physical RAM allocation. Lastly, we included a summary, a knowledge checkpoint quiz, and a personality quiz to help the user determine which page replacement algorithm suits them best.
 
 ### **Challenges**
 
 Aside from the challenges we faced integrating the exhibit format, we also struggled with learning React and Astro on the fly. We learned that React has the capability to store data (state) and is ideal for creating engaging UIs, whereas Astro does not store data in the same way, but acts more like "HTML+" with greater flexibility for building static designs.
 
-We quickly learned that organization is critical, employing a "divide and conquer" folder structure. The styles folder assists the pages folder (which contains our main MDX/HTML files). Because the layouts folder cannot be modified, and the assets folder is strictly for images, we utilized the components folder for our "sections." This is where we safely modified our React and Astro components, as it is much safer to scope the layout and styling to a single section rather than cramming everything into a global CSS file. It was quite confusing to relearn JavaScript for React and Astro, but because we were already familiar with HTML from CCAPDEV, we have a good head start. It will just take some time to fully grasp these new capabilities since we have only just started.
+We quickly learned that organization is critical, employing a "divide and conquer" folder structure. The styles folder assists the pages folder (which contains our main MDX/HTML files). Because the layouts folder cannot be modified, and the assets folder is strictly for images, we utilized the components folder for our "sections." This is where we safely modified our React and Astro components, as it is much safer to scope the layout and styling to a single section rather than cramming everything into a global CSS file.
 
-### Aha Moments
-**Global stylesheet isolation with CSS `:has()`**
+**Part 2 Layout & Responsiveness Challenges:**
+During our Part 2 overhaul, we faced additional layout challenges when designing complex hardware visualizers:
+1. **Multi-Column Side-by-Side Synchronization:** In `PageTableVisualizer`, keeping Hardware CPU, Physical RAM, and Magnified Page Table locked side-by-side in a single row on desktop viewports required strict CSS grid constraints (`1fr 1fr 1.15fr`) while ensuring text padding and fonts dynamically adjust so columns wrap cleanly on smaller mobile screens without horizontal scroll clipping.
+2. **3D Isometric Depth & HUD Collisions:** Rendering a 4x4x4 (64-frame) CSS isometric 3D cube in `PageFrame3DVisualizer` presented depth-layering challenges. Floating absolute HUD overlays originally collided with header filter pills and truncated footer captions on standard display resolutions. We solved this by restructuring the component into containerized CSS grid areas with docked info panels.
+
+### **Aha Moments**
+
+**Global stylesheet isolation with CSS `:has()`**  
 We ran into an issue where importing the customized dark-mode futuristic theme (`exhibit-theme.css`) inside the `virtual-memory.mdx` page was leaking styles globally—nuking the home page's light cube background pattern and breaking the layout structure when navigating back. Because we weren't allowed to edit the locked `ExhibitLayout.astro` or `HomepageLayout.astro` files directly, the "aha" moment was wrapping all our global overrides in a `:has()` selector (e.g., `body:has(.ml-hero)`). This cleanly scopes all dark backgrounds, custom starfields, and header restyling to the virtual memory page only, leaving the home page intact.
 
-### Creative Development
-**Interactive Visual Allocation instead of static diagrams**
-Rather than just writing about paging and segmentation, the `MemoryFragmentationSimulator` uses an interactive grid that dynamically animates memory requests. Users can choose between contiguous memory, pure paging, or segmentation, and manually trigger allocation calls to watch external/internal fragmentation develop in real-time.
+**Docked Inspection Drawers vs. Absolute Floating Tooltips**  
+When inspecting page table entry bits (`Valid`, `Dirty`, `Protection`), floating tooltips (`position: absolute, right: 105%`) frequently broke out of viewport bounds on smaller laptop screens. Our "aha" moment was embedding a docked bit inspector drawer directly at the base of the magnified table card. This eliminated clipping bugs permanently while keeping bit inspection clear and accessible.
+
+**Strict SVG Grid Alignment for Vector Badges**  
+We encountered subtle cross-browser alignment shifts where SVG icons inside rounded glassmorphic badges rendered slightly offset to the left. Applying `display: grid; place-items: center;` to badge containers along with `display: block; margin: 0 auto;` on SVG elements ensured perfect geometric centering across all screen densities.
+
+### **Creative Development**
+
+**Interactive Visual Allocation & 3D RAM Matrix**  
+Rather than just writing about paging and segmentation, the `MemoryFragmentationSimulator` uses an interactive grid that dynamically animates memory requests. Users can choose between contiguous memory, pure paging, or segmentation, and manually trigger allocation calls to watch external/internal fragmentation develop in real-time. In Part 2, we expanded this with `PageFrame3DVisualizer`, giving users a 3D isometric cube matrix to filter physical frames by Code Pages, Heap Frames, Shared Libraries, and Swapped sectors.
 
 ### **Future Plans**
 
-Although we weren’t able to fully implement everything in our proposal—such as creating a separate page for a full-blown, step-by-step tutorial—we have built a great foundation. We believe that if we have more time to learn React and Astro, we can create a gamified tutorial. However, even if that isn't possible due to time constraints, we can still improve our current mid-milestone submission by adding a few more visual interactions related to virtual memory, such as its relationship to the GPU.
+Although we weren’t able to fully implement everything in our proposal—such as creating a separate page for a full-blown, step-by-step tutorial—we have built a great foundation. We believe that if we have more time to learn React and Astro, we can create a gamified tutorial. However, even if that isn't possible due to time constraints, we have significantly expanded our submission with interactive hardware pipelines, 3D RAM visualizers, and detailed knowledge checkpoints.
 
 ### **AI Disclaimer**
 
-Generative AI tools (including Claude Code) were used throughout this project to accelerate work that would otherwise have taken significantly longer to complete manually, including:
+Generative AI tools (including Claude Code and Gemini) were used throughout this project to accelerate work that would otherwise have taken significantly longer to complete manually, including:
 
-* Scaffolding and writing frontend code for the RedDev OS Memory Simulator, such as React state logic, CSS Modules styling, and responsive layout handling  
-* Assisting with UI/UX design decisions, including layout structure, visual styling, and component composition  
-* Drafting and refining written content, such as exhibit copy and this README
+* Scaffolding and writing frontend code for the RedDev OS Memory Simulator, hardware MMU pipelines, page table visualizers, and 3D memory cubes  
+* Assisting with UI/UX design decisions, glassmorphic styling, responsive layout handling, and vector icon alignment  
+* Drafting and refining written content, such as exhibit copy, quiz explanations, and this incremental README
 
 All AI-assisted output was reviewed, tested, and edited by the team before inclusion in the final exhibit. The team remains responsible for the accuracy, functionality, and quality of the submitted work.
 
