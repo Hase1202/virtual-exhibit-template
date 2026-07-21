@@ -12,7 +12,45 @@
 
 ---
 
-# **PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL**
+## 📅 **PROJECT CHRONOLOGY & MILESTONES**
+
+```text
+ ┌──────────────────────┐      ┌──────────────────────┐      ┌──────────────────────┐
+ │  PART 1: PROPOSAL    │ ───► │ PART 2: MID-MILESTONE│ ───► │ PART 3: FINAL EXHIBIT│
+ │ Initial OS Concept & │      │ Core Layout & Theme  │      │ Hardware Pipelines,  │
+ │ RedDev Simulator     │      │ Isolation (:has)     │      │ 3D RAM & UI Overhaul │
+ └──────────────────────┘      └──────────────────────┘      └──────────────────────┘
+```
+
+> [!NOTE]
+> This README is organized chronologically into three distinct parts to give our professor full visibility into our project's evolution from original proposal write-up to mid-milestone layout, and finally to our complete interactive hardware exhibit submission.
+
+---
+
+## 📖 **TABLE OF CONTENTS**
+
+- [🚀 PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL](#-part-3-final-submission--interactive-hardware-overhaul)
+  - [3.1 Incremental Git Commit Log & Feature Trajectory](#31-incremental-git-commit-log--feature-trajectory)
+  - [3.2 Complete Project Component Directory](#32-complete-project-component-directory)
+  - [3.3 Final Exhibit Development & Design Philosophy](#33-final-exhibit-development--design-philosophy)
+  - [3.4 Final Exhibit Technical Challenges & Solutions](#34-final-exhibit-technical-challenges--solutions)
+  - [3.5 Final Exhibit Technical "Aha" Moments](#35-final-exhibit-technical-aha-moments)
+  - [3.6 Visual & Interactive Development](#36-visual--interactive-development)
+  - [3.7 Updated AI Disclaimer](#37-updated-ai-disclaimer)
+- [📌 PART 2: MID-MILESTONE FOUNDATION & EARLY PROTOTYPE](#-part-2-mid-milestone-foundation--early-prototype)
+  - [2.1 Mid-Milestone Development Scope](#21-mid-milestone-development-scope)
+  - [2.2 Mid-Milestone Challenges and Learnings](#22-mid-milestone-challenges-and-learnings)
+  - [2.3 Mid-Milestone "Aha" Moment](#23-mid-milestone-aha-moment)
+  - [2.4 Mid-Milestone Future Plans](#24-mid-milestone-future-plans)
+- [📜 PART 1: ORIGINAL PROPOSAL & ARCHITECTURAL WRITE-UP](#-part-1-original-proposal--architectural-write-up)
+  - [1.1 Proposal Resource Links](#11-proposal-resource-links)
+  - [1.2 Background of the Proposed Virtual Exhibit](#12-background-of-the-proposed-virtual-exhibit)
+  - [1.3 Tech Stack Plan](#13-tech-stack-plan)
+  - [1.4 Proposed Interactive Element: RedDev OS Memory Simulator](#14-proposed-interactive-element-reddev-os-memory-simulator)
+
+---
+
+# 🚀 **PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL**
 
 ### **3.1 Incremental Git Commit Log & Feature Trajectory**
 
@@ -108,15 +146,16 @@ Rather than just writing about paging and segmentation, the `MemoryFragmentation
 
 ---
 
-### **3.7 AI Disclaimer**
+### **3.7 Updated AI Disclaimer**
 
-Generative AI tools (including Claude Code and Gemini) were used throughout this project to accelerate work that would otherwise have taken significantly longer to complete manually, including:
+Generative AI assistance tools (including **Antigravity (Gemini)**, **Claude Code**, and **ChatGPT**) were utilized throughout this project to accelerate complex frontend implementation, debugging, and documentation workflows. AI assistance was specifically applied to:
 
-* Scaffolding and writing frontend code for the RedDev OS Memory Simulator, hardware MMU pipelines, page table visualizers, and 3D memory cubes  
-* Assisting with UI/UX design decisions, glassmorphic styling, responsive layout handling, and vector icon alignment  
-* Drafting and refining written content, such as exhibit copy, quiz explanations, and this incremental README
+* **React Component & Visualizer Scaffolding:** Generating initial JSX code logic and state management for interactive components (`RetroOsSimulator`, `SecurityVisualizer`, `SwapVisualizer`, `SharedLibraryVisualizer`, `PageTableVisualizer`, `AddressSignalPipeline`, `PageFrame3DVisualizer`, `ContextSwitchVisualizer`, `PageTableEntryVisualizer`, `TlbSimulator`, `VMKnowledgeQuiz`, `VirtualMemoryQuiz`).
+* **UI/UX Design, CSS Modules & Layout Alignment:** Scoping glassmorphic dark-mode stylesheets using CSS `:has()` in `exhibit-theme.css`, resolving 3D isometric RAM matrix depth-layering, creating responsive side-by-side 3-column grid layouts, and normalizing SVG vector icon alignment.
+* **Git Branching, Merge Resolutions & Incremental Documentation:** Resolving merge conflicts across testing branches (`Matt_Testing_V3`, `fix/virtual-memory-ui-improvements`, and `main`), structuring incremental commit history, and drafting comprehensive milestone changelogs.
+* **Exhibit Content & Quiz Explanations:** Refining technical copy, hardware memory definitions, and interactive quiz explanations.
 
-All AI-assisted output was reviewed, tested, and edited by the team before inclusion in the final exhibit. The team remains responsible for the accuracy, functionality, and quality of the submitted work.
+All AI-assisted code and content were thoroughly reviewed, manually tested, debugged, and integrated by the team. The team takes full responsibility for the accuracy, quality, and functionality of all submitted work.
 
 ---
 
