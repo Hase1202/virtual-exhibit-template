@@ -11,10 +11,9 @@
 ### **DEPLOYED SITE:** https://hase1202.github.io/virtual-exhibit-template/?fbclid=IwY2xjawS51_NleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAEwAAEeRWW4ZKnuZ9oDu7o43sgbREaTRyrwppVkuey8OBcZkgQL1vK6sB4W7cmFr1E_aem_7PKhIVTHdtHrlPpERcP_jA
 
 ---
+## **TABLE OF CONTENTS**
 
-## 📖 **TABLE OF CONTENTS**
-
-- [🚀 PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL](#-part-3-final-submission--interactive-hardware-overhaul)
+- [PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL](#-part-3-final-submission--interactive-hardware-overhaul)
   - [3.1 Incremental Git Commit Log & Feature Trajectory](#31-incremental-git-commit-log--feature-trajectory)
   - [3.2 Complete Project Component Directory](#32-complete-project-component-directory)
   - [3.3 Final Exhibit Development & Design Philosophy](#33-final-exhibit-development--design-philosophy)
@@ -22,12 +21,12 @@
   - [3.5 Final Exhibit Technical "Aha" Moments](#35-final-exhibit-technical-aha-moments)
   - [3.6 Visual & Interactive Development](#36-visual--interactive-development)
   - [3.7 Updated AI Disclaimer](#37-updated-ai-disclaimer)
-- [📌 PART 2: MID-MILESTONE FOUNDATION & EARLY PROTOTYPE](#-part-2-mid-milestone-foundation--early-prototype)
+- [PART 2: MID-MILESTONE FOUNDATION & EARLY PROTOTYPE](#-part-2-mid-milestone-foundation--early-prototype)
   - [2.1 Mid-Milestone Development Scope](#21-mid-milestone-development-scope)
   - [2.2 Mid-Milestone Challenges and Learnings](#22-mid-milestone-challenges-and-learnings)
   - [2.3 Mid-Milestone "Aha" Moment](#23-mid-milestone-aha-moment)
   - [2.4 Mid-Milestone Future Plans](#24-mid-milestone-future-plans)
-- [📜 PART 1: ORIGINAL PROPOSAL & ARCHITECTURAL WRITE-UP](#-part-1-original-proposal--architectural-write-up)
+- [PART 1: ORIGINAL PROPOSAL & ARCHITECTURAL WRITE-UP](#-part-1-original-proposal--architectural-write-up)
   - [1.1 Proposal Resource Links](#11-proposal-resource-links)
   - [1.2 Background of the Proposed Virtual Exhibit](#12-background-of-the-proposed-virtual-exhibit)
   - [1.3 Tech Stack Plan](#13-tech-stack-plan)
@@ -35,7 +34,7 @@
 
 ---
 
-# 🚀 **PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL**
+# **PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL**
 
 ### **3.1 Incremental Git Commit Log & Feature Trajectory**
 
