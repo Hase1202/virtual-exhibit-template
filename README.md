@@ -85,7 +85,7 @@ We followed our proposed layout starting with the "Virtual Memory" title and abs
 ### **3.5 Final Exhibit Technical "Aha" Moments**
 
 - **Bridging Classroom Theory & Hardware Middleman Realities:**  
-  When starting out, virtual memory felt intimidating and abstract. After watching instructional videos and studying how hardware address translation actually works under the hood, the key "aha" moment was realizing that virtual memory is essentially an intelligent middleman. Learning how indirection cleanly resolves external fragmentation brought classroom lectures to life and motivated us to create intuitive step-by-step visual explanations.
+  *“Wow, virtual memory is actually pretty related to what we are discussing in class, right?”* When starting out contributing to this project, virtual memory felt intimidating. We watched instructional videos to learn how it actually works. Virtual memory mainly is just a middleman, but how it works under the hood is quite complex, so creating a clear explanation with step-by-step visualizations was an illuminating milestone.
 
 - **Docked Inspection Drawers vs. Absolute Floating Tooltips:**  
   When inspecting page table entry bits (`Valid`, `Dirty`, `Protection`), floating tooltips (`position: absolute, right: 105%`) frequently broke out of viewport bounds on smaller laptop screens. Our "aha" moment was embedding a docked bit inspector drawer directly at the base of the magnified table card. This eliminated clipping bugs permanently while keeping bit inspection clear and accessible.
