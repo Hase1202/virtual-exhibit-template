@@ -159,10 +159,10 @@ import '../styles/exhibit-theme.css';
   <div class="ml-prose">
     <h3>Problem 1: The Wild West (Security)</h3>
     <p>
-      In early operating systems, there was no memory protection. Some programs could accidentally (or maliciously) write data into another program's memory space. This would instantly cause your computer to crash with a Blue Screen of Death. 
+      In early operating systems, there was no memory protection. Some programs could accidentally (or maliciously) write data into another program's memory space. This could silently corrupt data, freeze the system, or crash the entire computer. 
     </p>
     <p>
-      <strong>The Fix:</strong> Virtual Memory gives each program its own isolated "Virtual Space." It literally has no way to access another program's physical memory because the OS handles the mapping.
+      <strong>The Fix:</strong> Virtual Memory gives each program its own isolated "Virtual Space." Under normal operation, it has no way to access another program's physical memory because the OS controls all address mapping.
     </p>
     <SecurityVisualizer client:load />
     
