@@ -16,6 +16,7 @@ import TlbSimulator from '../components/TlbSimulator.jsx';
 import VirtualMemoryGraphic from '../components/VirtualMemoryGraphic.jsx';
 import Memory3dVisualizer from '../components/Memory3dVisualizer.jsx';
 import HeroParticles from '../components/HeroParticles.jsx';
+import VMKnowledgeQuiz from '../components/VMKnowledgeQuiz.jsx';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
 import '../styles/exhibit-theme.css';
@@ -298,7 +299,24 @@ import '../styles/exhibit-theme.css';
 
 <hr class="ml-divider" />
 
-{/* 6. QUIZ SECTION */}
+<hr class="ml-divider" />
+
+{/* 6. KNOWLEDGE CHECK */}
+<section class="ml-section ml-section--narrow" id="knowledge-quiz">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Test Yourself</span>
+    <h2 class="ml-section-title">How Much Did You Retain?</h2>
+    <p class="ml-section-subtitle">
+      8 questions on fragmentation, paging, the TLB, and more — straight from what you just read.
+    </p>
+  </div>
+
+  <VirtualMemoryKnowledgeQuiz client:load />
+</section>
+
+<hr class="ml-divider" />
+
+{/* 7. QUIZ SECTION */}
 <section class="ml-section ml-section--narrow animate-fade-up" id="quiz">
   <div class="ml-section-header">
     <span class="ml-section-label">Just for Fun</span>
