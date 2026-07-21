@@ -18,6 +18,7 @@ import TlbSimulator from '../components/TlbSimulator.jsx';
 import ContextSwitchVisualizer from '../components/ContextSwitchVisualizer.jsx';
 import PageFrame3DVisualizer from '../components/PageFrame3DVisualizer.jsx';
 import PageTableEntryVisualizer from '../components/PageTableEntryVisualizer.jsx';
+import TeamRoster from '../components/TeamRoster.astro';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
 import '../styles/exhibit-theme.css';
@@ -304,7 +305,26 @@ import '../styles/exhibit-theme.css';
 
 <hr class="ml-divider" />
 
-{/* 7. REFERENCES */}
+<section class="ml-section ml-section--narrow animate-fade-up" id="team-roster">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Contributors</span>
+    <h2 class="ml-section-title">The Development Team</h2>
+  </div>
+  <TeamRoster 
+    groupNumber={2} 
+    members={[
+      { name: "Matthew Drew Fabregas" },
+      { name: "Hannah Lee" },
+      { name: "Justin Lance Te Lim" },
+      { name: "Alec Marx Gabriel Belen Nono" },
+      { name: "Mariel Mendoza Yasumuro" }
+    ]} 
+  />
+</section>
+
+<hr class="ml-divider" />
+
+{/* 8. REFERENCES */}
 <section class="ml-section ml-section--narrow animate-fade-up" id="references">
   <div class="ml-section-header">
     <span class="ml-section-label">Sources</span>
