@@ -1,0 +1,159 @@
+---
+/*
+ * TeamRoster.astro — Lists exhibit contributors as entries in a
+ * page-table-style roster, echoing the Page Table Architecture section.
+ */
+
+interface Member {
+  name: string;
+}
+
+interface Props {
+  groupNumber: number;
+  members: Member[];
+}
+
+const { groupNumber, members } = Astro.props;
+
+const accents = ['#22d3ee', '#818cf8', '#a78bfa', '#f472b6', '#5fe8d1'];
+const pid = (i: number) => `0x${i.toString(16).padStart(2, '0').toUpperCase()}`;
+const groupLabel = String(groupNumber).padStart(2, '0');
+---
+
+<div class="roster">
+  <div class="roster__header">
+    <span class="roster__group">Group {groupLabel}</span>
+    <span class="roster__count">{members.length} processes resident</span>
+  </div>
+
+  <div class="roster__row roster__row--head" aria-hidden="true">
+    <span>PID</span>
+    <span>Process</span>
+    <span>Status</span>
+  </div>
+
+  {members.map((member, i) => (
+    <div class="roster__row" style={`--row-accent: ${accents[i % accents.length]};`}>
+      <span class="roster__pid">{pid(i)}</span>
+      <span class="roster__name">{member.name}</span>
+      <span class="roster__status">
+        <i class="roster__dot" aria-hidden="true"></i>
+        <span class="roster__status-text">Resident</span>
+      </span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .roster {
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--ml-bg-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--ml-border);
+    border-radius: var(--ml-radius-md);
+    padding: 1.75rem;
+    box-shadow: var(--ml-shadow-card);
+  }
+
+  .roster__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--ml-border);
+  }
+
+  .roster__group {
+    font-family: 'Courier New', ui-monospace, monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--ml-neon-cyan);
+  }
+
+  .roster__count {
+    font-size: 0.78rem;
+    color: var(--ml-text-dim);
+  }
+
+  .roster__row {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr 6.5rem;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0.6rem;
+    border-radius: 8px;
+    border-left: 2px solid transparent;
+    transition: background var(--ml-transition), border-color var(--ml-transition);
+  }
+
+  .roster__row:not(.roster__row--head):hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-left-color: var(--row-accent, var(--ml-accent));
+  }
+
+  .roster__row--head {
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ml-text-dim);
+    padding-top: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .roster__pid {
+    font-family: 'Courier New', ui-monospace, monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--row-accent, var(--ml-accent));
+  }
+
+  .roster__name {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--ml-heading);
+  }
+
+  .roster__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #6ee7b7;
+    justify-self: start;
+  }
+
+  .roster__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 8px #34d399;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 560px) {
+    .roster {
+      padding: 1.25rem;
+    }
+    .roster__row {
+      grid-template-columns: 3.25rem 1fr 5rem;
+      gap: 0.4rem;
+      padding: 0.65rem 0.4rem;
+    }
+    .roster__name {
+      font-size: 0.86rem;
+    }
+    .roster__status-text {
+      display: none;
+    }
+  }
+</style>

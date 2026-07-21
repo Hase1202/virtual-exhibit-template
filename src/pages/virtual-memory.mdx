@@ -17,6 +17,7 @@ import AddressSignalPipeline from '../components/AddressSignalPipeline.jsx';
 import TlbSimulator from '../components/TlbSimulator.jsx';
 import PageTableVisualizer from '../components/PageTableVisualizer.jsx';
 import PageFrame3DVisualizer from '../components/PageFrame3DVisualizer.jsx';
+import TeamRoster from '../components/TeamRoster.astro';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
 import '../styles/exhibit-theme.css';
@@ -296,6 +297,30 @@ import '../styles/exhibit-theme.css';
   </div>
 
   <VirtualMemoryQuiz client:load />
+</section>
+
+<hr class="ml-divider" />
+
+{/* 8. TEAM */}
+<section class="ml-section ml-section--narrow animate-fade-up" id="team">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Group 02</span>
+    <h2 class="ml-section-title">The Processes Behind This Exhibit</h2>
+    <p class="ml-section-subtitle">
+      Every running program gets an entry in the page table. Here's ours.
+    </p>
+  </div>
+
+  <TeamRoster
+    groupNumber={2}
+    members={[
+      { name: "Matthew Drew Fabregas" },
+      { name: "Hannah Lee" },
+      { name: "Justin Lance Te Lim" },
+      { name: "Alec Marx Gabriel Belen Nono" },
+      { name: "Mariel Mendoza Yasumuro" },
+    ]}
+  />
 </section>
 
 <hr class="ml-divider" />
