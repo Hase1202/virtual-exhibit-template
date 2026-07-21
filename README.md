@@ -70,16 +70,18 @@ src/
 
 ---
 
-### **3.3 Development & Design Philosophy**
+### **3.3 Final Exhibit Development & Design Philosophy**
 
-We decided our aesthetic should be a space theme with tones of blue and purple, as these colors commonly signify technology. Although this project began with basic template components, we incrementally built a full suite of interactive hardware visualizers and OS simulations. It was a rewarding challenge working around provided templates and adhering to strict guidelines, such as not modifying files inside the locked `layouts` folder or changing `global.css`.
+Expanding beyond our mid-milestone prototype, we built a full suite of interactive hardware visualizers and OS simulations. 
 
 **Visual First & Retro UI Design:**  
 The layout follows a modern futuristic feel with purplish glassmorphism, designed specifically to highlight essential hardware concepts visually through step-by-step interactive animations rather than heavy walls of text. We intentionally introduced the **REDDEV tutorial** and **Retro OS Simulator** early on—incorporating vintage PC aesthetics and cassette-tape elements to contrast legacy Direct Access crashes against modern Virtual Memory solutions.
 
+We followed our proposed layout starting with the "Virtual Memory" title and abstract, followed by key concept cards. We then feature hardware-level pipeline simulations tracing virtual address requests through the MMU, TLB cache, and 3D RAM matrix (`PageFrame3DVisualizer`). Lastly, we included key takeaway summaries, an 8-question knowledge checkpoint (`VMKnowledgeQuiz`), and a personality quiz (`VirtualMemoryQuiz`).
+
 ---
 
-### **3.4 Technical Challenges & Solutions**
+### **3.4 Final Exhibit Technical Challenges & Solutions**
 
 1. **Incorporating Step-by-Step Visualizations into Definitions & Asynchronous Timing Bugs:**  
    Thinking of ways to seamlessly incorporate interactive visualizers into technical definitions so users could easily grasp complex hardware concepts was a major challenge. While building animated visualizers, we frequently encountered tricky timing bugs—such as signal arrows and memory bus pulses not spawning at the correct step transitions. Debugging asynchronous animation sequences in React state while learning Astro on the fly was tough, especially since the more complex the CSARCH2 topic (like TLB misses and page table walks), the harder it was to design an intuitive step-by-step visualization for visitors to follow.
@@ -98,13 +100,10 @@ The layout follows a modern futuristic feel with purplish glassmorphism, designe
 
 ---
 
-### **3.5 Technical "Aha" Moments**
+### **3.5 Final Exhibit Technical "Aha" Moments**
 
 - **Bridging Classroom Theory & Hardware Middleman Realities:**  
   When starting out, virtual memory felt intimidating and abstract. After watching instructional videos and studying how hardware address translation actually works under the hood, the key "aha" moment was realizing that virtual memory is essentially an intelligent middleman. Learning how indirection cleanly resolves external fragmentation brought classroom lectures to life and motivated us to create intuitive step-by-step visual explanations.
-
-- **Global Stylesheet Isolation with CSS `:has()`:**  
-  We ran into an issue where importing the customized dark-mode futuristic theme (`exhibit-theme.css`) inside `virtual-memory.mdx` was leaking styles globally—nuking the home page's light cube background pattern and breaking the layout structure when navigating back. Our "aha" moment was wrapping all global overrides in a `:has()` selector (`body:has(.ml-hero)`). This cleanly scopes all dark backgrounds, custom starfields, and header restyling to the virtual memory page only.
 
 - **Docked Inspection Drawers vs. Absolute Floating Tooltips:**  
   When inspecting page table entry bits (`Valid`, `Dirty`, `Protection`), floating tooltips (`position: absolute, right: 105%`) frequently broke out of viewport bounds on smaller laptop screens. Our "aha" moment was embedding a docked bit inspector drawer directly at the base of the magnified table card. This eliminated clipping bugs permanently while keeping bit inspection clear and accessible.
@@ -125,9 +124,6 @@ The layout follows a modern futuristic feel with purplish glassmorphism, designe
 **Interactive Visual Allocation & 3D RAM Matrix:**  
 Rather than just writing about paging and segmentation, the `MemoryFragmentationSimulator` uses an interactive grid that dynamically animates memory requests. Users can choose between contiguous memory, pure paging, or segmentation, and manually trigger allocation calls to watch external/internal fragmentation develop in real-time. We expanded this with `PageFrame3DVisualizer`, giving users a 3D isometric cube matrix to filter physical frames by Code Pages, Heap Frames, Shared Libraries, and Swapped sectors.
 
-**Future Plans:**  
-Although we weren’t able to fully implement everything in our original proposal—such as creating a separate page for a full-blown step-by-step tutorial—we built a strong foundation. We believe that if we have more time to learn React and Astro, we can create a gamified tutorial. However, even if that isn't possible due to time constraints, we have significantly expanded our submission with interactive hardware pipelines, 3D RAM visualizers, and detailed knowledge checkpoints.
-
 ---
 
 ### **3.7 AI Disclaimer**
@@ -144,13 +140,31 @@ All AI-assisted output was reviewed, tested, and edited by the team before inclu
 
 # 📌 **PART 2: MID-MILESTONE FOUNDATION & EARLY PROTOTYPE**
 
-### **2.1 Mid-Milestone Scope**
+### **2.1 Mid-Milestone Development Scope**
 
-During our initial mid-milestone phase, we established the foundational requirements for our site. We followed our proposed layout starting with the "Virtual Memory" title and abstract, followed by key concept cards to introduce interesting facts. We introduced the early canvas-based `MemoryFragmentationSimulator` and an initial step-by-step TLB lookup simulation to visualize physical memory allocation.
+Starting to bring the proposal’s vision to life, the group began with the foundational requirements of the exhibit. We followed our proposed layout by starting with the "Virtual Memory" title and abstract, followed by key concept cards to quickly introduce interesting facts. We intentionally introduced the interactive lab early on, as it is much more entertaining for users to play around with a visual simulation, which entices them to learn more about virtual RAM. The subsequent section provides detailed descriptions for users who want to dive deeper. Next, we featured an early virtual simulation demonstrating how a virtual address page lookup is traced through the TLB cache and page tables (`TlbSimulator.jsx`), utilizing loading animations to visualize the process. Lastly, we included a summary and a personality quiz (`VirtualMemoryQuiz.jsx`) to help the user determine which page replacement algorithm suits them best.
 
-### **2.2 Mid-Milestone Challenges**
+---
 
-Working around the provided Astro museum templates while adhering to strict guidelines (such as not modifying locked layout files or `global.css`) was a major hurdle. We struggled with learning React and Astro on the fly—learning that React manages dynamic state for interactive UIs, whereas Astro acts as "HTML+" for static page assembly. Organizing our project with a modular folder structure in `src/components/` and scoping dark-mode CSS to `exhibit-theme.css` via `:has()` allowed us to build safely without global style leaks.
+### **2.2 Mid-Milestone Challenges and Learnings**
+
+- **Learning React and Astro on the Fly:**  
+  Some of us struggled to learn React and Astro on the fly. We learned that React has the capability to store data (`state`) and is ideal for creating engaging UIs, whereas Astro does not store data in the same way, but acts more like "HTML+" with greater flexibility for building static designs.
+- **Folder Organization & Scoped Styling:**  
+  We quickly learned that organization is critical, employing a "divide and conquer" folder structure. The `styles` folder assists the `pages` folder (which contains our main MDX/HTML files). Because the `layouts` folder cannot be modified, and the `assets` folder is strictly for images, we utilized the `components` folder for our "sections". This is where we safely modified our React and Astro components, as it is much safer to scope layout and styling to a single section rather than cramming everything into a global CSS file. It was quite confusing to relearn JavaScript for React and Astro coming from CCAPDEV HTML, but having that prior web foundation gave us a good head start.
+
+---
+
+### **2.3 Mid-Milestone "Aha" Moment**
+
+- **Global Stylesheet Isolation with CSS `:has()`:**  
+  We ran into an issue where importing the customized dark-mode futuristic theme (`exhibit-theme.css`) inside the `virtual-memory.mdx` page was leaking styles globally—nuking the home page's light cube background pattern and breaking the layout structure when navigating back. Because we weren't allowed to edit locked `ExhibitLayout.astro` or `HomepageLayout.astro` files directly, the "aha" moment was wrapping all our global overrides in a `:has()` selector (`body:has(.ml-hero)`). This cleanly scopes all dark backgrounds, custom starfields, and header restyling to the virtual memory page only, leaving the home page intact.
+
+---
+
+### **2.4 Mid-Milestone Future Plans**
+
+Although we weren’t able to fully implement everything in our original proposal during the mid-milestone—such as creating a separate page for a full-blown, step-by-step tutorial—we built a great foundation. We believed that if we had more time to learn React and Astro, we could create a gamified tutorial. However, even if that wasn't possible due to time constraints, we planned to improve our submission by adding more visual interactions related to virtual memory, such as its relationship to physical hardware and GPU mapping.
 
 ---
 
