@@ -258,10 +258,10 @@ export default function SecurityVisualizer() {
             </>
           )}
 
-          {/* STATE 5 & 6: Chrome Paths */}
-          {(step === 5 || step === 6) && (
+          {/* STATE 5: Chrome Paths */}
+          {step === 5 && (
             <>
-               {((step === 5 && animStage >= 2) || step === 6) && (
+               {(step === 5 && animStage >= 2) && (
                  <>
                    <path d={`M 18 ${yChrome} L 27.5 ${yChrome}`} fill="none" stroke="#facc15" strokeWidth="1" pathLength="100" className="anim-trunk-fade" />
                    {[7, 8, 9].map(v => (
@@ -269,7 +269,7 @@ export default function SecurityVisualizer() {
                    ))}
                  </>
                )}
-               {((step === 5 && animStage >= 3) || step === 6) && [7, 8, 9].map((v, i) => {
+               {(step === 5 && animStage >= 3) && [7, 8, 9].map((v, i) => {
                  const p = chromePhysical[i];
                  return (
                    <React.Fragment key={`c-p-${v}`}>
