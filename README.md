@@ -132,13 +132,13 @@ Rather than just writing about paging and segmentation, the `MemoryFragmentation
 
 ### **3.7 AI Disclaimer**
 
-Generative AI assistance tools (including Antigravity, Claude Code, and ChatGPT) were utilized throughout this project to accelerate implementation, UI styling, and documentation workflows, including:
+Generative AI tools (including Claude Code) were used throughout this project to accelerate work that would otherwise have taken significantly longer to complete manually, including:
 
-* Scaffolding and writing frontend code for interactive React components, hardware MMU pipelines, and OS memory visualizers  
-* Assisting with UI/UX design decisions, glassmorphic styling, responsive layout handling, and vector icon alignment  
-* Drafting and refining written exhibit copy, quiz explanations, and milestone documentation
+* Scaffolding and writing frontend code for the RedDev OS Memory Simulator, such as React state logic, CSS Modules styling, and responsive layout handling  
+* Assisting with UI/UX design decisions, including layout structure, visual styling, and component composition  
+* Drafting and refining written content, such as exhibit copy and this README
 
-All AI-assisted output was thoroughly reviewed, tested, debugged, and integrated by the team before inclusion in the final exhibit. The team remains fully responsible for the accuracy, functionality, and quality of the submitted work.
+All AI-assisted output was reviewed, tested, and edited by the team before inclusion in the final exhibit. The team remains responsible for the accuracy, functionality, and quality of the submitted work.
 
 ---
 
