@@ -34,7 +34,7 @@
 
 ---
 
-# **PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL**
+## **PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL**
 
 ### **3.1 Incremental Git Commit Log & Feature Trajectory**
 
