@@ -17,6 +17,7 @@ import AddressSignalPipeline from '../components/AddressSignalPipeline.jsx';
 import TlbSimulator from '../components/TlbSimulator.jsx';
 import ContextSwitchVisualizer from '../components/ContextSwitchVisualizer.jsx';
 import PageFrame3DVisualizer from '../components/PageFrame3DVisualizer.jsx';
+import PageTableEntryVisualizer from '../components/PageTableEntryVisualizer.jsx';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
 import '../styles/exhibit-theme.css';
@@ -189,6 +190,9 @@ import '../styles/exhibit-theme.css';
     
     <br/>
     <ContextSwitchVisualizer client:load />
+    <br/>
+    <br/>
+    <PageTableEntryVisualizer client:load />
 
     <h3>3. The Hardware Hero: The MMU</h3>
     <p>
