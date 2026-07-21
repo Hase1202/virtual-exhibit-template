@@ -629,13 +629,13 @@ export default function RetroOsSimulator() {
           )}
 
           {/* RedDev Tutorial Layer */}
-          {(gameState === 'tutorial' || (gameState === 'crashed' && tutorialStep >= 18)) && (
+          {(gameState === 'tutorial' || (gameState === 'crashed' && tutorialStep >= 17)) && (
             <div 
               onClick={getRedDevMessage() ? advanceTutorial : undefined}
               style={{
                 position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-                pointerEvents: (getRedDevMessage() || tutorialStep === 0) ? 'auto' : 'none', zIndex: 300,
-                background: (getRedDevMessage() || tutorialStep === 0) ? 'rgba(0,0,0,0.6)' : 'transparent',
+                pointerEvents: (getRedDevMessage() || tutorialStep === 0 || (gameState === 'crashed' && tutorialStep === 17)) ? 'auto' : 'none', zIndex: 300,
+                background: (getRedDevMessage() || tutorialStep === 0 || (gameState === 'crashed' && tutorialStep === 17)) ? 'rgba(0,0,0,0.6)' : 'transparent',
                 transition: 'background 0.5s',
                 cursor: getRedDevMessage() ? 'pointer' : 'default'
               }}

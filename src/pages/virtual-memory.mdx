@@ -12,7 +12,8 @@ import SecurityVisualizer from '../components/SecurityVisualizer.jsx';
 import SwapVisualizer from '../components/SwapVisualizer.jsx';
 import SharedLibraryVisualizer from '../components/SharedLibraryVisualizer.jsx';
 import VirtualMemoryQuiz from '../components/VirtualMemoryQuiz.jsx';
-import TlbSimulator from '../components/TlbSimulator.jsx';
+import AddressSignalPipeline from '../components/AddressSignalPipeline.jsx';
+import PageFrame3DVisualizer from '../components/PageFrame3DVisualizer.jsx';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
 import '../styles/exhibit-theme.css';
@@ -27,7 +28,7 @@ import '../styles/exhibit-theme.css';
   <ul class="ml-nav__links">
     <li><a href="#concepts" class="ml-nav__link">Concepts</a></li>
     <li><a href="#simulator" class="ml-nav__link">OS Game</a></li>
-    <li><a href="#deep-dive" class="ml-nav__link">Deep Dive</a></li>
+    <li><a href="#deep-dive" class="ml-nav__link">Direct Access problems</a></li>
     <li><a href="#takeaways" class="ml-nav__link">Summary</a></li>
     <li><a href="#quiz" class="ml-nav__link">Quiz</a></li>
   </ul>
@@ -108,7 +109,7 @@ import '../styles/exhibit-theme.css';
 {/* 4. EXPLANATION / DEEP DIVE */}
 <section class="ml-section animate-fade-up" id="deep-dive">
   <div class="ml-section-header">
-    <span class="ml-section-label">More Problems</span>
+    <span class="ml-section-label">Problems elaborated</span>
     <h2 class="ml-section-title">Why Direct Access Failed</h2>
     <p class="ml-section-subtitle">
       Early operating systems let programs directly access physical RAM. This caused three massive problems.
@@ -208,7 +209,17 @@ import '../styles/exhibit-theme.css';
       If not (a <strong>TLB miss</strong>), the CPU has to walk through the page table in memory, which takes longer.
     </p>
 
-    <TlbSimulator client:load />
+    <AddressSignalPipeline client:load />
+    <br/>
+    <br/>
+
+    <h3>Real-Time Memory Mapping & 3D Allocation</h3>
+    <p>
+      Virtual memory solves external fragmentation by breaking virtual address space into uniform 4 KB Pages that map to non-contiguous 4 KB Frames anywhere in physical RAM. The 3D matrix below renders a 64-frame physical RAM cube to show how code pages, heap frames, shared libraries, and swapped disk sectors co-exist in non-contiguous hardware blocks.
+    </p>
+
+    <PageFrame3DVisualizer client:load />
+    <br/>
 
     <h3>Demand Paging and Page Faults</h3>
     <p>
