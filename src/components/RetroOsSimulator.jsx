@@ -594,7 +594,7 @@ export default function RetroOsSimulator() {
                     transition: 'all 0.1s'
                   }}
                 >
-                  Login
+                  Play
                 </button>
               </div>
             </div>
@@ -617,10 +617,14 @@ export default function RetroOsSimulator() {
               <p>* Two apps tried to access the exact same memory address.</p>
               <p>* The OS crashed entirely. (This is why Virtual Memory was invented!)</p>
               <br/>
-              <p>Press the button below to restart.</p>
-              <button onClick={startGame} style={{
-                marginTop: '1rem', padding: '5px 15px', background: '#c0c0c0', color: '#000', border: '2px outset #fff', cursor: 'pointer', fontFamily: 'monospace'
-              }}>Restart</button>
+              {(!getRedDevMessage() || tutorialStep >= 20) && (
+                <>
+                  <p>Press the button below to restart.</p>
+                  <button onClick={startGame} style={{
+                    marginTop: '1rem', padding: '5px 15px', background: '#c0c0c0', color: '#000', border: '2px outset #fff', cursor: 'pointer', fontFamily: 'monospace'
+                  }}>Restart</button>
+                </>
+              )}
             </div>
           )}
 
