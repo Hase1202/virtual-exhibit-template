@@ -12,21 +12,6 @@
 
 ---
 
-## 📅 **PROJECT CHRONOLOGY & MILESTONES**
-
-```text
- ┌──────────────────────┐      ┌──────────────────────┐      ┌──────────────────────┐
- │  PART 1: PROPOSAL    │ ───► │ PART 2: MID-MILESTONE│ ───► │ PART 3: FINAL EXHIBIT│
- │ Initial OS Concept & │      │ Core Layout & Theme  │      │ Hardware Pipelines,  │
- │ RedDev Simulator     │      │ Isolation (:has)     │      │ 3D RAM & UI Overhaul │
- └──────────────────────┘      └──────────────────────┘      └──────────────────────┘
-```
-
-> [!NOTE]
-> This README is organized chronologically into three distinct parts to give our professor full visibility into our project's evolution from original proposal write-up to mid-milestone layout, and finally to our complete interactive hardware exhibit submission.
-
----
-
 ## 📖 **TABLE OF CONTENTS**
 
 - [🚀 PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL](#-part-3-final-submission--interactive-hardware-overhaul)
