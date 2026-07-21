@@ -12,6 +12,7 @@ import SecurityVisualizer from '../components/SecurityVisualizer.jsx';
 import SwapVisualizer from '../components/SwapVisualizer.jsx';
 import SharedLibraryVisualizer from '../components/SharedLibraryVisualizer.jsx';
 import VirtualMemoryQuiz from '../components/VirtualMemoryQuiz.jsx';
+import VMKnowledgeQuiz from '../components/VMKnowledgeQuiz.jsx';
 import AddressSignalPipeline from '../components/AddressSignalPipeline.jsx';
 import PageFrame3DVisualizer from '../components/PageFrame3DVisualizer.jsx';
 
@@ -270,8 +271,22 @@ import '../styles/exhibit-theme.css';
 
 <hr class="ml-divider" />
 
-{/* 6. QUIZ SECTION */}
-<section class="ml-section ml-section--narrow animate-fade-up" id="quiz">
+{/* 6. KNOWLEDGE QUIZ */}
+<section class="ml-section ml-section--narrow animate-fade-up" id="knowledge-quiz">
+  <div class="ml-section-header">
+    <span class="ml-section-label">Test Your Knowledge</span>
+    <h2 class="ml-section-title">Virtual Memory Checkpoint</h2>
+    <p class="ml-section-subtitle">
+      Before we wrap up, let's see how much you've learned about Virtual Memory!
+    </p>
+  </div>
+  <VMKnowledgeQuiz client:load />
+</section>
+
+<hr class="ml-divider" />
+
+{/* 7. PERSONALITY QUIZ SECTION */}
+<section class="ml-section ml-section--narrow animate-fade-up" id="personality-quiz">
   <div class="ml-section-header">
     <span class="ml-section-label">Just for Fun</span>
     <h2 class="ml-section-title">Which Replacement Algorithm Are You?</h2>
