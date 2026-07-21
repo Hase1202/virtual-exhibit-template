@@ -12,10 +12,24 @@
 
 ---
 
-## 📈 **Incremental Development & Git Commit Log**
+## 📅 **PROJECT CHRONOLOGY & MILESTONES**
+
+```text
+ ┌──────────────────────┐      ┌──────────────────────┐      ┌──────────────────────┐
+ │  PART 1: PROPOSAL    │ ───► │ PART 2: MID-MILESTONE│ ───► │ PART 3: FINAL EXHIBIT│
+ │ Initial OS Concept & │      │ Core Layout & Theme  │      │ Hardware Pipelines,  │
+ │ RedDev Simulator     │      │ Isolation (:has)     │      │ 3D RAM & UI Overhaul │
+ └──────────────────────┘      └──────────────────────┘      └──────────────────────┘
+```
 
 > [!NOTE]
-> This project is documented incrementally to showcase our git commit trajectory, feature additions, and visualizer evolutions from early prototype to final submission.
+> This README is organized chronologically into three distinct parts to give our professor full visibility into our project's evolution from original proposal write-up to mid-milestone layout, and finally to our complete interactive hardware exhibit submission.
+
+---
+
+# 🚀 **PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL**
+
+### **3.1 Incremental Git Commit Log & Feature Trajectory**
 
 | Commit Milestone | Area / Component | Feature & Architectural Improvements Added | Status |
 | :--- | :--- | :--- | :--- |
@@ -28,7 +42,7 @@
 
 ---
 
-### **Project Directory Structure**
+### **3.2 Complete Project Component Directory**
 
 ```text
 src/
@@ -54,62 +68,69 @@ src/
     └── exhibit-theme.css                       <- "Memory Lab" dark futuristic theme stylesheet
 ```
 
-### **Development & Design**
+---
+
+### **3.3 Development & Design Philosophy**
 
 We decided our aesthetic should be a space theme with tones of blue and purple, as these colors commonly signify technology. Although this project began with basic template components, we incrementally built a full suite of interactive hardware visualizers and OS simulations. It was a rewarding challenge working around provided templates and adhering to strict guidelines, such as not modifying files inside the locked `layouts` folder or changing `global.css`.
 
 **Visual First & Retro UI Design:**  
 The layout follows a modern futuristic feel with purplish glassmorphism, designed specifically to highlight essential hardware concepts visually through step-by-step interactive animations rather than heavy walls of text. We intentionally introduced the **REDDEV tutorial** and **Retro OS Simulator** early on—incorporating vintage PC aesthetics and cassette-tape elements to contrast legacy Direct Access crashes against modern Virtual Memory solutions.
 
-We followed our proposed layout starting with the "Virtual Memory" title and abstract, followed by key concept cards. We then feature hardware-level pipeline simulations tracing virtual address requests through the MMU, TLB cache, and 3D RAM matrix (`PageFrame3DVisualizer`). Lastly, we included key takeaway summaries, an 8-question knowledge checkpoint (`VMKnowledgeQuiz`), and a personality quiz (`VirtualMemoryQuiz`).
+---
 
-### **Challenges & Technical Solutions**
+### **3.4 Technical Challenges & Solutions**
 
-**1. Incorporating Step-by-Step Visualizations into Definitions & Asynchronous Timing Bugs:**  
-Thinking of ways to seamlessly incorporate interactive visualizers into technical definitions so users could easily grasp complex hardware concepts was a major challenge. While building animated visualizers, we frequently encountered tricky timing bugs—such as signal arrows and memory bus pulses not spawning at the correct step transitions. Debugging asynchronous animation sequences in React state while learning Astro on the fly was tough, especially since the more complex the CSARCH2 topic (like TLB misses and page table walks), the harder it was to design an intuitive step-by-step visualization for visitors to follow.
+1. **Incorporating Step-by-Step Visualizations into Definitions & Asynchronous Timing Bugs:**  
+   Thinking of ways to seamlessly incorporate interactive visualizers into technical definitions so users could easily grasp complex hardware concepts was a major challenge. While building animated visualizers, we frequently encountered tricky timing bugs—such as signal arrows and memory bus pulses not spawning at the correct step transitions. Debugging asynchronous animation sequences in React state while learning Astro on the fly was tough, especially since the more complex the CSARCH2 topic (like TLB misses and page table walks), the harder it was to design an intuitive step-by-step visualization for visitors to follow.
 
-**2. Retro OS Desktop State Machine & Direct Access Memory Crashes (`RetroOsSimulator.jsx`)**  
-Managing multi-window state (`zIndex`, drag coordinates, open/close states) alongside real-time physical RAM allocation presented complex state management challenges. When a user opens apps under Direct Memory Access, calculating non-contiguous holes dynamically while triggering simulated kernel panic crashes when allocating a 4GB block across scattered holes required robust state tracking in React.
+2. **Retro OS Desktop State Machine & Direct Access Memory Crashes (`RetroOsSimulator.jsx`):**  
+   Managing multi-window state (`zIndex`, drag coordinates, open/close states) alongside real-time physical RAM allocation presented complex state management challenges. When a user opens apps under Direct Memory Access, calculating non-contiguous holes dynamically while triggering simulated kernel panic crashes when allocating a 4GB block across scattered holes required robust state tracking in React.
 
-**3. Deduplicating Physical RAM Frames across Multiple Virtual Spaces (`SharedLibraryVisualizer.jsx`)**  
-Simulating shared library pages required visualizing four independent program virtual address spaces pointing to the exact same physical RAM frame (e.g., `libc`). Ensuring that closing one application freed its private virtual mapping while retaining the shared physical frame for remaining active programs required precise state synchronization.
+3. **Deduplicating Physical RAM Frames across Multiple Virtual Spaces (`SharedLibraryVisualizer.jsx`):**  
+   Simulating shared library pages required visualizing four independent program virtual address spaces pointing to the exact same physical RAM frame (e.g., `libc`). Ensuring that closing one application freed its private virtual mapping while retaining the shared physical frame for remaining active programs required precise state synchronization.
 
-**4. Multi-Column Side-by-Side Synchronization (`PageTableVisualizer.jsx`)**  
-Keeping Hardware CPU, Physical RAM, and Magnified Page Table locked side-by-side in a single row on desktop viewports required strict CSS grid constraints (`1fr 1fr 1.15fr`) while ensuring text padding and font sizes dynamically adjust so columns wrap cleanly on smaller mobile screens without horizontal scroll clipping.
+4. **Multi-Column Side-by-Side Synchronization (`PageTableVisualizer.jsx`):**  
+   Keeping Hardware CPU, Physical RAM, and Magnified Page Table locked side-by-side in a single row on desktop viewports required strict CSS grid constraints (`1fr 1fr 1.15fr`) while ensuring text padding and font sizes dynamically adjust so columns wrap cleanly on smaller mobile screens without horizontal scroll clipping.
 
-**5. 3D Isometric Depth & HUD Collisions (`PageFrame3DVisualizer.jsx`)**  
-Rendering a 4x4x4 (64-frame) CSS isometric 3D cube presented depth-layering challenges. Floating absolute HUD overlays originally collided with header filter pills and truncated footer captions on standard display resolutions. We solved this by restructuring the component into containerized CSS grid areas with docked info panels.
+5. **3D Isometric Depth & HUD Collisions (`PageFrame3DVisualizer.jsx`):**  
+   Rendering a 4x4x4 (64-frame) CSS isometric 3D cube presented depth-layering challenges. Floating absolute HUD overlays originally collided with header filter pills and truncated footer captions on standard display resolutions. We solved this by restructuring the component into containerized CSS grid areas with docked info panels.
 
-### **Aha Moments**
+---
 
-**Bridging Classroom Theory & Hardware Middleman Realities**  
-*“Virtual memory is directly related to what we are discussing in class!”* When starting out, virtual memory felt intimidating and abstract. After watching instructional videos and studying how hardware address translation actually works under the hood, the key "aha" moment was realizing that virtual memory is essentially an intelligent middleman. Learning how indirection cleanly resolves external fragmentation brought classroom lectures to life and motivated us to create intuitive step-by-step visual explanations.
+### **3.5 Technical "Aha" Moments**
 
-**Global Stylesheet Isolation with CSS `:has()`**  
-We ran into an issue where importing the customized dark-mode futuristic theme (`exhibit-theme.css`) inside `virtual-memory.mdx` was leaking styles globally—nuking the home page's light cube background pattern and breaking the layout structure when navigating back. Because we weren't allowed to edit locked `ExhibitLayout.astro` or `HomepageLayout.astro` files directly, our "aha" moment was wrapping all global overrides in a `:has()` selector (`body:has(.ml-hero)`). This cleanly scopes all dark backgrounds, custom starfields, and header restyling to the virtual memory page only.
+- **Bridging Classroom Theory & Hardware Middleman Realities:**  
+  When starting out, virtual memory felt intimidating and abstract. After watching instructional videos and studying how hardware address translation actually works under the hood, the key "aha" moment was realizing that virtual memory is essentially an intelligent middleman. Learning how indirection cleanly resolves external fragmentation brought classroom lectures to life and motivated us to create intuitive step-by-step visual explanations.
 
-**Docked Inspection Drawers vs. Absolute Floating Tooltips**  
-When inspecting page table entry bits (`Valid`, `Dirty`, `Protection`), floating tooltips (`position: absolute, right: 105%`) frequently broke out of viewport bounds on smaller laptop screens. Our "aha" moment was embedding a docked bit inspector drawer directly at the base of the magnified table card. This eliminated clipping bugs permanently while keeping bit inspection clear and accessible.
+- **Global Stylesheet Isolation with CSS `:has()`:**  
+  We ran into an issue where importing the customized dark-mode futuristic theme (`exhibit-theme.css`) inside `virtual-memory.mdx` was leaking styles globally—nuking the home page's light cube background pattern and breaking the layout structure when navigating back. Our "aha" moment was wrapping all global overrides in a `:has()` selector (`body:has(.ml-hero)`). This cleanly scopes all dark backgrounds, custom starfields, and header restyling to the virtual memory page only.
 
-**Strict SVG Grid Alignment for Vector Badges**  
-We encountered subtle cross-browser alignment shifts where SVG icons inside rounded glassmorphic badges rendered slightly offset to the left. Applying `display: grid; place-items: center;` to badge containers along with `display: block; margin: 0 auto;` on SVG elements ensured perfect geometric centering across all screen densities.
+- **Docked Inspection Drawers vs. Absolute Floating Tooltips:**  
+  When inspecting page table entry bits (`Valid`, `Dirty`, `Protection`), floating tooltips (`position: absolute, right: 105%`) frequently broke out of viewport bounds on smaller laptop screens. Our "aha" moment was embedding a docked bit inspector drawer directly at the base of the magnified table card. This eliminated clipping bugs permanently while keeping bit inspection clear and accessible.
 
-**Address Space Identifier (ASID) & Context Switches**  
-While building `ContextSwitchVisualizer` and `TlbSimulator`, we discovered how modern processors avoid costly TLB flushes during context switches. By tagging TLB entries with an Address Space Identifier (ASID), the CPU can store translations for multiple processes simultaneously, allowing context switches to occur in nanoseconds.
+- **Strict SVG Grid Alignment for Vector Badges:**  
+  We encountered subtle cross-browser alignment shifts where SVG icons inside rounded glassmorphic badges rendered slightly offset to the left. Applying `display: grid; place-items: center;` to badge containers along with `display: block; margin: 0 auto;` on SVG elements ensured perfect geometric centering across all screen densities.
 
-**Hardware Address Decomposition (Page Number vs. Offset)**  
-Understanding that the MMU splits virtual addresses into a Virtual Page Number (VPN) and a Page Offset was an illuminating milestone. Because the offset bits map 1-to-1 into the physical frame without translation, the MMU only needs to look up the page number, dramatically speeding up hardware translation pipelines.
+- **Address Space Identifier (ASID) & Context Switches:**  
+  While building `ContextSwitchVisualizer` and `TlbSimulator`, we discovered how modern processors avoid costly TLB flushes during context switches. Tagging TLB entries with an ASID allows the CPU to store translations for multiple processes simultaneously, allowing context switches to occur in nanoseconds.
 
-### **Creative Development**
+- **Hardware Address Decomposition (Page Number vs. Offset):**  
+  Understanding that the MMU splits virtual addresses into a Virtual Page Number (VPN) and a Page Offset was an illuminating milestone. Because offset bits map 1-to-1 into physical frames without translation, the MMU only needs to translate the page number, dramatically speeding up hardware translation pipelines.
 
-**Interactive Visual Allocation & 3D RAM Matrix**  
+---
+
+### **3.6 Creative Development & Future Plans**
+
+**Interactive Visual Allocation & 3D RAM Matrix:**  
 Rather than just writing about paging and segmentation, the `MemoryFragmentationSimulator` uses an interactive grid that dynamically animates memory requests. Users can choose between contiguous memory, pure paging, or segmentation, and manually trigger allocation calls to watch external/internal fragmentation develop in real-time. We expanded this with `PageFrame3DVisualizer`, giving users a 3D isometric cube matrix to filter physical frames by Code Pages, Heap Frames, Shared Libraries, and Swapped sectors.
 
-### **Future Plans**
+**Future Plans:**  
+Although we weren’t able to fully implement everything in our original proposal—such as creating a separate page for a full-blown step-by-step tutorial—we built a strong foundation. We believe that if we have more time to learn React and Astro, we can create a gamified tutorial. However, even if that isn't possible due to time constraints, we have significantly expanded our submission with interactive hardware pipelines, 3D RAM visualizers, and detailed knowledge checkpoints.
 
-Although we weren’t able to fully implement everything in our proposal—such as creating a separate page for a full-blown, step-by-step tutorial—we have built a great foundation. We believe that if we have more time to learn React and Astro, we can create a gamified tutorial. However, even if that isn't possible due to time constraints, we have significantly expanded our submission with interactive hardware pipelines, 3D RAM visualizers, and detailed knowledge checkpoints.
+---
 
-### **AI Disclaimer**
+### **3.7 AI Disclaimer**
 
 Generative AI tools (including Claude Code and Gemini) were used throughout this project to accelerate work that would otherwise have taken significantly longer to complete manually, including:
 
@@ -119,12 +140,30 @@ Generative AI tools (including Claude Code and Gemini) were used throughout this
 
 All AI-assisted output was reviewed, tested, and edited by the team before inclusion in the final exhibit. The team remains responsible for the accuracy, functionality, and quality of the submitted work.
 
-### **Proposal Write Up Link:** https://docs.google.com/document/d/1ZMVh7Pd56G49Xbd0d0VN0TmAYVSYSMWPeGFJR1NeJHk/edit?tab=t.nmczb89685uj
+---
 
-### **Style Guide Snapshot Link:** https://www.figma.com/design/9UvQtgoi524cgPsaxZOKkg/CSARCH2---Style-guide-snapshot?node-id=1-1043&t=Wy7L57AGLdzWEqIN-1
+# 📌 **PART 2: MID-MILESTONE FOUNDATION & EARLY PROTOTYPE**
 
+### **2.1 Mid-Milestone Scope**
 
-### **Background of the Proposed Virtual Exhibit**
+During our initial mid-milestone phase, we established the foundational requirements for our site. We followed our proposed layout starting with the "Virtual Memory" title and abstract, followed by key concept cards to introduce interesting facts. We introduced the early canvas-based `MemoryFragmentationSimulator` and an initial step-by-step TLB lookup simulation to visualize physical memory allocation.
+
+### **2.2 Mid-Milestone Challenges**
+
+Working around the provided Astro museum templates while adhering to strict guidelines (such as not modifying locked layout files or `global.css`) was a major hurdle. We struggled with learning React and Astro on the fly—learning that React manages dynamic state for interactive UIs, whereas Astro acts as "HTML+" for static page assembly. Organizing our project with a modular folder structure in `src/components/` and scoping dark-mode CSS to `exhibit-theme.css` via `:has()` allowed us to build safely without global style leaks.
+
+---
+
+# 📜 **PART 1: ORIGINAL PROPOSAL & ARCHITECTURAL WRITE-UP**
+
+### **1.1 Proposal Resource Links**
+
+* **Proposal Write-Up Link:** https://docs.google.com/document/d/1ZMVh7Pd56G49Xbd0d0VN0TmAYVSYSMWPeGFJR1NeJHk/edit?tab=t.nmczb89685uj
+* **Style Guide Snapshot Link:** https://www.figma.com/design/9UvQtgoi524cgPsaxZOKkg/CSARCH2---Style-guide-snapshot?node-id=1-1043&t=Wy7L57AGLdzWEqIN-1
+
+---
+
+### **1.2 Background of the Proposed Virtual Exhibit**
 
 In early multitasking systems, the OS carved physical RAM into chunks and handed them to processes as they started. When a process closed, its chunk was freed, but that freed region sat wherever it happened to be in memory, not necessarily adjacent to any other free region. Over time, as programs were started and stopped at different moments, free memory became scattered across small, non-contiguous holes. This is external fragmentation. This means a system can have enough total free memory to satisfy an allocation request, yet be completely unable to fulfill it because no single contiguous block is large enough. A program needing 2.5 GB cannot be split across a 1 GB hole and a 2 GB hole. It must land in one contiguous region.
 
@@ -132,7 +171,9 @@ The classical workaround is compaction, moving all loaded programs to one end of
 
 **This exhibit uses fragmentation as the entry point to that story, letting visitors experience the problem firsthand before arriving at virtual memory as the answer.**
 
-### **Tech Stack Plan**
+---
+
+### **1.3 Tech Stack Plan**
 
 The project will follow the provided Astro-based museum template to ensure compatibility with the central virtual museum website.
 
@@ -144,23 +185,25 @@ The proposed core stack is as follows:
 * React JSX for building interactive visualizers and simulations  
 * CSS Modules for scoped and organized component styling
 
-### **Interactive element: RedDev OS Memory Simulator**
+---
+
+### **1.4 Proposed Interactive Element: RedDev OS Memory Simulator**
 
 The interactive element is a gamified, state-driven React component that simulates a desktop operating system. Rather than clicking through static slides or a basic list, the user acts as the computer operator, guided by an interactive mascot named "RedDev." 
 
-Phase 1 will simulate the fragmentation trap that happens with physical memory. The user boots into the "RedDev OS" desktop. Guided by RedDev’s speech bubble, the user is instructed to manually open several programs from the desktop (Chrome, Discord, and Valorant). As apps open, the user can check the "Task Manager" window, which displays a proportional, color-coded physical RAM bar alongside real-time metrics (Total Free, Largest Block, and Holes).
+**Phase 1** will simulate the fragmentation trap that happens with physical memory. The user boots into the "RedDev OS" desktop. Guided by RedDev’s speech bubble, the user is instructed to manually open several programs from the desktop (Chrome, Discord, and Valorant). As apps open, the user can check the "Task Manager" window, which displays a proportional, color-coded physical RAM bar alongside real-time metrics (Total Free, Largest Block, and Holes).
 
 To demonstrate external fragmentation, RedDev instructs the user to close Chrome and Valorant, stranding Discord in the center of the RAM bar. The user is then asked to open a massive 4 GB Video Editor. Because the system is restricted to physical memory allocation, the Video Editor triggers an "Out of Memory" crash, as there is no single contiguous 4 GB block available.
-Phase 2 will showcase the solution following the forced crash in Phase 1 by RedDev introducing Virtual Memory. The user toggles a system switch, revealing a dual-bar view in the Task Manager showing physical RAM on top and the program's virtual address space below. When the user attempts to open the Video Editor again, the component visually demonstrates the OS using a page table to map the application's contiguous virtual address space into the scattered physical holes, allowing the program to load successfully.
 
-Once the tutorial concludes, RedDev unlocks "Sandbox Mode" which is Phase 3. The user is given a full queue of programs with fixed memory sizes (Chrome at 2 GB, Discord at 1 GB, Valorant at 3 GB, Spotify at 1 GB, and a Video Editor at 4 GB).
+**Phase 2** will showcase the solution following the forced crash in Phase 1 by RedDev introducing Virtual Memory. The user toggles a system switch, revealing a dual-bar view in the Task Manager showing physical RAM on top and the program's virtual address space below. When the user attempts to open the Video Editor again, the component visually demonstrates the OS using a page table to map the application's contiguous virtual address space into the scattered physical holes, allowing the program to load successfully.
+
+**Phase 3** unlocks "Sandbox Mode" once the tutorial concludes. The user is given a full queue of programs with fixed memory sizes (Chrome at 2 GB, Discord at 1 GB, Valorant at 3 GB, Spotify at 1 GB, and a Video Editor at 4 GB).
 Instead of a pre-determined sequence or a static slideshow, the user has total freedom to click and open/close these programs directly on the desktop in any order they choose. Because the sequence is entirely user-defined, the fragmentation outcome varies dynamically. A user who closes programs cleanly from one end might never see an error, while a user who closes programs haphazardly will strand running apps and create isolated memory holes. This variability is intentional: it encourages visitors to experiment, intentionally cause fragmentation, and then toggle the Virtual Memory switch to watch the page table resolve their unique memory mess in real-time.
 
-The component is built entirely in React. State management is handled via useState hooks to track the active programs array, recalculate the largest contiguous block dynamically as apps are opened or closed, and trigger the CSS transitions. 
+The component is built entirely in React. State management is handled via `useState` hooks to track the active programs array, recalculate the largest contiguous block dynamically as apps are opened or closed, and trigger CSS transitions. 
 
 **Mobile-responsive layout:**
-
-* The RAM bar and stats row stack cleanly at narrow widths via CSS flex-wrap  
+* The RAM bar and stats row stack cleanly at narrow widths via CSS `flex-wrap`  
 * Program queue cards use `auto-fit` grid columns, collapsing to 2 columns on mobile  
 * Navigation buttons are full-touch-target height (minimum 44px) on small screens  
 * Caption text reflows naturally — no horizontal scrolling at any viewport
