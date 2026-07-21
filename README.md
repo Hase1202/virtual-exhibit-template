@@ -1,4 +1,4 @@
-### **CSARCH2 VIRTUAL EXHIBIT MID MILESTONE**
+### **CSARCH2 VIRTUAL EXHIBIT - INCREMENTAL MILESTONE LOG**
 
 **Submitted By:**
 
@@ -10,13 +10,42 @@
 
 ### **DEPLOYED SITE:** https://hase1202.github.io/virtual-exhibit-template/?fbclid=IwY2xjawS51_NleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAEwAAEeRWW4ZKnuZ9oDu7o43sgbREaTRyrwppVkuey8OBcZkgQL1vK6sB4W7cmFr1E_aem_7PKhIVTHdtHrlPpERcP_jA
 
+---
+
+## 📈 **Incremental Development & Git Commit Log**
+
+> [!NOTE]
+> This project is documented incrementally to showcase our git commit trajectory, feature additions, and visualizer evolutions from early prototype to final submission.
+
+| Commit Milestone | Area / Component | Feature & Architectural Improvements Added | Status |
+| :--- | :--- | :--- | :--- |
+| `69cb6a9` / `8ada80e` | `RetroOsSimulator.jsx` | Created interactive Win95 Retro OS simulator, task manager, direct access vs. virtual memory allocation, and crash handlers. | Completed |
+| `69a3446` / `ca6199e` | Deep Dive Problem Visualizers | Implemented `SecurityVisualizer` (Problem 1), `SwapVisualizer` (Problem 2), and `SharedLibraryVisualizer` (Problem 3). | Completed |
+| `ad278e5` / `1a60b1a` | Page Table & PTBR Mechanics | Built `ContextSwitchVisualizer` (PTBR process switching) and `PageTableEntryVisualizer` (Protection & Status bits). | Completed |
+| `e879cfa` / `89fb653` | Quiz Suite | Added `VMKnowledgeQuiz` (8-question knowledge check) and `VirtualMemoryQuiz` (replacement algorithm test). | Completed |
+| `569b3e6` / `0c31f4f` | Hardware & 3D Overhaul | Built `PageTableVisualizer` (side-by-side 3-column architecture), `AddressSignalPipeline` (MMU pipeline), `PageFrame3DVisualizer` (3D RAM matrix), and merged branch updates. | Completed |
+| `686804c` / `Recent` | UI & Documentation Polish | Standardized SVG vector icons, centered quiz CTA screen, docked inspection drawers, and updated incremental README. | Completed |
+
+---
+
+### **Project Directory Structure**
+
 ```text
 src/
 ├── components/
-│   ├── MemoryFragmentationSimulator.jsx        <- Canvas-based allocator (Paging vs. Seg.)
-│   ├── MemoryFragmentationSimulator.module.css  <- Scoped styling for simulator grid
+│   ├── RetroOsSimulator.jsx                    <- Interactive Retro Win95 OS mini-game & memory task manager
+│   ├── SecurityVisualizer.jsx                  <- Problem 1: Memory protection & process isolation simulator
+│   ├── SwapVisualizer.jsx                      <- Problem 2: Demand paging & disk swap file animator
+│   ├── SharedLibraryVisualizer.jsx             <- Problem 3: Shared pages & C library (libc) RAM deduplication
+│   ├── PageTableVisualizer.jsx                 <- Side-by-side 3-column Page Table & PTBR lookup architecture
+│   ├── AddressSignalPipeline.jsx               <- Hardware MMU translation & TLB hit/miss pipeline stepper
+│   ├── PageFrame3DVisualizer.jsx               <- 3D CSS isometric physical RAM matrix (4x4x4 cube)
+│   ├── ContextSwitchVisualizer.jsx             <- Process context switch & PTBR pointer animator
+│   ├── PageTableEntryVisualizer.jsx            <- Status (Valid/Dirty/Accessed) & Protection (R/W/X) bits inspector
 │   ├── TlbSimulator.jsx                        <- Step-by-step Page Table + TLB lookup flow
-│   ├── VirtualMemoryQuiz.jsx                   <- Interactive feedback quiz component
+│   ├── VMKnowledgeQuiz.jsx                     <- Centered 8-question knowledge checkpoint & review cards
+│   ├── VirtualMemoryQuiz.jsx                   <- Page replacement algorithm personality test
+│   ├── MemoryFragmentationSimulator.jsx        <- Canvas-based allocator (Paging vs. Segmentation)
 │   ├── ConceptCard.astro                       <- Card template for key terms/hardware specs
 │   └── TakeawayCard.astro                      <- Structured key findings template
 ├── pages/
@@ -27,35 +56,57 @@ src/
 
 ### **Development**
 
-We decided our aesthetic should be a space theme with tones of blue and purple, as these colors commonly signify technology. Although this was only a mid-milestone project, we were able to implement the foundational requirements of our site. It was quite a challenge trying to work around the provided templates and adhering to the strict guidelines, such as not modifying files inside the layouts folder or changing global.css.
+We decided our aesthetic should be a space theme with tones of blue and purple, as these colors commonly signify technology. Although this project began with basic template components, we incrementally built a full suite of interactive hardware visualizers and OS simulations. It was a rewarding challenge working around provided templates and adhering to strict guidelines, such as not modifying files inside the locked `layouts` folder or changing `global.css`.
 
-We followed our proposed layout by starting with the "Virtual Memory" title and an abstract, followed by key concepts to quickly introduce interesting facts. We intentionally introduce the interactive lab early on, as it is much more entertaining for users to play around with a visual simulation, which entices them to learn more about virtual RAM. The subsequent section provides detailed descriptions for users who want to dive deeper. Next, we feature another virtual simulation that demonstrates how a virtual address page lookup is traced through the TLB cache and page tables, utilizing cool loading animations to visualize the process. Lastly, we included a summary and a quiz to help the user determine which page replacement algorithm suits them best.
+We followed our proposed layout by starting with the "Virtual Memory" title and abstract, followed by key concept cards. We intentionally introduce the **Retro OS Simulator** mini-game early on, as it entices users to experience physical RAM crashes firsthand before diving into the solution. The subsequent sections provide detailed deep-dives into memory protection (`SecurityVisualizer`), demand paging (`SwapVisualizer`), and shared pages (`SharedLibraryVisualizer`). We then feature hardware-level pipeline simulations tracing virtual address requests through the MMU, TLB cache, and 3D RAM matrix (`PageFrame3DVisualizer`). Lastly, we included key takeaway summaries, an 8-question knowledge checkpoint (`VMKnowledgeQuiz`), and a personality quiz (`VirtualMemoryQuiz`).
 
-### **Challenges**
+### **Challenges & Technical Solutions**
 
-Aside from the challenges we faced integrating the exhibit format, we also struggled with learning React and Astro on the fly. We learned that React has the capability to store data (state) and is ideal for creating engaging UIs, whereas Astro does not store data in the same way, but acts more like "HTML+" with greater flexibility for building static designs.
+**1. Retro OS Desktop State Machine & Direct Access Memory Crashes (`RetroOsSimulator.jsx`)**  
+Managing multi-window state (`zIndex`, drag coordinates, open/close states) alongside real-time physical RAM allocation presented complex state management challenges. When a user opens apps under Direct Memory Access, calculating non-contiguous holes dynamically while triggering simulated kernel panic crashes when allocating a 4GB block across scattered holes required robust state tracking in React.
 
-We quickly learned that organization is critical, employing a "divide and conquer" folder structure. The styles folder assists the pages folder (which contains our main MDX/HTML files). Because the layouts folder cannot be modified, and the assets folder is strictly for images, we utilized the components folder for our "sections." This is where we safely modified our React and Astro components, as it is much safer to scope the layout and styling to a single section rather than cramming everything into a global CSS file. It was quite confusing to relearn JavaScript for React and Astro, but because we were already familiar with HTML from CCAPDEV, we have a good head start. It will just take some time to fully grasp these new capabilities since we have only just started.
+**2. Deduplicating Physical RAM Frames across Multiple Virtual Spaces (`SharedLibraryVisualizer.jsx`)**  
+Simulating shared library pages required visualizing four independent program virtual address spaces pointing to the exact same physical RAM frame (e.g., `libc`). Ensuring that closing one application freed its private virtual mapping while retaining the shared physical frame for remaining active programs required precise state synchronization.
 
-### Aha Moments
-**Global stylesheet isolation with CSS `:has()`**
-We ran into an issue where importing the customized dark-mode futuristic theme (`exhibit-theme.css`) inside the `virtual-memory.mdx` page was leaking styles globally—nuking the home page's light cube background pattern and breaking the layout structure when navigating back. Because we weren't allowed to edit the locked `ExhibitLayout.astro` or `HomepageLayout.astro` files directly, the "aha" moment was wrapping all our global overrides in a `:has()` selector (e.g., `body:has(.ml-hero)`). This cleanly scopes all dark backgrounds, custom starfields, and header restyling to the virtual memory page only, leaving the home page intact.
+**3. Multi-Column Side-by-Side Synchronization (`PageTableVisualizer.jsx`)**  
+Keeping Hardware CPU, Physical RAM, and Magnified Page Table locked side-by-side in a single row on desktop viewports required strict CSS grid constraints (`1fr 1fr 1.15fr`) while ensuring text padding and font sizes dynamically adjust so columns wrap cleanly on smaller mobile screens without horizontal scroll clipping.
 
-### Creative Development
-**Interactive Visual Allocation instead of static diagrams**
-Rather than just writing about paging and segmentation, the `MemoryFragmentationSimulator` uses an interactive grid that dynamically animates memory requests. Users can choose between contiguous memory, pure paging, or segmentation, and manually trigger allocation calls to watch external/internal fragmentation develop in real-time.
+**4. 3D Isometric Depth & HUD Collisions (`PageFrame3DVisualizer.jsx`)**  
+Rendering a 4x4x4 (64-frame) CSS isometric 3D cube presented depth-layering challenges. Floating absolute HUD overlays originally collided with header filter pills and truncated footer captions on standard display resolutions. We solved this by restructuring the component into containerized CSS grid areas with docked info panels.
+
+### **Aha Moments**
+
+**Global Stylesheet Isolation with CSS `:has()`**  
+We ran into an issue where importing the customized dark-mode futuristic theme (`exhibit-theme.css`) inside `virtual-memory.mdx` was leaking styles globally—nuking the home page's light cube background pattern and breaking the layout structure when navigating back. Because we weren't allowed to edit locked `ExhibitLayout.astro` or `HomepageLayout.astro` files directly, our "aha" moment was wrapping all global overrides in a `:has()` selector (`body:has(.ml-hero)`). This cleanly scopes all dark backgrounds, custom starfields, and header restyling to the virtual memory page only.
+
+**Docked Inspection Drawers vs. Absolute Floating Tooltips**  
+When inspecting page table entry bits (`Valid`, `Dirty`, `Protection`), floating tooltips (`position: absolute, right: 105%`) frequently broke out of viewport bounds on smaller laptop screens. Our "aha" moment was embedding a docked bit inspector drawer directly at the base of the magnified table card. This eliminated clipping bugs permanently while keeping bit inspection clear and accessible.
+
+**Strict SVG Grid Alignment for Vector Badges**  
+We encountered subtle cross-browser alignment shifts where SVG icons inside rounded glassmorphic badges rendered slightly offset to the left. Applying `display: grid; place-items: center;` to badge containers along with `display: block; margin: 0 auto;` on SVG elements ensured perfect geometric centering across all screen densities.
+
+**Address Space Identifier (ASID) & Context Switches**  
+While building `ContextSwitchVisualizer` and `TlbSimulator`, we discovered how modern processors avoid costly TLB flushes during context switches. By tagging TLB entries with an Address Space Identifier (ASID), the CPU can store translations for multiple processes simultaneously, allowing context switches to occur in nanoseconds.
+
+**Hardware Address Decomposition (Page Number vs. Offset)**  
+Understanding that the MMU splits virtual addresses into a Virtual Page Number (VPN) and a Page Offset was an illuminating milestone. Because the offset bits map 1-to-1 into the physical frame without translation, the MMU only needs to look up the page number, dramatically speeding up hardware translation pipelines.
+
+### **Creative Development**
+
+**Interactive Visual Allocation & 3D RAM Matrix**  
+Rather than just writing about paging and segmentation, the `MemoryFragmentationSimulator` uses an interactive grid that dynamically animates memory requests. Users can choose between contiguous memory, pure paging, or segmentation, and manually trigger allocation calls to watch external/internal fragmentation develop in real-time. We expanded this with `PageFrame3DVisualizer`, giving users a 3D isometric cube matrix to filter physical frames by Code Pages, Heap Frames, Shared Libraries, and Swapped sectors.
 
 ### **Future Plans**
 
-Although we weren’t able to fully implement everything in our proposal—such as creating a separate page for a full-blown, step-by-step tutorial—we have built a great foundation. We believe that if we have more time to learn React and Astro, we can create a gamified tutorial. However, even if that isn't possible due to time constraints, we can still improve our current mid-milestone submission by adding a few more visual interactions related to virtual memory, such as its relationship to the GPU.
+Although we weren’t able to fully implement everything in our proposal—such as creating a separate page for a full-blown, step-by-step tutorial—we have built a great foundation. We believe that if we have more time to learn React and Astro, we can create a gamified tutorial. However, even if that isn't possible due to time constraints, we have significantly expanded our submission with interactive hardware pipelines, 3D RAM visualizers, and detailed knowledge checkpoints.
 
 ### **AI Disclaimer**
 
-Generative AI tools (including Claude Code) were used throughout this project to accelerate work that would otherwise have taken significantly longer to complete manually, including:
+Generative AI tools (including Claude Code and Gemini) were used throughout this project to accelerate work that would otherwise have taken significantly longer to complete manually, including:
 
-* Scaffolding and writing frontend code for the RedDev OS Memory Simulator, such as React state logic, CSS Modules styling, and responsive layout handling  
-* Assisting with UI/UX design decisions, including layout structure, visual styling, and component composition  
-* Drafting and refining written content, such as exhibit copy and this README
+* Scaffolding and writing frontend code for the RedDev OS Memory Simulator, hardware MMU pipelines, page table visualizers, and 3D memory cubes  
+* Assisting with UI/UX design decisions, glassmorphic styling, responsive layout handling, and vector icon alignment  
+* Drafting and refining written content, such as exhibit copy, quiz explanations, and this incremental README
 
 All AI-assisted output was reviewed, tested, and edited by the team before inclusion in the final exhibit. The team remains responsible for the accuracy, functionality, and quality of the submitted work.
 
