@@ -15,6 +15,7 @@ import VirtualMemoryQuiz from '../components/VirtualMemoryQuiz.jsx';
 import VMKnowledgeQuiz from '../components/VMKnowledgeQuiz.jsx';
 import AddressSignalPipeline from '../components/AddressSignalPipeline.jsx';
 import TlbSimulator from '../components/TlbSimulator.jsx';
+import PageTableVisualizer from '../components/PageTableVisualizer.jsx';
 import PageFrame3DVisualizer from '../components/PageFrame3DVisualizer.jsx';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
@@ -185,6 +186,9 @@ import '../styles/exhibit-theme.css';
     <div class="ml-analogy">
       <strong>The Two-Access Problem:</strong> Page tables are so huge they have to be stored in physical RAM. If the CPU has to read the page table from RAM <em>every single time</em> it wants to access memory, it doubles the access time! We need a hardware solution.
     </div>
+    
+    <br/>
+    <PageTableVisualizer client:load />
 
     <h3>3. The Hardware Hero: The MMU</h3>
     <p>
