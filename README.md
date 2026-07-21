@@ -12,22 +12,7 @@
 
 ---
 
-## 📅 **PROJECT CHRONOLOGY & MILESTONES**
-
-```text
- ┌──────────────────────┐      ┌──────────────────────┐      ┌──────────────────────┐
- │  PART 1: PROPOSAL    │ ───► │ PART 2: MID-MILESTONE│ ───► │ PART 3: FINAL EXHIBIT│
- │ Initial OS Concept & │      │ Core Layout & Theme  │      │ Hardware Pipelines,  │
- │ RedDev Simulator     │      │ Isolation (:has)     │      │ 3D RAM & UI Overhaul │
- └──────────────────────┘      └──────────────────────┘      └──────────────────────┘
-```
-
-> [!NOTE]
-> This README is organized chronologically into three distinct parts to give our professor full visibility into our project's evolution from original proposal write-up to mid-milestone layout, and finally to our complete interactive hardware exhibit submission.
-
----
-
-# 🚀 **PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL**
+# **PART 3: FINAL SUBMISSION & INTERACTIVE HARDWARE OVERHAUL**
 
 ### **3.1 Incremental Git Commit Log & Feature Trajectory**
 
@@ -84,7 +69,7 @@ We followed our proposed layout starting with the "Virtual Memory" title and abs
 ### **3.4 Final Exhibit Technical Challenges & Solutions**
 
 1. **Incorporating Step-by-Step Visualizations into Definitions & Asynchronous Timing Bugs:**  
-   Thinking of ways to seamlessly incorporate interactive visualizers into technical definitions so users could easily grasp complex hardware concepts was a major challenge. While building animated visualizers, we frequently encountered tricky timing bugs—such as signal arrows and memory bus pulses not spawning at the correct step transitions. Debugging asynchronous animation sequences in React state while learning Astro on the fly was tough, especially since the more complex the CSARCH2 topic (like TLB misses and page table walks), the harder it was to design an intuitive step-by-step visualization for visitors to follow.
+   Thinking of ways to seamlessly incorporate interactive visualizers into technical definitions so users could easily grasp complex hardware concepts was a major challenge. While building animated visualizers, we frequently encountered tricky timing bugs, such as signal arrows and memory bus pulses not spawning at the correct step transitions. Debugging asynchronous animation sequences in React state while learning Astro on the fly was tough, especially since the more complex the CSARCH2 topic (like TLB misses and page table walks), the harder it was to design an intuitive step-by-step visualization for visitors to follow.
 
 2. **Retro OS Desktop State Machine & Direct Access Memory Crashes (`RetroOsSimulator.jsx`):**  
    Managing multi-window state (`zIndex`, drag coordinates, open/close states) alongside real-time physical RAM allocation presented complex state management challenges. When a user opens apps under Direct Memory Access, calculating non-contiguous holes dynamically while triggering simulated kernel panic crashes when allocating a 4GB block across scattered holes required robust state tracking in React.
@@ -92,10 +77,7 @@ We followed our proposed layout starting with the "Virtual Memory" title and abs
 3. **Deduplicating Physical RAM Frames across Multiple Virtual Spaces (`SharedLibraryVisualizer.jsx`):**  
    Simulating shared library pages required visualizing four independent program virtual address spaces pointing to the exact same physical RAM frame (e.g., `libc`). Ensuring that closing one application freed its private virtual mapping while retaining the shared physical frame for remaining active programs required precise state synchronization.
 
-4. **Multi-Column Side-by-Side Synchronization (`PageTableVisualizer.jsx`):**  
-   Keeping Hardware CPU, Physical RAM, and Magnified Page Table locked side-by-side in a single row on desktop viewports required strict CSS grid constraints (`1fr 1fr 1.15fr`) while ensuring text padding and font sizes dynamically adjust so columns wrap cleanly on smaller mobile screens without horizontal scroll clipping.
-
-5. **3D Isometric Depth & HUD Collisions (`PageFrame3DVisualizer.jsx`):**  
+4. **3D Isometric Depth & HUD Collisions (`PageFrame3DVisualizer.jsx`):**  
    Rendering a 4x4x4 (64-frame) CSS isometric 3D cube presented depth-layering challenges. Floating absolute HUD overlays originally collided with header filter pills and truncated footer captions on standard display resolutions. We solved this by restructuring the component into containerized CSS grid areas with docked info panels.
 
 ---
@@ -119,7 +101,7 @@ We followed our proposed layout starting with the "Virtual Memory" title and abs
 
 ---
 
-### **3.6 Creative Development & Future Plans**
+### **3.6 Visual & Interactive Development**
 
 **Interactive Visual Allocation & 3D RAM Matrix:**  
 Rather than just writing about paging and segmentation, the `MemoryFragmentationSimulator` uses an interactive grid that dynamically animates memory requests. Users can choose between contiguous memory, pure paging, or segmentation, and manually trigger allocation calls to watch external/internal fragmentation develop in real-time. We expanded this with `PageFrame3DVisualizer`, giving users a 3D isometric cube matrix to filter physical frames by Code Pages, Heap Frames, Shared Libraries, and Swapped sectors.
@@ -138,7 +120,7 @@ All AI-assisted output was reviewed, tested, and edited by the team before inclu
 
 ---
 
-# 📌 **PART 2: MID-MILESTONE FOUNDATION & EARLY PROTOTYPE**
+# **PART 2: MID-MILESTONE FOUNDATION & EARLY PROTOTYPE**
 
 ### **2.1 Mid-Milestone Development Scope**
 
@@ -168,7 +150,7 @@ Although we weren’t able to fully implement everything in our original proposa
 
 ---
 
-# 📜 **PART 1: ORIGINAL PROPOSAL & ARCHITECTURAL WRITE-UP**
+# **PART 1: ORIGINAL PROPOSAL & ARCHITECTURAL WRITE-UP**
 
 ### **1.1 Proposal Resource Links**
 
