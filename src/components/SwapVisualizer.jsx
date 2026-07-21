@@ -88,7 +88,7 @@ export default function SwapVisualizer() {
       }}></div>
 
       {!hasPlayed && (
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50 }}>
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, background: 'rgba(10, 6, 32, 0.5)' }}>
           <button onClick={handlePlay} style={{
               background: 'linear-gradient(135deg, #38bdf8 0%, #818cf8 100%)', border: 'none', borderRadius: '50%', width: '100px', height: '100px',
               color: '#fff', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 0 30px rgba(56, 189, 248, 0.5)'
@@ -196,7 +196,7 @@ export default function SwapVisualizer() {
         </svg>
 
         {/* COLUMN 1: APPS */}
-        <div style={{ position: 'absolute', left: `${APP_L}%`, width: '18%', height: '100%', transition: 'all 0.8s ease', opacity: hasPlayed ? 1 : 0 }}>
+        <div style={{ position: 'absolute', left: `${APP_L}%`, width: '18%', height: '100%', transition: 'all 0.8s ease', opacity: hasPlayed ? 1 : 0.3 }}>
           {apps.map((app, i) => {
             // If Discord gets swapped to disk in step 3, grey it out
             const isSwapped = step >= 3 && app.id === 'discord';
@@ -227,7 +227,7 @@ export default function SwapVisualizer() {
         </div>
 
         {/* COLUMN 2: PHYSICAL RAM */}
-        <div style={{ position: 'absolute', left: `${RAM_L}%`, width: '22%', height: '100%', transform: hasPlayed ? 'translateX(0)' : 'translateX(100px)', opacity: hasPlayed ? 1 : 0, transition: 'all 0.8s ease' }}>
+        <div style={{ position: 'absolute', left: `${RAM_L}%`, width: '22%', height: '100%', opacity: hasPlayed ? 1 : 0.3, transition: 'all 0.8s ease' }}>
           <div style={{ background: 'linear-gradient(180deg, #1e293b 0%, #0f172a 100%)', border: '2px solid #334155', borderRadius: '12px', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <div style={{ height: '10%', background: '#334155', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', fontWeight: 'bold', color: '#e2e8f0', textAlign: 'center' }}>
               PHYSICAL RAM<br/>(10 SLOTS)

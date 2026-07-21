@@ -122,7 +122,7 @@ export default function SharedLibraryVisualizer() {
       }}></div>
 
       {!hasPlayed && (
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50 }}>
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, background: 'rgba(10, 6, 32, 0.5)' }}>
           <button onClick={handlePlay} className="btn-play">PLAY</button>
         </div>
       )}
@@ -195,7 +195,7 @@ export default function SharedLibraryVisualizer() {
         </svg>
 
         {/* COLUMN 1: APPS */}
-        <div style={{ position: 'absolute', left: `${APP_L}%`, width: `${APP_W}%`, height: '100%', transition: 'all 0.8s ease', opacity: hasPlayed ? 1 : 0 }}>
+        <div style={{ position: 'absolute', left: `${APP_L}%`, width: `${APP_W}%`, height: '100%', transition: 'all 0.8s ease', opacity: hasPlayed ? 1 : 0.3 }}>
           {apps.map((app, i) => {
             return (
               <div key={app.id} style={{
@@ -223,7 +223,7 @@ export default function SharedLibraryVisualizer() {
         </div>
 
         {/* COLUMN 2: PHYSICAL RAM */}
-        <div style={{ position: 'absolute', left: `${RAM_L}%`, width: '22%', height: '100%', transform: hasPlayed ? 'translateX(0)' : 'translateX(100px)', opacity: hasPlayed ? 1 : 0, transition: 'all 0.8s ease' }}>
+        <div style={{ position: 'absolute', left: `${RAM_L}%`, width: '22%', height: '100%', opacity: hasPlayed ? 1 : 0.3, transition: 'all 0.8s ease' }}>
           <div style={{ background: 'linear-gradient(180deg, #1e293b 0%, #0f172a 100%)', border: '2px solid #334155', borderRadius: '12px', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <div style={{ height: '10%', background: '#334155', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', fontWeight: 'bold', color: '#e2e8f0', textAlign: 'center' }}>
               PHYSICAL RAM<br/>(10 SLOTS)

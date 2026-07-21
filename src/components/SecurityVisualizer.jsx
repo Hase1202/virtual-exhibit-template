@@ -76,10 +76,10 @@ export default function SecurityVisualizer() {
     valorantSlots = [4, 5, 6];
   }
 
-  const yDiscord = 16;   
-  const ySpotify = 42;   
-  const yValorant = 68;  
-  const yChrome = 94;
+  const yDiscord = 15;   
+  const ySpotify = 40;   
+  const yValorant = 65;  
+  const yChrome = 90;
 
   const apps = [
     { id: 'discord', icon: discordLogo, name: 'Discord', color: '#a855f7', top: `${yDiscord}%`, slots: discordSlots },
@@ -126,7 +126,7 @@ export default function SecurityVisualizer() {
       }}></div>
 
       {!hasPlayed && (
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50 }}>
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, background: 'rgba(10, 6, 32, 0.5)' }}>
           <button onClick={handlePlay} style={{
               background: 'linear-gradient(135deg, #38bdf8 0%, #818cf8 100%)', border: 'none', borderRadius: '50%', width: '100px', height: '100px',
               color: '#fff', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 0 30px rgba(56, 189, 248, 0.5)'
@@ -172,7 +172,7 @@ export default function SecurityVisualizer() {
         </h4>
       </div>
 
-      <div style={{ position: 'relative', flex: 1, display: 'flex', justifyContent: 'space-between', zIndex: 10 }}>
+      <div style={{ position: 'relative', flex: 1, display: 'flex', justifyContent: 'space-between', zIndex: 10, minHeight: '500px' }}>
         
         {/* STEP 2 VULNERABILITY WARNING */}
         {step === 2 && (
@@ -258,28 +258,28 @@ export default function SecurityVisualizer() {
             </>
           )}
 
-          {/* STATE 5: Chrome Paths */}
-          {step === 5 && (
-            <>
-               {(step === 5 && animStage >= 2) && (
-                 <>
-                   <path d={`M 18 ${yChrome} L 27.5 ${yChrome}`} fill="none" stroke="#facc15" strokeWidth="1" pathLength="100" className="anim-trunk-fade" />
-                   {[7, 8, 9].map(v => (
-                     <path key={`c-v-${v}`} d={`M 27.5 ${yChrome} L 27.5 ${slotCenters[v]} L 37 ${slotCenters[v]}`} fill="none" stroke="#facc15" strokeWidth="1" pathLength="100" markerEnd="url(#arrowYellow)" className="anim-branch-fade" />
-                   ))}
-                 </>
-               )}
-               {(step === 5 && animStage >= 3) && [7, 8, 9].map((v, i) => {
-                 const p = chromePhysical[i];
-                 return (
-                   <React.Fragment key={`c-p-${v}`}>
-                     <path d={`M 59 ${slotCenters[v]} L 68.5 ${slotCenters[v]}`} fill="none" stroke="#facc15" strokeWidth="1" pathLength="100" className="anim-trunk-fade" />
-                     <path d={`M 68.5 ${slotCenters[v]} L 68.5 ${slotCenters[p]} L 78 ${slotCenters[p]}`} fill="none" stroke="#facc15" strokeWidth="1" pathLength="100" markerEnd="url(#arrowYellow)" className="anim-branch-fade" />
-                   </React.Fragment>
-                 )
-               })}
-            </>
-          )}
+           {/* STATE 5: Chrome Paths */}
+           {step === 5 && (
+             <>
+                {(step === 5 && animStage >= 2) && (
+                  <>
+                    <path d={`M 18 ${yChrome} L 27.5 ${yChrome}`} fill="none" stroke="#facc15" strokeWidth="1" pathLength="100" className="anim-trunk-fade" />
+                    {[7, 8, 9].map(v => (
+                      <path key={`c-v-${v}`} d={`M 27.5 ${yChrome} L 27.5 ${slotCenters[v]} L 37 ${slotCenters[v]}`} fill="none" stroke="#facc15" strokeWidth="1" pathLength="100" markerEnd="url(#arrowYellow)" className="anim-branch-fade" />
+                    ))}
+                  </>
+                )}
+                {(step === 5 && animStage >= 3) && [7, 8, 9].map((v, i) => {
+                  const p = chromePhysical[i];
+                  return (
+                    <React.Fragment key={`c-p-${v}`}>
+                      <path d={`M 59 ${slotCenters[v]} L 61 ${slotCenters[v]} L 61 ${slotCenters[p]}`} fill="none" stroke="#facc15" strokeWidth="1" pathLength="100" className="anim-trunk-fade" />
+                      <path d={`M 61 ${slotCenters[p]} L 78 ${slotCenters[p]}`} fill="none" stroke="#facc15" strokeWidth="1" pathLength="100" markerEnd="url(#arrowYellow)" className="anim-branch-fade" />
+                    </React.Fragment>
+                  )
+                })}
+             </>
+           )}
 
           {/* STATE 6: Virtual Memory */}
           {step === 6 && (
@@ -297,8 +297,8 @@ export default function SecurityVisualizer() {
                 const p = step4Mappings[0].pSlots[i];
                 return (
                   <React.Fragment key={`d-p-${v}`}>
-                    <path d={`M 59 ${slotCenters[v]} L 68.5 ${slotCenters[v]}`} fill="none" stroke="#a855f7" strokeWidth="1" pathLength="100" className="anim-trunk-fade" />
-                    <path d={`M 68.5 ${slotCenters[v]} L 68.5 ${slotCenters[p]} L 78 ${slotCenters[p]}`} fill="none" stroke="#a855f7" strokeWidth="1" pathLength="100" markerEnd="url(#arrowPurple)" className="anim-branch-fade" />
+                    <path d={`M 59 ${slotCenters[v]} L 67 ${slotCenters[v]} L 67 ${slotCenters[p]}`} fill="none" stroke="#a855f7" strokeWidth="1" pathLength="100" className="anim-trunk-fade" />
+                    <path d={`M 67 ${slotCenters[p]} L 78 ${slotCenters[p]}`} fill="none" stroke="#a855f7" strokeWidth="1" pathLength="100" markerEnd="url(#arrowPurple)" className="anim-branch-fade" />
                   </React.Fragment>
                 )
               })}
@@ -316,8 +316,8 @@ export default function SecurityVisualizer() {
                 const p = step4Mappings[1].pSlots[i];
                 return (
                   <React.Fragment key={`s-p-${v}`}>
-                    <path d={`M 59 ${slotCenters[v]} L 68.5 ${slotCenters[v]}`} fill="none" stroke="#34d399" strokeWidth="1" pathLength="100" className="anim-trunk-fade" />
-                    <path d={`M 68.5 ${slotCenters[v]} L 68.5 ${slotCenters[p]} L 78 ${slotCenters[p]}`} fill="none" stroke="#34d399" strokeWidth="1" pathLength="100" markerEnd="url(#arrowGreen)" className="anim-branch-fade" />
+                    <path d={`M 59 ${slotCenters[v]} L 65 ${slotCenters[v]} L 65 ${slotCenters[p]}`} fill="none" stroke="#34d399" strokeWidth="1" pathLength="100" className="anim-trunk-fade" />
+                    <path d={`M 65 ${slotCenters[p]} L 78 ${slotCenters[p]}`} fill="none" stroke="#34d399" strokeWidth="1" pathLength="100" markerEnd="url(#arrowGreen)" className="anim-branch-fade" />
                   </React.Fragment>
                 )
               })}
@@ -335,8 +335,8 @@ export default function SecurityVisualizer() {
                 const p = step4Mappings[2].pSlots[i];
                 return (
                   <React.Fragment key={`v-p-${v}`}>
-                    <path d={`M 59 ${slotCenters[v]} L 68.5 ${slotCenters[v]}`} fill="none" stroke="#f43f5e" strokeWidth="1" pathLength="100" className="anim-trunk-fade" />
-                    <path d={`M 68.5 ${slotCenters[v]} L 68.5 ${slotCenters[p]} L 78 ${slotCenters[p]}`} fill="none" stroke="#f43f5e" strokeWidth="1" pathLength="100" markerEnd="url(#arrowRed)" className="anim-branch-fade" />
+                    <path d={`M 59 ${slotCenters[v]} L 63 ${slotCenters[v]} L 63 ${slotCenters[p]}`} fill="none" stroke="#f43f5e" strokeWidth="1" pathLength="100" className="anim-trunk-fade" />
+                    <path d={`M 63 ${slotCenters[p]} L 78 ${slotCenters[p]}`} fill="none" stroke="#f43f5e" strokeWidth="1" pathLength="100" markerEnd="url(#arrowRed)" className="anim-branch-fade" />
                   </React.Fragment>
                 )
               })}
@@ -345,7 +345,7 @@ export default function SecurityVisualizer() {
         </svg>
 
         {/* COLUMN 1: APPS */}
-        <div style={{ position: 'relative', width: '18%', transform: hasPlayed ? 'translateX(0)' : 'translateX(-100px)', opacity: hasPlayed ? 1 : 0, transition: 'all 0.8s ease' }}>
+        <div style={{ position: 'relative', width: '18%', opacity: hasPlayed ? 1 : 0.3, transition: 'all 0.8s ease' }}>
           {apps.map((app, i) => (
             <div key={app.id} style={{
               position: 'absolute', top: app.top, left: 0, right: 0, transform: `translateY(-50%) ${(step === 1 && animStage === i+1) || (step === 3 && animStage === i+1) || (step === 6 && (animStage === i*2+1 || animStage === i*2+2)) ? 'scale(1.05)' : 'scale(1)'}`,
@@ -361,10 +361,10 @@ export default function SecurityVisualizer() {
           {/* CHROME APP (Step 5+) */}
           <div style={{
             position: 'absolute', top: chromeApp.top, left: 0, right: 0, 
-            transform: `translateY(-50%) ${step >= 5 ? 'scale(1)' : 'scale(0)'}`,
+            transform: `translateY(-50%) ${step >= 5 ? 'translateX(0)' : 'translateX(-50px)'}`,
             background: 'rgba(15, 23, 42, 0.9)', border: `2px solid ${chromeApp.color}`, borderRadius: '10px', padding: '0.6rem 0', textAlign: 'center',
             boxShadow: step >= 5 ? `0 0 15px ${chromeApp.color}66` : 'none',
-            opacity: step >= 5 ? 1 : 0, transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)', pointerEvents: 'none'
+            opacity: step >= 5 ? 1 : 0, transition: 'all 0.5s ease', pointerEvents: 'none'
           }}>
             <img src={chromeApp.icon} alt={chromeApp.name} style={{ width: '32px', height: '32px', marginBottom: '4px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }} />
             <div style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>{chromeApp.name}</div>
@@ -425,10 +425,10 @@ export default function SecurityVisualizer() {
         </div>
 
         {/* COLUMN 3: PHYSICAL RAM */}
-        <div style={{ width: '22%', transform: hasPlayed ? 'translateX(0)' : 'translateX(100px)', opacity: hasPlayed ? 1 : 0, transition: 'all 0.8s ease' }}>
+        <div style={{ width: '22%', opacity: hasPlayed ? 1 : 0.3, transition: 'all 0.8s ease' }}>
           <div style={{ background: 'linear-gradient(180deg, #1e293b 0%, #0f172a 100%)', border: '2px solid #334155', borderRadius: '12px', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <div style={{ height: '10%', background: '#334155', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', fontWeight: 'bold', color: '#cbd5e1', textAlign: 'center' }}>
-              8GB PHYSICAL<br/>RAM (10 SLOTS)
+              PHYSICAL RAM<br/>(10 SLOTS)
             </div>
             
             {[...Array(10)].map((_, i) => {
