@@ -54,27 +54,36 @@ src/
     └── exhibit-theme.css                       <- "Memory Lab" dark futuristic theme stylesheet
 ```
 
-### **Development**
+### **Development & Design**
 
 We decided our aesthetic should be a space theme with tones of blue and purple, as these colors commonly signify technology. Although this project began with basic template components, we incrementally built a full suite of interactive hardware visualizers and OS simulations. It was a rewarding challenge working around provided templates and adhering to strict guidelines, such as not modifying files inside the locked `layouts` folder or changing `global.css`.
 
-We followed our proposed layout by starting with the "Virtual Memory" title and abstract, followed by key concept cards. We intentionally introduce the **Retro OS Simulator** mini-game early on, as it entices users to experience physical RAM crashes firsthand before diving into the solution. The subsequent sections provide detailed deep-dives into memory protection (`SecurityVisualizer`), demand paging (`SwapVisualizer`), and shared pages (`SharedLibraryVisualizer`). We then feature hardware-level pipeline simulations tracing virtual address requests through the MMU, TLB cache, and 3D RAM matrix (`PageFrame3DVisualizer`). Lastly, we included key takeaway summaries, an 8-question knowledge checkpoint (`VMKnowledgeQuiz`), and a personality quiz (`VirtualMemoryQuiz`).
+**Visual First & Retro UI Design:**  
+The layout follows a modern futuristic feel with purplish glassmorphism, designed specifically to highlight essential hardware concepts visually through step-by-step interactive animations rather than heavy walls of text. We intentionally introduced the **REDDEV tutorial** and **Retro OS Simulator** early on—incorporating vintage PC aesthetics and cassette-tape elements to contrast legacy Direct Access crashes against modern Virtual Memory solutions.
+
+We followed our proposed layout starting with the "Virtual Memory" title and abstract, followed by key concept cards. We then feature hardware-level pipeline simulations tracing virtual address requests through the MMU, TLB cache, and 3D RAM matrix (`PageFrame3DVisualizer`). Lastly, we included key takeaway summaries, an 8-question knowledge checkpoint (`VMKnowledgeQuiz`), and a personality quiz (`VirtualMemoryQuiz`).
 
 ### **Challenges & Technical Solutions**
 
-**1. Retro OS Desktop State Machine & Direct Access Memory Crashes (`RetroOsSimulator.jsx`)**  
+**1. Incorporating Step-by-Step Visualizations into Definitions & Asynchronous Timing Bugs:**  
+Thinking of ways to seamlessly incorporate interactive visualizers into technical definitions so users could easily grasp complex hardware concepts was a major challenge. While building animated visualizers, we frequently encountered tricky timing bugs—such as signal arrows and memory bus pulses not spawning at the correct step transitions. Debugging asynchronous animation sequences in React state while learning Astro on the fly was tough, especially since the more complex the CSARCH2 topic (like TLB misses and page table walks), the harder it was to design an intuitive step-by-step visualization for visitors to follow.
+
+**2. Retro OS Desktop State Machine & Direct Access Memory Crashes (`RetroOsSimulator.jsx`)**  
 Managing multi-window state (`zIndex`, drag coordinates, open/close states) alongside real-time physical RAM allocation presented complex state management challenges. When a user opens apps under Direct Memory Access, calculating non-contiguous holes dynamically while triggering simulated kernel panic crashes when allocating a 4GB block across scattered holes required robust state tracking in React.
 
-**2. Deduplicating Physical RAM Frames across Multiple Virtual Spaces (`SharedLibraryVisualizer.jsx`)**  
+**3. Deduplicating Physical RAM Frames across Multiple Virtual Spaces (`SharedLibraryVisualizer.jsx`)**  
 Simulating shared library pages required visualizing four independent program virtual address spaces pointing to the exact same physical RAM frame (e.g., `libc`). Ensuring that closing one application freed its private virtual mapping while retaining the shared physical frame for remaining active programs required precise state synchronization.
 
-**3. Multi-Column Side-by-Side Synchronization (`PageTableVisualizer.jsx`)**  
+**4. Multi-Column Side-by-Side Synchronization (`PageTableVisualizer.jsx`)**  
 Keeping Hardware CPU, Physical RAM, and Magnified Page Table locked side-by-side in a single row on desktop viewports required strict CSS grid constraints (`1fr 1fr 1.15fr`) while ensuring text padding and font sizes dynamically adjust so columns wrap cleanly on smaller mobile screens without horizontal scroll clipping.
 
-**4. 3D Isometric Depth & HUD Collisions (`PageFrame3DVisualizer.jsx`)**  
+**5. 3D Isometric Depth & HUD Collisions (`PageFrame3DVisualizer.jsx`)**  
 Rendering a 4x4x4 (64-frame) CSS isometric 3D cube presented depth-layering challenges. Floating absolute HUD overlays originally collided with header filter pills and truncated footer captions on standard display resolutions. We solved this by restructuring the component into containerized CSS grid areas with docked info panels.
 
 ### **Aha Moments**
+
+**Bridging Classroom Theory & Hardware Middleman Realities**  
+*“Virtual memory is directly related to what we are discussing in class!”* When starting out, virtual memory felt intimidating and abstract. After watching instructional videos and studying how hardware address translation actually works under the hood, the key "aha" moment was realizing that virtual memory is essentially an intelligent middleman. Learning how indirection cleanly resolves external fragmentation brought classroom lectures to life and motivated us to create intuitive step-by-step visual explanations.
 
 **Global Stylesheet Isolation with CSS `:has()`**  
 We ran into an issue where importing the customized dark-mode futuristic theme (`exhibit-theme.css`) inside `virtual-memory.mdx` was leaking styles globally—nuking the home page's light cube background pattern and breaking the layout structure when navigating back. Because we weren't allowed to edit locked `ExhibitLayout.astro` or `HomepageLayout.astro` files directly, our "aha" moment was wrapping all global overrides in a `:has()` selector (`body:has(.ml-hero)`). This cleanly scopes all dark backgrounds, custom starfields, and header restyling to the virtual memory page only.
