@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // ============================================================================
 // PageFrame3DVisualizer.jsx
-// A stunning CSS 3D Isometric cube representing physical RAM frames.
+// A CSS 3D Isometric cube representing physical RAM frames with clean UI layout.
 // ============================================================================
 
 export default function PageFrame3DVisualizer() {
   const [filter, setFilter] = useState('ALL');
   const [hoveredFrame, setHoveredFrame] = useState(null);
   
-  // We'll create a 4x4x4 grid (64 frames)
-  // Types: 'code', 'heap', 'shared', 'swapped', 'empty'
-  
-  // Deterministic random generation for the visualizer
+  // Deterministic frame allocation for the 4x4x4 (64 frames) RAM matrix
   const generateFrames = () => {
     const frames = [];
-    const types = ['code', 'heap', 'shared', 'swapped', 'empty'];
-    
-    // Controlled distribution so it looks organic but populated
     const distribution = [
       ...Array(15).fill('code'),
       ...Array(12).fill('heap'),
@@ -26,9 +20,9 @@ export default function PageFrame3DVisualizer() {
       ...Array(19).fill('empty'),
     ];
     
-    // Shuffle
+    // Pseudo-random shuffle
     for (let i = distribution.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.sin(i * 100) * 10000) % (i + 1); // Pseudo-random
+      const j = Math.floor(Math.sin(i * 100) * 10000) % (i + 1);
       [distribution[i], distribution[j]] = [distribution[j], distribution[i]];
     }
 
@@ -68,188 +62,281 @@ export default function PageFrame3DVisualizer() {
       case 'HEAP': return '#a78bfa';
       case 'SHARED': return '#22d3ee';
       case 'SWAPPED': return '#f43f5e';
-      default: return '#c084fc'; // Accent
+      default: return '#c084fc';
     }
   };
 
   return (
     <div style={{
       width: '100%',
-      minHeight: '600px',
-      background: 'rgba(10, 6, 32, 0.7)',
-      backdropFilter: 'blur(10px)',
-      border: '1px solid rgba(196, 164, 255, 0.1)',
+      minHeight: '620px',
+      background: 'rgba(10, 6, 32, 0.75)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
+      border: '1px solid rgba(196, 164, 255, 0.12)',
       borderRadius: '20px',
       padding: '2rem',
       position: 'relative',
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
-      fontFamily: '"Inter", sans-serif'
+      gap: '1.5rem',
+      fontFamily: '"Inter", system-ui, -apple-system, sans-serif',
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
     }}>
-      {/* Dynamic Background Glow */}
+      {/* Background Radial Glow */}
       <div style={{
         position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-        width: '500px', height: '500px',
-        background: `radial-gradient(circle, ${getFilterColor(filter)}33 0%, transparent 70%)`,
+        width: '550px', height: '550px',
+        background: `radial-gradient(circle, ${getFilterColor(filter)}25 0%, transparent 70%)`,
         filter: 'blur(60px)',
         zIndex: 0,
-        transition: 'background 0.5s ease'
-      }}></div>
+        transition: 'background 0.5s ease',
+        pointerEvents: 'none'
+      }} />
 
-      {/* Header & Controls */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 10, position: 'relative' }}>
-        <div>
-          <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#22d3ee', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
-            3D Code Visualizer // Physical RAM Matrix
-          </div>
-          <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', margin: 0, textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
-            Real-Time 3D Memory Cube & Page Frame Allocation
-          </h2>
-        </div>
-
-        {/* Filters */}
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-end', maxWidth: '400px' }}>
-          {['ALL', 'CODE', 'HEAP', 'SHARED', 'SWAPPED'].map(f => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              style={{
-                background: filter === f ? `${getFilterColor(f)}22` : 'transparent',
-                border: `1px solid ${filter === f ? getFilterColor(f) : 'rgba(255,255,255,0.2)'}`,
-                color: filter === f ? getFilterColor(f) : '#94a3b8',
-                padding: '6px 14px',
-                borderRadius: '20px',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                boxShadow: filter === f ? `0 0 15px ${getFilterColor(f)}44` : 'none'
-              }}
-            >
-              {f === 'CODE' ? 'Code Pages' : f === 'HEAP' ? 'Heap Frames' : f === 'SHARED' ? 'Shared Libs' : f === 'SWAPPED' ? 'Swapped Out' : 'Show All'}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* HUD Info Box */}
+      {/* HEADER & FILTER CONTROL BAR */}
       <div style={{
-        position: 'absolute', top: '120px', left: '2rem', zIndex: 10,
-        background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(196,164,255,0.2)',
-        padding: '1rem', borderRadius: '12px', width: '220px',
-        backdropFilter: 'blur(4px)'
-      }}>
-        <div style={{ fontSize: '0.75rem', color: '#8478b8', fontWeight: 600, letterSpacing: '1px', marginBottom: '5px' }}>FILTER: {filter}</div>
-        <div style={{ fontSize: '0.85rem', color: '#22d3ee', fontWeight: 700 }}>MATRIX: 4x4x4 (64 FRAMES)</div>
-        
-        {hoveredFrame && (
-          <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)', animation: 'fadeIn 0.2s' }}>
-            <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>PHYSICAL ADDRESS</div>
-            <div style={{ fontSize: '1.2rem', color: '#fff', fontWeight: 'bold', fontFamily: 'monospace' }}>{hoveredFrame.physAddress}</div>
-            
-            <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginTop: '10px' }}>CONTENTS</div>
-            <div style={{ fontSize: '0.9rem', color: hoveredFrame.color, fontWeight: 600 }}>{hoveredFrame.label}</div>
-          </div>
-        )}
-      </div>
-
-      <div style={{
-        position: 'absolute', bottom: '2rem', right: '2rem', zIndex: 10,
-        background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(196,164,255,0.2)',
-        padding: '1rem', borderRadius: '12px',
-        display: 'flex', flexDirection: 'column', gap: '8px'
-      }}>
-        <div style={{ fontSize: '0.8rem', color: '#fff', fontWeight: 'bold', fontFamily: 'monospace' }}>TLB HIT RATE: 97.8%</div>
-        <div style={{ fontSize: '0.8rem', color: '#f43f5e', fontWeight: 'bold', fontFamily: 'monospace' }}>PAGE FAULTS: 0.02%</div>
-      </div>
-
-      {/* 3D Scene Container */}
-      <div style={{
-        flex: 1,
         display: 'flex',
+        justify: 'space-between',
         alignItems: 'center',
-        justifyContent: 'center',
-        perspective: '1500px',
-        zIndex: 5,
-        marginTop: '20px'
+        flexWrap: 'wrap',
+        gap: '1.25rem',
+        zIndex: 10,
+        position: 'relative',
+        borderBottom: '1px solid rgba(255,255,255,0.08)',
+        paddingBottom: '1.25rem'
       }}>
-        {/* The Rotated Grid Container */}
-        <div style={{
-          position: 'relative',
-          width: '300px',
-          height: '300px',
-          transformStyle: 'preserve-3d',
-          transform: 'rotateX(60deg) rotateZ(-45deg) translateZ(-50px)',
-          transition: 'transform 1s ease'
-        }}>
-          {frames.map((frame) => {
-            const isVisible = filter === 'ALL' || filter.toLowerCase() === frame.type || (filter === 'ALL' && frame.type !== 'empty');
-            const isActive = hoveredFrame?.id === frame.id;
-            const isDimmed = !isVisible && filter !== 'ALL';
-            
-            // Calculate 3D position
-            // Spacing between cubes
-            const spacing = 60;
-            const px = (frame.x - 1.5) * spacing;
-            const py = (frame.y - 1.5) * spacing;
-            const pz = (frame.z - 1.5) * spacing;
+        <div>
+          <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#22d3ee', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>
+            3D CODE VISUALIZER // PHYSICAL RAM MATRIX
+          </div>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#fff', margin: 0 }}>
+            Real-Time 3D Memory Cube & Page Frame Allocation
+          </h3>
+        </div>
 
+        {/* Filter Pills */}
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+          {['ALL', 'CODE', 'HEAP', 'SHARED', 'SWAPPED'].map(f => {
+            const isActive = filter === f;
+            const fColor = getFilterColor(f);
             return (
-              <div
-                key={frame.id}
-                onMouseEnter={() => setHoveredFrame(frame)}
-                onMouseLeave={() => setHoveredFrame(null)}
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
                 style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  width: '30px',
-                  height: '30px',
-                  marginLeft: '-15px',
-                  marginTop: '-15px',
-                  background: isDimmed ? 'rgba(51, 65, 85, 0.1)' : `${frame.color}88`,
-                  border: `1px solid ${isDimmed ? 'rgba(255,255,255,0.05)' : frame.color}`,
-                  boxShadow: isActive ? `0 0 20px ${frame.color}` : (isVisible && frame.type !== 'empty' ? `0 0 8px ${frame.color}44` : 'none'),
-                  transformStyle: 'preserve-3d',
-                  // Elevate on Z if hovered or highlighted
-                  transform: `translate3d(${px}px, ${py}px, ${pz + (isActive ? 20 : (isVisible && filter !== 'ALL' ? 10 : 0))}px)`,
-                  transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                  background: isActive ? `${fColor}22` : 'rgba(255,255,255,0.04)',
+                  border: `1.5px solid ${isActive ? fColor : 'rgba(255,255,255,0.12)'}`,
+                  color: isActive ? fColor : '#94a3b8',
+                  padding: '6px 14px',
+                  borderRadius: '999px',
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
                   cursor: 'pointer',
-                  opacity: isDimmed ? 0.2 : (frame.type === 'empty' ? 0.4 : 1)
+                  transition: 'all 0.25s ease',
+                  boxShadow: isActive ? `0 0 15px ${fColor}33` : 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
                 }}
               >
-                {/* Simulated 3D Cube faces */}
-                <div style={{
-                  position: 'absolute', width: '100%', height: '100%', background: isDimmed ? 'rgba(51, 65, 85, 0.1)' : `${frame.color}44`,
-                  transform: 'rotateX(90deg) translateZ(15px)', border: `1px solid ${isDimmed ? 'transparent' : frame.color}`
-                }} />
-                <div style={{
-                  position: 'absolute', width: '100%', height: '100%', background: isDimmed ? 'rgba(51, 65, 85, 0.1)' : `${frame.color}66`,
-                  transform: 'rotateY(90deg) translateZ(15px)', border: `1px solid ${isDimmed ? 'transparent' : frame.color}`
-                }} />
-              </div>
+                {isActive && <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: fColor }} />}
+                {f === 'CODE' ? 'Code Pages' : f === 'HEAP' ? 'Heap Frames' : f === 'SHARED' ? 'Shared Libs' : f === 'SWAPPED' ? 'Swapped Out' : 'Show All'}
+              </button>
             );
           })}
         </div>
       </div>
 
-      {/* Footer Text */}
+      {/* BODY SECTION: SIDE DOCKED HUD + 3D VIEWPORT */}
       <div style={{
-        position: 'absolute', bottom: '1.5rem', left: '2rem',
-        fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)',
-        zIndex: 10
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: '1.5rem',
+        flex: 1,
+        alignItems: 'center',
+        zIndex: 5,
+        position: 'relative'
       }}>
-        Interactive Filter Mode: Click pills above to isolate Code, Heap, Shared Libs, or Swapped Out frames in 3D RAM. 
-        <span style={{ color: '#22d3ee', marginLeft: '5px', fontWeight: 'bold' }}>GPU CANVAS ENGINE</span>
+        
+        {/* DOCKED HUD & FRAME INSPECTOR CARD */}
+        <div style={{
+          background: 'rgba(0,0,0,0.45)',
+          border: '1px solid rgba(196,164,255,0.15)',
+          padding: '1.25rem',
+          borderRadius: '14px',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          maxWidth: '340px'
+        }}>
+          <div>
+            <div style={{ fontSize: '0.7rem', color: '#8478b8', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase' }}>
+              HARDWARE HUD & STATUS
+            </div>
+            <div style={{ fontSize: '0.85rem', color: getFilterColor(filter), fontWeight: 700, marginTop: '2px' }}>
+              ACTIVE FILTER: {filter}
+            </div>
+            <div style={{ fontSize: '0.8rem', color: '#cbd5e1', marginTop: '2px' }}>
+              MATRIX DIMENSION: 4x4x4 (64 FRAMES)
+            </div>
+          </div>
+
+          <div style={{
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: '10px',
+            padding: '1rem'
+          }}>
+            <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>
+              FRAME INSPECTOR
+            </div>
+            {hoveredFrame ? (
+              <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>PHYSICAL ADDRESS:</div>
+                <div style={{ fontSize: '1.1rem', color: '#fff', fontWeight: 800, fontFamily: 'monospace' }}>
+                  {hoveredFrame.physAddress}
+                </div>
+                
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '6px' }}>CONTENTS & PERMISSIONS:</div>
+                <div style={{ fontSize: '0.88rem', color: hoveredFrame.color, fontWeight: 700 }}>
+                  {hoveredFrame.label}
+                </div>
+              </div>
+            ) : (
+              <div style={{ fontSize: '0.78rem', color: '#64748b', fontStyle: 'italic', marginTop: '0.5rem' }}>
+                Hover any 3D RAM cube in the matrix to inspect physical frame metadata.
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* 3D SCENE CONTAINER */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justify: 'center',
+          perspective: '1400px',
+          minHeight: '340px',
+          position: 'relative'
+        }}>
+          {/* Rotated 3D Grid Matrix */}
+          <div style={{
+            position: 'relative',
+            width: '280px',
+            height: '280px',
+            transformStyle: 'preserve-3d',
+            transform: 'rotateX(60deg) rotateZ(-45deg) translateZ(-40px)',
+            transition: 'transform 0.8s ease'
+          }}>
+            {frames.map((frame) => {
+              const isVisible = filter === 'ALL' || filter.toLowerCase() === frame.type || (filter === 'ALL' && frame.type !== 'empty');
+              const isActive = hoveredFrame?.id === frame.id;
+              const isDimmed = !isVisible && filter !== 'ALL';
+              
+              const spacing = 55;
+              const px = (frame.x - 1.5) * spacing;
+              const py = (frame.y - 1.5) * spacing;
+              const pz = (frame.z - 1.5) * spacing;
+
+              return (
+                <div
+                  key={frame.id}
+                  onMouseEnter={() => setHoveredFrame(frame)}
+                  onMouseLeave={() => setHoveredFrame(null)}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: '28px',
+                    height: '28px',
+                    marginLeft: '-14px',
+                    marginTop: '-14px',
+                    background: isDimmed ? 'rgba(51, 65, 85, 0.1)' : `${frame.color}88`,
+                    border: `1px solid ${isDimmed ? 'rgba(255,255,255,0.05)' : frame.color}`,
+                    boxShadow: isActive ? `0 0 20px ${frame.color}` : (isVisible && frame.type !== 'empty' ? `0 0 8px ${frame.color}44` : 'none'),
+                    transformStyle: 'preserve-3d',
+                    transform: `translate3d(${px}px, ${py}px, ${pz + (isActive ? 20 : (isVisible && filter !== 'ALL' ? 10 : 0))}px)`,
+                    transition: 'all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                    cursor: 'pointer',
+                    opacity: isDimmed ? 0.15 : (frame.type === 'empty' ? 0.35 : 1)
+                  }}
+                >
+                  <div style={{
+                    position: 'absolute', width: '100%', height: '100%', background: isDimmed ? 'rgba(51, 65, 85, 0.1)' : `${frame.color}44`,
+                    transform: 'rotateX(90deg) translateZ(14px)', border: `1px solid ${isDimmed ? 'transparent' : frame.color}`
+                  }} />
+                  <div style={{
+                    position: 'absolute', width: '100%', height: '100%', background: isDimmed ? 'rgba(51, 65, 85, 0.1)' : `${frame.color}66`,
+                    transform: 'rotateY(90deg) translateZ(14px)', border: `1px solid ${isDimmed ? 'transparent' : frame.color}`
+                  }} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
 
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(5px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
+      {/* DOCKED FOOTER BAR (Clean flex wrapping without cut-offs or collisions) */}
+      <div style={{
+        marginTop: 'auto',
+        display: 'flex',
+        justify: 'space-between',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: '1rem',
+        borderTop: '1px solid rgba(255,255,255,0.08)',
+        paddingTop: '1.25rem',
+        zIndex: 10,
+        position: 'relative'
+      }}>
+        <div style={{ fontSize: '0.78rem', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          <span>Interactive Filter Mode: Click pills above to isolate Code, Heap, Shared Libs, or Swapped Out frames in 3D RAM.</span>
+          <span style={{
+            fontSize: '0.65rem',
+            fontWeight: 800,
+            color: '#22d3ee',
+            background: 'rgba(34, 211, 238, 0.1)',
+            padding: '2px 8px',
+            borderRadius: '4px',
+            border: '1px solid rgba(34, 211, 238, 0.25)',
+            letterSpacing: '1px'
+          }}>
+            GPU CANVAS ENGINE
+          </span>
+        </div>
+
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{
+            background: 'rgba(52, 211, 153, 0.1)',
+            border: '1px solid rgba(52, 211, 153, 0.3)',
+            padding: '4px 12px',
+            borderRadius: '8px',
+            fontSize: '0.78rem',
+            color: '#34d399',
+            fontWeight: 700,
+            fontFamily: 'monospace'
+          }}>
+            TLB HIT RATE: 97.8%
+          </div>
+          <div style={{
+            background: 'rgba(244, 63, 94, 0.1)',
+            border: '1px solid rgba(244, 63, 94, 0.3)',
+            padding: '4px 12px',
+            borderRadius: '8px',
+            fontSize: '0.78rem',
+            color: '#f43f5e',
+            fontWeight: 700,
+            fontFamily: 'monospace'
+          }}>
+            PAGE FAULTS: 0.02%
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
