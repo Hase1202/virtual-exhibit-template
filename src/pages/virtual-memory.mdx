@@ -14,6 +14,7 @@ import SharedLibraryVisualizer from '../components/SharedLibraryVisualizer.jsx';
 import VirtualMemoryQuiz from '../components/VirtualMemoryQuiz.jsx';
 import VMKnowledgeQuiz from '../components/VMKnowledgeQuiz.jsx';
 import AddressSignalPipeline from '../components/AddressSignalPipeline.jsx';
+import TlbSimulator from '../components/TlbSimulator.jsx';
 import PageFrame3DVisualizer from '../components/PageFrame3DVisualizer.jsx';
 
 {/* Import CSS theme at MDX page level to avoid esbuild conflicts in layout */}
@@ -172,41 +173,57 @@ import '../styles/exhibit-theme.css';
 
     <h3>2. The Directory: Page Tables</h3>
     <p>
-      The OS keeps track of these mappings using a data structure called a <strong>Page Table</strong>. Every running process gets its own page table. Whenever the CPU accesses a memory address, it looks at the page table to translate the virtual page number into a physical frame number.
+      The OS keeps track of these mappings using a data structure called a <strong>Page Table</strong>. You can think of a Page Table like a massive "library of old phonebooks." Every single running process gets its own personal phonebook. Whenever the OS switches from one program to another (a Context Switch), it updates a hardware pointer called the <strong>Page Table Base Register (PTBR)</strong> to point to the current program's phonebook.
     </p>
     <p>
-      But page tables don't just hold frame numbers. Each entry contains <strong>Protection Bits</strong> (like Read-Only or User/Supervisor limits) to prevent unauthorized access, and <strong>Status Bits</strong> (like the Valid bit and Dirty bit) to track if the page is actually in RAM or has been modified.
+      These tables don't just hold physical frame numbers. Each entry is packed with extra data:
     </p>
+    <ul>
+      <li><strong>Protection Bits:</strong> Define permissions like <em>Read-Only</em>, <em>User/Supervisor</em> (restricting access to the OS), and <em>No Execute</em> to stop malicious software from running injected code.</li>
+      <li><strong>Status Bits:</strong> Let the hardware know the state of the page. The <em>Valid</em> bit tells us if the frame is actually in RAM. The <em>Dirty/Modified</em> bit tracks if the data has been changed and needs saving to the disk later. The <em>Accessed</em> bit tracks recent usage, and the <em>Global</em> bit marks pages shared across all processes (like the OS kernel).</li>
+    </ul>
     <div class="ml-analogy">
-      <strong>The Problem:</strong> Page tables are huge and are stored in physical RAM. If the CPU has to read the page table from RAM <em>every single time</em> it wants to access memory, it doubles the access time. This is known as the "Two-Access Problem".
+      <strong>The Two-Access Problem:</strong> Page tables are so huge they have to be stored in physical RAM. If the CPU has to read the page table from RAM <em>every single time</em> it wants to access memory, it doubles the access time! We need a hardware solution.
     </div>
 
     <h3>3. The Hardware Hero: The MMU</h3>
     <p>
-      To solve this, modern computers use a dedicated hardware chip called the <strong>Memory Management Unit (MMU)</strong>, which sits right next to the CPU. The MMU's job is to intercept every virtual address the CPU generates and translate it to a physical address instantly.
-    </p>
-
-    <h3>4. The VIP Fast-Pass: The TLB</h3>
-    <p>
-      To avoid the slow "Two-Access Problem", the MMU contains a tiny, ultra-fast hardware cache called the <strong>Translation Lookaside Buffer (TLB)</strong>. The TLB remembers the most recently used page-to-frame translations.
+      Enter the <strong>Memory Management Unit (MMU)</strong>. Integrated directly into the processor chip, the MMU acts as the "Sheriff in Town." It manages all memory requests, translates addresses instantly, and strictly enforces those protection bits to catch malicious processes trying to interfere with others.
     </p>
     <p>
-      When the CPU requests an address, the MMU splits it into a Page Number and an Offset. It checks the TLB first. If the translation is there (a <strong>TLB Hit</strong>), it gets the physical frame instantly. If it isn't (a <strong>TLB Miss</strong>), the MMU has to do the slow walk to the full Page Table in RAM, then saves that translation to the TLB for next time.
+      When the CPU asks for data, the MMU splits the virtual address into two parts: a <strong>Virtual Page Number</strong> and a <strong>Page Offset</strong>. For a standard 4KB page, the last 12 bits of the address are the Offset. The MMU only translates the Page Number into a Frame Number; the Offset (the exact location of the byte within the page) stays exactly the same!
     </p>
 
     <AddressSignalPipeline client:load />
     <br/>
     <br/>
 
-    <h3>5. The Emergency: Page Faults & Demand Paging</h3>
+    <h3>4. The VIP Fast-Pass: The TLB</h3>
     <p>
-      We mentioned earlier that the OS can swap inactive programs to the hard disk to save space (Demand Paging). But how does the hardware handle this?
+      To solve the slow Two-Access Problem, the MMU contains a tiny, ultra-fast hardware cache called the <strong>Translation Lookaside Buffer (TLB)</strong>. If the Page Table in RAM is a massive city library of phonebooks, the TLB is like a small coffee shop next door that only remembers the numbers of the people you call the most. Modern systems actually use two: an <em>Instruction TLB</em> and a <em>Data TLB</em>.
     </p>
     <p>
-      If the MMU checks the Page Table and sees the "Valid" bit is set to false (meaning the page is currently swapped out to the disk), it triggers a hardware trap called a <strong>Page Fault</strong>. The OS immediately takes over, pauses the program, finds a free frame in physical RAM, loads the missing page from the disk, updates the page table, and resumes the program exactly where it left off.
+      To keep things fast during a Context Switch, the TLB uses an <strong>Address Space Identifier (ASID)</strong>. This acts like a nametag for each translation, allowing the TLB to store entries for multiple programs at the same time without needing to be flushed and repopulated every time you switch apps!
     </p>
 
-    <h3>6. The Big Picture: Real-Time Memory Mapping</h3>
+    <h3>5. Interactive TLB Simulator</h3>
+    <p>
+      Try acting as the MMU yourself! Select a virtual page to request below. See if you get a fast <strong>TLB Hit</strong>, a slower <strong>TLB Miss</strong> (where the MMU has to walk to the Page Table in RAM), or a <strong>Page Fault</strong>. Watch how the TLB automatically evicts old entries to make room for new ones.
+    </p>
+
+    <TlbSimulator client:load />
+    <br/>
+    <br/>
+
+    <h3>6. The Emergency: Page Faults & Traps</h3>
+    <p>
+      What happens if the MMU checks the Page Table and the "Valid" bit says the page isn't even in RAM? The MMU throws a hardware exception called a <strong>Trap</strong> (specifically a Page Fault). 
+    </p>
+    <p>
+      The OS immediately takes over and checks for a <strong>Segmentation Fault</strong> (did the program try to access memory it never even owned?). If it was a valid request but the page was just swapped to the hard disk, the OS pauses the program, finds a free frame, loads the missing page from the disk, updates the page table, and copies the entry into the TLB using an eviction policy like <em>Least Recently Used (LRU)</em> or <em>Round Robin</em>. Then, the program resumes!
+    </p>
+
+    <h3>7. The Big Picture: Real-Time Memory Mapping</h3>
     <p>
       Now that you understand Pages, Frames, the MMU, and swapping, you can visualize how all these pieces fit together. The 3D matrix below represents a physical RAM cube, showing how Code pages, Heap frames, Shared Libraries, and swapped Disk sectors all co-exist in non-contiguous hardware blocks simultaneously.
     </p>
